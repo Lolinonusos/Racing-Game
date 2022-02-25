@@ -26,4 +26,51 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+
+private:
+	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
+	class UCameraComponent* Camera;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
+	class USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleMesh")
+	class UStaticMeshComponent* VehicleMesh;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
+	class USoundBase* DriveSound;
+	
+	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
+	class USoundBase* BrakeSound;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
+	class USoundBase* BoostSound;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleSound")
+	class USoundBase* ShootingSound;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
+	class USoundBase* ReloadSound;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
+	float DriveSpeed;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
+	float TurnSpeed;
+
+	void StartDriving();
+	void StopDriving();
+	bool bDriving = false;
+
+	void StartBrake();
+	void StopBrake();
+	bool bBraking = false;
+
+	UFUNCTION(Category = "VehicleFunctions")
+	void Shooting();
+
+
+	void Turn();
+
 };
