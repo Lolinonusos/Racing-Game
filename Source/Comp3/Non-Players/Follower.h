@@ -22,5 +22,16 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	void ImHit();
+	bool IsHit{ false };
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
+		class UStaticMeshComponent* FollowerMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
+		class UMaterial* FollowerMaterial;
+
 
 };
