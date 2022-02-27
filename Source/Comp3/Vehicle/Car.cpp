@@ -19,12 +19,12 @@ ACar::ACar()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	Camera->AttachTo(SpringArm, FAttachmentTransformRules::KeepRelativeTransform);
-
+	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 	
 	SpringArm->SetupAttachment(VehicleMesh, USpringArmComponent::SocketName);
 	SpringArm->TargetArmLength = 500.f;
-	SpringArm->SetRelativeRotation(FRotator(45.f, 0.f, 0.f));
+	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 
 	
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> VehicleMeshComponent(TEXT("StaticMesh'/Game/Meshes/TempVehicle.TempVehicle'"));
@@ -66,6 +66,7 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ACar::StartDriving()
 {
+	
 
 }
 
@@ -76,6 +77,7 @@ void ACar::StopDriving()
 
 void ACar::StartBrake()
 {
+	
 
 }
 
@@ -90,6 +92,7 @@ void ACar::Shooting()
 
 void ACar::Turn()
 {
+	// Rotation
 
 }
 
