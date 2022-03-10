@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerInput.h"
 #include "GameFramework/SpringArmComponent.h"
 
+// for force
+#include "GameFramework/FloatingPawnMovement.h"
+
 // Sets default values
 ACar::ACar()
 {
@@ -26,7 +29,8 @@ ACar::ACar()
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 
-	
+	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
+
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> VehicleMeshComponent(TEXT("StaticMesh'/Game/Meshes/TempVehicle.TempVehicle'"));
 	if (VehicleMeshComponent.Succeeded())
 	{
@@ -47,6 +51,11 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (bDriving)
+	{
+		//GetActorForwardVector();
+	}
+
 }
 
 // Called to bind functionality to input
@@ -62,27 +71,53 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Drive", IE_Pressed, this, &ACar::StartBrake);
 	InputComponent->BindAction("Drive", IE_Released, this, &ACar::StopBrake);
 
+	// Rotate Player
+	InputComponent->BindAxis("Turn", this, &ACar::Turn);
+
 }
 
 void ACar::StartDriving()
 {
-	
+	bDriving = true;
 
 }
 
 void ACar::StopDriving()
 {
-
+	bDriving = false;
 }
 
 void ACar::StartBrake()
 {
-	
+	bBraking = true;
 
 }
 
 void ACar::StopBrake()
 {
+	bBraking = false;
+}
+
+void ACar::Turn(float AxisValue)
+{
+	// Rotation
+	Turning.Yaw ;
+	//*TurnValue;
+}
+
+void ACar::StartBoosting()
+{
+	// Add boost power to forward movement
+	// Should push forward when not driving
+	if (BoostAmount > 0) 
+	{
+		bBoosting = true;
+	}
+}
+
+void ACar::StopBoosting()
+{
+	bBoosting = false;
 }
 
 void ACar::Shooting()
@@ -90,9 +125,4 @@ void ACar::Shooting()
 
 }
 
-void ACar::Turn()
-{
-	// Rotation
-
-}
 

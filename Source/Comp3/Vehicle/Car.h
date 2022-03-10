@@ -53,6 +53,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
 	class USoundBase* ReloadSound;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+		class UFloatingPawnMovement* PawnMovementComponent = nullptr;
+
 	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
 	float DriveSpeed;
 
@@ -67,10 +70,19 @@ private:
 	void StopBrake();
 	bool bBraking = false;
 
+	void Turn(float AxisValue);
+	FRotator Turning;
+	float TurnValue = 0.0f;
+
+	void StartBoosting();
+	void StopBoosting();
+	bool bBoosting = false;
+	float BoostAmount; // Boost Fuel
+	float BoostPower; // Additive
+
 	UFUNCTION(Category = "VehicleFunctions")
 	void Shooting();
 
 
-	void Turn();
 
 };
