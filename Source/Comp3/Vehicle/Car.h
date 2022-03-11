@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+
+//#include <UObject/ConstructorHelpers.h>
+
 #include "Car.generated.h"
 
 UCLASS()
@@ -31,13 +34,18 @@ public:
 	class UFloatingPawnMovement* PawnMovementComponent = nullptr;
 
 	
-	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float DriveSpeed = 1.f;
 
-	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float TurnSpeed = 1.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	float HoverHeight;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	int AmmoTotal;
+	
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -63,8 +71,6 @@ private:
 	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
 	class USoundBase* ReloadSound;
 
-	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
-	float HoverHeight;
 
 	void StartDriving();
 	void StopDriving();
@@ -86,5 +92,8 @@ private:
 	void Shooting();
 
 
-
+	// UFUNCTION()
+	// void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
+	// 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
+	// 	const FHitResult &SweepResult);
 };
