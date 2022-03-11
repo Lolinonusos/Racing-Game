@@ -23,4 +23,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Powerups")
+		int BulletRegen;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Powerups")
+		int SpeedBoost;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
+		class UStaticMeshComponent* PowerupMesh = nullptr;
+
+	
+
 };
