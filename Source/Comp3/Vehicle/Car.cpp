@@ -51,16 +51,37 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (bBoosting)
+	{
+		BoostAmount -= 0.05f;
+		DriveSpeed = DriveSpeed + BoostPower;
+	}
+
+	if (!bBoosting)
+	{
+		BoostAmount += 0.01f;
+		DriveSpeed = 1.f;
+	}
+
 	if (bDriving)
 	{
+		if (DriveSpeed < 2.f)
+		{
+			DriveSpeed += 0.1f;
+		}
 		AddMovementInput(GetActorForwardVector(), DriveSpeed);
 		UE_LOG(LogTemp, Warning, TEXT("Forward"));
 		
 	}
 
+
 	if (bBraking)
 	{
-		AddMovementInput(GetActorForwardVector(), -(DriveSpeed/2 ));
+		if (DriveSpeed < 1.f)
+		{
+			DriveSpeed += 0.1f;
+		}
+		AddMovementInput(GetActorForwardVector(), -(DriveSpeed/ 2 ));
 		UE_LOG(LogTemp, Warning, TEXT("Backward"));
 
 	}
@@ -92,6 +113,7 @@ void ACar::StartDriving()
 void ACar::StopDriving()
 {
 	bDriving = false;
+	DriveSpeed = 0;
 }
 
 void ACar::StartBrake()
@@ -102,6 +124,7 @@ void ACar::StartBrake()
 void ACar::StopBrake()
 {
 	bBraking = false;
+	DriveSpeed = 0;
 }
 
 void ACar::Turn(float AxisValue)
@@ -132,6 +155,9 @@ void ACar::StopBoosting()
 
 void ACar::Shooting()
 {
+
+
+
 
 }
 
