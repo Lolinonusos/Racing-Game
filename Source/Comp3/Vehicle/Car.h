@@ -27,6 +27,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	class UFloatingPawnMovement* PawnMovementComponent = nullptr;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
@@ -53,14 +55,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
 	class USoundBase* ReloadSound;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-		class UFloatingPawnMovement* PawnMovementComponent = nullptr;
+	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
+	float DriveSpeed = 1.f;
 
 	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
-	float DriveSpeed;
-
-	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
-	float TurnSpeed;
+	float TurnSpeed = 1.f;
 
 	void StartDriving();
 	void StopDriving();
@@ -71,8 +70,6 @@ private:
 	bool bBraking = false;
 
 	void Turn(float AxisValue);
-	FRotator Turning;
-	float TurnValue = 0.0f;
 
 	void StartBoosting();
 	void StopBoosting();

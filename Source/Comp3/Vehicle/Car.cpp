@@ -53,9 +53,17 @@ void ACar::Tick(float DeltaTime)
 
 	if (bDriving)
 	{
-		//GetActorForwardVector();
+		AddMovementInput(FVector(2.f, 0.f, 0.f), DriveSpeed);
+		UE_LOG(LogTemp, Warning, TEXT("Forward"));
+
 	}
 
+	if (bBraking)
+	{
+		AddMovementInput(FVector(-0.5f, 0.f, 0.f), DriveSpeed);
+		UE_LOG(LogTemp, Warning, TEXT("Backward"));
+
+	}
 }
 
 // Called to bind functionality to input
@@ -68,8 +76,8 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Drive", IE_Released, this, &ACar::StopDriving);
 
 	// Moves backward
-	InputComponent->BindAction("Drive", IE_Pressed, this, &ACar::StartBrake);
-	InputComponent->BindAction("Drive", IE_Released, this, &ACar::StopBrake);
+	InputComponent->BindAction("Brake", IE_Pressed, this, &ACar::StartBrake);
+	InputComponent->BindAction("Brake", IE_Released, this, &ACar::StopBrake);
 
 	// Rotate Player
 	InputComponent->BindAxis("Turn", this, &ACar::Turn);
@@ -79,7 +87,6 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ACar::StartDriving()
 {
 	bDriving = true;
-
 }
 
 void ACar::StopDriving()
@@ -90,7 +97,6 @@ void ACar::StopDriving()
 void ACar::StartBrake()
 {
 	bBraking = true;
-
 }
 
 void ACar::StopBrake()
@@ -101,8 +107,11 @@ void ACar::StopBrake()
 void ACar::Turn(float AxisValue)
 {
 	// Rotation
-	Turning.Yaw ;
-	//*TurnValue;
+	AddControllerYawInput(AxisValue * TurnSpeed);
+    if (AxisValue > 0.f)
+    {
+    	UE_LOG(LogTemp, Warning, TEXT("Turning"));
+    }
 }
 
 void ACar::StartBoosting()
