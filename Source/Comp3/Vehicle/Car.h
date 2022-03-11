@@ -30,6 +30,14 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UFloatingPawnMovement* PawnMovementComponent = nullptr;
 
+	
+	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
+	float DriveSpeed = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
+	float TurnSpeed = 1.f;
+
+
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -56,10 +64,7 @@ private:
 	class USoundBase* ReloadSound;
 
 	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
-	float DriveSpeed = 1.f;
-
-	UPROPERTY(EditAnywhere, Category = "VehicleVariables")
-	float TurnSpeed = 1.f;
+	float HoverHeight;
 
 	void StartDriving();
 	void StopDriving();

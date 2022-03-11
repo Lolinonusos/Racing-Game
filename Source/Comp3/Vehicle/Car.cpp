@@ -53,14 +53,14 @@ void ACar::Tick(float DeltaTime)
 
 	if (bDriving)
 	{
-		AddMovementInput(FVector(2.f, 0.f, 0.f), DriveSpeed);
+		AddMovementInput(GetActorForwardVector(), DriveSpeed);
 		UE_LOG(LogTemp, Warning, TEXT("Forward"));
-
+		
 	}
 
 	if (bBraking)
 	{
-		AddMovementInput(FVector(-0.5f, 0.f, 0.f), DriveSpeed);
+		AddMovementInput(GetActorForwardVector(), -(DriveSpeed/2 ));
 		UE_LOG(LogTemp, Warning, TEXT("Backward"));
 
 	}
@@ -80,7 +80,7 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Brake", IE_Released, this, &ACar::StopBrake);
 
 	// Rotate Player
-	InputComponent->BindAxis("Turn", this, &ACar::Turn);
+	InputComponent->BindAxis("Steer", this, &ACar::Turn);
 
 }
 
@@ -107,7 +107,8 @@ void ACar::StopBrake()
 void ACar::Turn(float AxisValue)
 {
 	// Rotation
-	AddControllerYawInput(AxisValue * TurnSpeed);
+	//AddControllerYawInput(AxisValue * TurnSpeed);
+	AddActorLocalRotation(FRotator(0.f, AxisValue, 0.f));
     if (AxisValue > 0.f)
     {
     	UE_LOG(LogTemp, Warning, TEXT("Turning"));
