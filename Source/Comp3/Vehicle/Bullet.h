@@ -23,4 +23,33 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+private:
+	UPROPERTY(EditAnywhere, Category = "BulletVariables")
+	float TravelSpeed;
+
+	UPROPERTY(EditAnywhere, Category = "BulletVariables")
+	float SecondsLived;
+	
+	UPROPERTY(EditAnywhere, Category = "BulletVariables")
+	float DeleteAfter = 3.f;
+
+	UPROPERTY(EditAnywhere, Category = "Bullet")
+	class UStaticMeshComponent* BulletMesh;
+
+	UPROPERTY(EditAnywhere, Category = "Bullet")
+	class USoundBase* SpawnSound;
+	
+	UPROPERTY(EditAnywhere, Category = "Bullet")
+	class USoundBase* DeleteSound;
+
+	UPROPERTY(EditAnywhere, Category = "Bullet")
+	class UParticleSystem* MuzzleFlash;
+	
+	UPROPERTY(EditAnywhere, Category = "Bullet")
+	class UParticleSystem* HitSpark;
+	
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent,
+		int32 OtherbodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

@@ -53,12 +53,15 @@ ACar::ACar()
 		VehicleMesh->SetStaticMesh(VehicleMeshComponent.Object);
 	}
 
+//VehicleMesh->SetMassOverrideInKg()
+	
 }
 
 // Called when the game starts or when spawned
 void ACar::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
 }
 
@@ -71,31 +74,32 @@ void ACar::Tick(float DeltaTime)
 
 	if (bBoosting)
 	{
-	 	BoostAmount -= 0.05f;
+		BoostAmount -= 0.05f;
 		VehicleMesh->AddForce(Forward * BoostPower * VehicleMesh->GetMass());
+		if (BoostAmount < 0.f)
+		{
+			bBoosting = false;
+		}
 	}
 	
 	if (!bBoosting)
 	{
-		if (BoostAmount < 3)
+		RefillTimer += 0.01f;
+		if (RefillTimer >= 1.f)
 		{
-	 		BoostAmount += 0.01f;
+			if (BoostAmount < 3.f)
+			{
+				BoostAmount += 0.01f;
+			}
 		}
 	}
-
+	
 	UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
-
 	
 	if (bDriving)
 	{
-		// 	FMath::FInterpTo(DriveSpeed, 5.f, DeltaTime, 1.f);
-		// }
-		//AddMovementInput(GetActorForwardVector(), FMath::FInterpTo(DriveSpeed, 5.f, DeltaTime, 1.f) + BoostPower );
-
 		VehicleMesh->AddForce(Forward * DriveSpeed * VehicleMesh->GetMass());
-		
-		UE_LOG(LogTemp, Warning, TEXT("Forward"));
-		
+		//UE_LOG(LogTemp, Warning, TEXT("Forward"));
 	}
 
 	if (bBraking)
@@ -103,8 +107,7 @@ void ACar::Tick(float DeltaTime)
 		VehicleMesh->AddForce(Forward * (-DriveSpeed/2) * VehicleMesh->GetMass());
 		UE_LOG(LogTemp, Warning, TEXT("Backward"));
 	}
-
-
+	
 }
 
 // Called to bind functionality to input
@@ -120,6 +123,7 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Brake", IE_Pressed, this, &ACar::StartBrake);
 	InputComponent->BindAction("Brake", IE_Released, this, &ACar::StopBrake);
 
+	// Adds boostpower as force to current force
 	InputComponent->BindAction("Boost", IE_Pressed, this, &ACar::StartBoosting);
 	InputComponent->BindAction("Boost", IE_Released, this, &ACar::StopBoosting);
 	
@@ -155,7 +159,7 @@ void ACar::Turn(float AxisValue)
 	AddActorLocalRotation(FRotator(0.f, AxisValue, 0.f));
     if (AxisValue > 0.f)
     {
-    	UE_LOG(LogTemp, Warning, TEXT("Turning"));
+    	//UE_LOG(LogTemp, Warning, TEXT("Turning"));
     }
 
 	// FRotator CurrentRotation = GetActorRotation();
@@ -176,6 +180,7 @@ void ACar::StartBoosting()
 
 void ACar::StopBoosting()
 {
+	RefillTimer = 0.f;
 	bBoosting = false;
 }
 

@@ -87,9 +87,10 @@ private:
 	void StartBoosting();
 	void StopBoosting();
 	bool bBoosting = false;
-	float BoostAmount; // Boost Fuel
+	float BoostAmount = 3; // Boost Fuel
 	float BoostPower = 10000.f;
-
+	float RefillTimer;
+	
 	UFUNCTION(Category = "VehicleFunctions")
 	void Shooting();
 
