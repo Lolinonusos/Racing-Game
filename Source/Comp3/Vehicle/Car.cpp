@@ -71,7 +71,7 @@ void ACar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	const FVector Forward = GetActorForwardVector();
-
+	
 	if (bBoosting)
 	{
 		BoostAmount -= 0.05f;
@@ -155,7 +155,7 @@ void ACar::StopBrake()
 void ACar::Turn(float AxisValue)
 {
 	// Rotation
-	//AddControllerYawInput(AxisValue * TurnSpeed);
+	// AddControllerYawInput(AxisValue * TurnSpeed);
 	AddActorLocalRotation(FRotator(0.f, AxisValue, 0.f));
     if (AxisValue > 0.f)
     {

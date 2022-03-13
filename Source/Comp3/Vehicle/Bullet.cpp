@@ -25,3 +25,8 @@ void ABullet::Tick(float DeltaTime)
 
 }
 
+void ABullet::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComponent, int32 OtherbodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+}
+
