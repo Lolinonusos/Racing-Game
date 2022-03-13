@@ -33,9 +33,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UFloatingPawnMovement* PawnMovementComponent = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
+	class UShapeComponent* CollisionBox = nullptr;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float DriveSpeed = 1.f;
+	float DriveSpeed = 5000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float TurnSpeed = 1.f;
@@ -86,7 +88,7 @@ private:
 	void StopBoosting();
 	bool bBoosting = false;
 	float BoostAmount; // Boost Fuel
-	float BoostPower; // Additive
+	float BoostPower = 10000.f;
 
 	UFUNCTION(Category = "VehicleFunctions")
 	void Shooting();

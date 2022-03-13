@@ -6,9 +6,15 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerInput.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/BoxComponent.h"
+
+#include "GameFramework/PawnMovementComponent.h"
 
 // for force
 #include "GameFramework/FloatingPawnMovement.h"
+#include "Components/PrimitiveComponent.h"
+#include "Math/UnrealMathUtility.h"
+#include "Math/Vector.h"
 
 // Sets default values
 ACar::ACar()
@@ -21,6 +27,8 @@ ACar::ACar()
 	
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 
+	VehicleMesh->SetSimulatePhysics(true);
+	
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
@@ -28,7 +36,15 @@ ACar::ACar()
 	SpringArm->SetupAttachment(VehicleMesh, USpringArmComponent::SocketName);
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
-
+	SpringArm->bEnableCameraLag = true;
+	SpringArm->bEnableCameraRotationLag = true;
+	//SpringArm->PreviousDesiredLoc
+	//SpringArm->PreviousDesiredRot
+	
+	SpringArm->CameraLagSpeed = 3.f;
+	SpringArm->CameraRotationLagSpeed = 3.f;
+	SpringArm->CameraLagMaxDistance = 100.f;
+	
 	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> VehicleMeshComponent(TEXT("StaticMesh'/Game/Meshes/TempVehicle.TempVehicle'"));
@@ -51,40 +67,44 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	const FVector Forward = GetActorForwardVector();
+
 	if (bBoosting)
 	{
-		BoostAmount -= 0.05f;
-		DriveSpeed = DriveSpeed + BoostPower;
+	 	BoostAmount -= 0.05f;
+		VehicleMesh->AddForce(Forward * BoostPower * VehicleMesh->GetMass());
 	}
-
+	
 	if (!bBoosting)
 	{
-		BoostAmount += 0.01f;
-		DriveSpeed = 1.f;
+		if (BoostAmount < 3)
+		{
+	 		BoostAmount += 0.01f;
+		}
 	}
 
+	UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
+
+	
 	if (bDriving)
 	{
-		if (DriveSpeed < 2.f)
-		{
-			DriveSpeed += 0.1f;
-		}
-		AddMovementInput(GetActorForwardVector(), DriveSpeed);
+		// 	FMath::FInterpTo(DriveSpeed, 5.f, DeltaTime, 1.f);
+		// }
+		//AddMovementInput(GetActorForwardVector(), FMath::FInterpTo(DriveSpeed, 5.f, DeltaTime, 1.f) + BoostPower );
+
+		VehicleMesh->AddForce(Forward * DriveSpeed * VehicleMesh->GetMass());
+		
 		UE_LOG(LogTemp, Warning, TEXT("Forward"));
 		
 	}
 
-
 	if (bBraking)
 	{
-		if (DriveSpeed < 1.f)
-		{
-			DriveSpeed += 0.1f;
-		}
-		AddMovementInput(GetActorForwardVector(), -(DriveSpeed/ 2 ));
+		VehicleMesh->AddForce(Forward * (-DriveSpeed/2) * VehicleMesh->GetMass());
 		UE_LOG(LogTemp, Warning, TEXT("Backward"));
-
 	}
+
+
 }
 
 // Called to bind functionality to input
@@ -100,6 +120,9 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Brake", IE_Pressed, this, &ACar::StartBrake);
 	InputComponent->BindAction("Brake", IE_Released, this, &ACar::StopBrake);
 
+	InputComponent->BindAction("Boost", IE_Pressed, this, &ACar::StartBoosting);
+	InputComponent->BindAction("Boost", IE_Released, this, &ACar::StopBoosting);
+	
 	// Rotate Player
 	InputComponent->BindAxis("Steer", this, &ACar::Turn);
 
@@ -113,7 +136,6 @@ void ACar::StartDriving()
 void ACar::StopDriving()
 {
 	bDriving = false;
-	DriveSpeed = 0;
 }
 
 void ACar::StartBrake()
@@ -124,7 +146,6 @@ void ACar::StartBrake()
 void ACar::StopBrake()
 {
 	bBraking = false;
-	DriveSpeed = 0;
 }
 
 void ACar::Turn(float AxisValue)
@@ -136,6 +157,11 @@ void ACar::Turn(float AxisValue)
     {
     	UE_LOG(LogTemp, Warning, TEXT("Turning"));
     }
+
+	// FRotator CurrentRotation = GetActorRotation();
+	//
+	// FMath::FInterpTo(CurrentRotation, AxisValue, )
+	
 }
 
 void ACar::StartBoosting()
