@@ -70,7 +70,8 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	const FVector Forward = GetActorForwardVector();
+	FVector Forward = GetActorForwardVector();
+	Forward.Z = 0;
 	
 	if (bBoosting)
 	{
