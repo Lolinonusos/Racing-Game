@@ -33,4 +33,10 @@ public:
 		class APowerups* Item1 = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
 		class APowerups* Item2 = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
+		class UBoxComponent* PickUpBoxCollision;
+
+	UFUNCTION()
+		void DeleteSelf();
 };

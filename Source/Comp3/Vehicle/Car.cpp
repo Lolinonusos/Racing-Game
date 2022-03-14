@@ -16,6 +16,8 @@
 #include "Math/UnrealMathUtility.h"
 #include "Math/Vector.h"
 
+#include "../Objects/Powerups/SpeedBoost.h"
+
 
 
 // Sets default values
@@ -29,6 +31,8 @@ ACar::ACar()
 
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	CollisionBox->SetupAttachment(RootComponent);
+	
+
 
 	// HoverBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	// HoverBox->SetupAttachment(RootComponent);
@@ -65,6 +69,7 @@ ACar::ACar()
 		VehicleMesh->SetStaticMesh(VehicleMeshComponent.Object);
 	}
 
+
 //VehicleMesh->SetMassOverrideInKg()
 	
 }
@@ -74,6 +79,11 @@ void ACar::BeginPlay()
 {
 	Super::BeginPlay();
 
+	CollisionBox = this->FindComponentByClass<UBoxComponent>();
+
+	if (CollisionBox) {
+		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACar::OnOverlap);
+	}
 	
 }
 
@@ -205,6 +215,18 @@ void ACar::Shooting()
 
 
 
+}
+
+void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	if (OtherActor->IsA(ASpeedBoost::StaticClass())) {
+		Cast<ASpeedBoost>(OtherActor)->Super::DeleteSelf();
+		if ((BoostAmount + 1) > 5) {
+			BoostAmount = 5;
+		}
+		else {
+			BoostAmount++;
+		}
+	}
 }
 
 

@@ -34,10 +34,10 @@ public:
 	class UFloatingPawnMovement* PawnMovementComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
-	class UShapeComponent* CollisionBox = nullptr;
+	class UBoxComponent* CollisionBox = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
-	class UShapeComponent* HoverBox = nullptr;
+	class UBoxComponent* HoverBox = nullptr;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	int Health;
@@ -93,7 +93,7 @@ private:
 	void StartBoosting();
 	void StopBoosting();
 	bool bBoosting = false;
-	float BoostAmount = 3; // Boost Fuel
+	float BoostAmount = 5; // Boost Fuel
 	float BoostPower = 10000.f;
 	float RefillTimer;
 	
@@ -101,8 +101,8 @@ private:
 	void Shooting();
 
 
-	// UFUNCTION()
-	// void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
-	// 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
-	// 	const FHitResult &SweepResult);
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
+		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
+			const FHitResult &SweepResult);
 };

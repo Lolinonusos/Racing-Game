@@ -2,6 +2,7 @@
 
 
 #include "Pickups.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 APickups::APickups()
@@ -10,6 +11,9 @@ APickups::APickups()
 	PrimaryActorTick.bCanEverTick = true;
 	PickupStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupStaticMesh"));
 	SetRootComponent(PickupStaticMesh);
+
+	PickUpBoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("PickUpBoxCollision"));
+	PickUpBoxCollision->SetupAttachment(RootComponent);
 	
 }
 
@@ -27,3 +31,7 @@ void APickups::Tick(float DeltaTime)
 
 }
 
+void APickups::DeleteSelf() {
+	UE_LOG(LogTemp, Warning, TEXT("HIT BOX"));
+	this->Destroy();
+}
