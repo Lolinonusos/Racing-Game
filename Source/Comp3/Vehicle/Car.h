@@ -100,6 +100,8 @@ private:
 	UFUNCTION(Category = "VehicleFunctions")
 	void Shooting();
 
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> ActorToSpawn;
 
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 

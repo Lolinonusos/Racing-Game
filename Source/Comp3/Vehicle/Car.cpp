@@ -9,6 +9,7 @@
 #include "Components/BoxComponent.h"
 
 #include "GameFramework/PawnMovementComponent.h"
+#include "Engine/World.h"
 
 // for force
 #include "GameFramework/FloatingPawnMovement.h"
@@ -63,7 +64,7 @@ ACar::ACar()
 	
 	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> VehicleMeshComponent(TEXT("StaticMesh'/Game/Meshes/TempVehicle.TempVehicle'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> VehicleMeshComponent(TEXT("StaticMesh'/Game/Art_Assets/TempVehicle.TempVehicle'"));
 	if (VehicleMeshComponent.Succeeded())
 	{
 		VehicleMesh->SetStaticMesh(VehicleMeshComponent.Object);
@@ -211,8 +212,12 @@ void ACar::StopBoosting()
 
 void ACar::Shooting()
 {
-
-
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		FVector Location = GetActorLocation();
+		World->SpawnActor<AActor>(ActorToSpawn, Location + FVector(150.f, 0.f, 0.f), GetActorRotation());
+	}
 
 
 }
