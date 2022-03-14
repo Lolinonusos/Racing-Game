@@ -27,8 +27,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
 		class UStaticMeshComponent* PickupStaticMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
-		TArray<APowerups*> PickupContentList;
+		FVector PickupPosition;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
-		FVector PickupPosition;
+		class APowerups* Item1 = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
+		class APowerups* Item2 = nullptr;
 };
