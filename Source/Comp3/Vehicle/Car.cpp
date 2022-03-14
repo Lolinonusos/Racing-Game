@@ -16,6 +16,8 @@
 #include "Math/UnrealMathUtility.h"
 #include "Math/Vector.h"
 
+
+
 // Sets default values
 ACar::ACar()
 {
@@ -24,6 +26,12 @@ ACar::ACar()
 
 	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
 	SetRootComponent(VehicleMesh);
+
+	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
+	CollisionBox->SetupAttachment(RootComponent);
+
+	// HoverBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
+	// HoverBox->SetupAttachment(RootComponent);
 	
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 
@@ -40,6 +48,10 @@ ACar::ACar()
 	SpringArm->bEnableCameraRotationLag = true;
 	//SpringArm->PreviousDesiredLoc
 	//SpringArm->PreviousDesiredRot
+
+	SpringArm->bUsePawnControlRotation = false;
+
+	//VehicleMesh->bR
 	
 	SpringArm->CameraLagSpeed = 3.f;
 	SpringArm->CameraRotationLagSpeed = 3.f;
@@ -157,7 +169,9 @@ void ACar::Turn(float AxisValue)
 {
 	// Rotation
 	// AddControllerYawInput(AxisValue * TurnSpeed);
-	AddActorLocalRotation(FRotator(0.f, AxisValue, 0.f));
+	
+	float Clamped =	FMath::Clamp(AxisValue, -45.f, 45.f);
+	AddActorLocalRotation(FRotator(0.f, Clamped, 0.f));
     if (AxisValue > 0.f)
     {
     	//UE_LOG(LogTemp, Warning, TEXT("Turning"));

@@ -35,12 +35,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
 	class UShapeComponent* CollisionBox = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
+	class UShapeComponent* HoverBox = nullptr;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	int Health;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float DriveSpeed = 5000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float TurnSpeed = 1.f;
+	float TurnSpeed = 2.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float HoverHeight;
@@ -81,7 +87,7 @@ private:
 	void StartBrake();
 	void StopBrake();
 	bool bBraking = false;
-
+	
 	void Turn(float AxisValue);
 
 	void StartBoosting();
