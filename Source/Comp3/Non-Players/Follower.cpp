@@ -9,8 +9,11 @@ AFollower::AFollower()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 	FollowerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FollowerMesh"));
+
 	SetRootComponent(FollowerMesh);
+
 	FollowerMaterial = CreateDefaultSubobject<UMaterial>(TEXT("FollowerMaterial"));
 }
 
@@ -18,13 +21,19 @@ AFollower::AFollower()
 void AFollower::BeginPlay()
 {
 	Super::BeginPlay();
+	MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
 	
+	SetActorRotation(MoveDirection.Rotation());
 }
 
 // Called every frame
 void AFollower::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	FVector NewLocation = GetActorLocation();
+	NewLocation += (MoveDirection * Speed * DeltaTime);
+	SetActorLocation(NewLocation);
 
 }
 
