@@ -51,12 +51,8 @@ ACar::ACar()
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->bEnableCameraRotationLag = true;
-	//SpringArm->PreviousDesiredLoc
-	//SpringArm->PreviousDesiredRot
 
 	SpringArm->bUsePawnControlRotation = false;
-
-	//VehicleMesh->bR
 	
 	SpringArm->CameraLagSpeed = 3.f;
 	SpringArm->CameraRotationLagSpeed = 3.f;
