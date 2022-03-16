@@ -3,7 +3,3 @@
 
 #include "AmmoRefill.h"
 
-AAmmoRefill::AAmmoRefill()  {
-	BulletRegen = 10;
-	SpeedBoost = 0;
-}

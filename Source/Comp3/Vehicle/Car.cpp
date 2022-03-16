@@ -18,6 +18,7 @@
 #include "Math/Vector.h"
 
 #include "../Objects/Powerups/SpeedBoost.h"
+#include "../Objects/Powerups/AmmoRefill.h"
 
 
 
@@ -227,6 +228,10 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		else {
 			BoostAmount++;
 		}
+	}
+	else if (OtherActor->IsA(AAmmoRefill::StaticClass())) {
+		Cast<AAmmoRefill>(OtherActor)->Super::DeleteSelf();
+		AmmoTotal++;
 	}
 }
 
