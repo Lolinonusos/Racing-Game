@@ -52,7 +52,7 @@ public:
 	float HoverHeight;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	int AmmoTotal = 20;
+	int AmmoTotal = 30;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float BoostAmount = 5; // Boost Fuel

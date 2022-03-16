@@ -212,7 +212,8 @@ void ACar::StopBoosting()
 
 void ACar::Shooting()
 {
-	if (AmmoTotal > 0) {
+	
+	if (AmmoTotal > 0 && bBoosting == false) {
 		UWorld* World = GetWorld();
 		if (World)
 		{
@@ -220,13 +221,6 @@ void ACar::Shooting()
 			FVector FwdVector = GetActorForwardVector();
 			FwdVector *= 200;
 			Location += FwdVector;
-			// THIS SPAWNER CAUSES PROBLEMS
-			// The FVector, not Location, spawns the bullets in the wrong place
-			// It works in Space Invaders, since the player doesn't rotate, but we need something new here
-			// Otherwise the bullets will only spawn in front of the player if they are
-			// pointed in the right direction
-			// Idea: Get cos(CarRotation) and multiply with spawn location
-			
 			World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
 			AmmoTotal--;
 			
@@ -246,7 +240,7 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	}
 	else if (OtherActor->IsA(AAmmoRefill::StaticClass())) {
 		Cast<AAmmoRefill>(OtherActor)->Super::DeleteSelf();
-		AmmoTotal += 20;
+		AmmoTotal += 30;
 	}
 }
 

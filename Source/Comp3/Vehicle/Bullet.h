@@ -26,7 +26,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Category = "BulletVariables")
-	float TravelSpeed = 1000.f;
+	float TravelSpeed = 6000.f;
 
 	UPROPERTY(EditAnywhere, Category = "BulletVariables")
 	float SecondsLived;
