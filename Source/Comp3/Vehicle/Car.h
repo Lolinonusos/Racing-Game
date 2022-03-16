@@ -52,7 +52,7 @@ public:
 	float HoverHeight;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	int AmmoTotal;
+	int AmmoTotal = 20;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float BoostAmount = 5; // Boost Fuel
@@ -106,7 +106,7 @@ private:
 	UFUNCTION(Category = "VehicleFunctions")
 	void Shooting();
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> ActorToSpawn;
 
 	UFUNCTION()
