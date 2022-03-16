@@ -221,7 +221,7 @@ void ACar::Shooting()
 void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (OtherActor->IsA(ASpeedBoost::StaticClass())) {
 		Cast<ASpeedBoost>(OtherActor)->Super::DeleteSelf();
-		if ((BoostAmount + 1) > 5) {
+		if ((BoostAmount + 1) > MaxBoostAmount) {
 			BoostAmount = 5;
 		}
 		else {
