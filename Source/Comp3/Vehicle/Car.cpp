@@ -18,6 +18,7 @@
 #include "Math/Vector.h"
 
 #include "../Objects/Powerups/SpeedBoost.h"
+#include "../Objects/Powerups/AmmoRefill.h"
 
 
 
@@ -51,12 +52,8 @@ ACar::ACar()
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->bEnableCameraRotationLag = true;
-	//SpringArm->PreviousDesiredLoc
-	//SpringArm->PreviousDesiredRot
 
 	SpringArm->bUsePawnControlRotation = false;
-
-	//VehicleMesh->bR
 	
 	SpringArm->CameraLagSpeed = 3.f;
 	SpringArm->CameraRotationLagSpeed = 3.f;
@@ -118,7 +115,7 @@ void ACar::Tick(float DeltaTime)
 		}
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
+	//UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
 	
 	if (bDriving)
 	{
@@ -129,7 +126,7 @@ void ACar::Tick(float DeltaTime)
 	if (bBraking)
 	{
 		VehicleMesh->AddForce(Forward * (-DriveSpeed/2) * VehicleMesh->GetMass());
-		UE_LOG(LogTemp, Warning, TEXT("Backward"));
+		//UE_LOG(LogTemp, Warning, TEXT("Backward"));
 	}
 	
 }
@@ -153,6 +150,9 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	// Rotate Player
 	InputComponent->BindAxis("Steer", this, &ACar::Turn);
+
+	//Shooting
+	InputComponent->BindAction("Shoot", IE_Pressed, this, &ACar::Shooting);
 
 }
 
@@ -181,7 +181,7 @@ void ACar::Turn(float AxisValue)
 	// Rotation
 	// AddControllerYawInput(AxisValue * TurnSpeed);
 	
-	float Clamped =	FMath::Clamp(AxisValue, -45.f, 45.f);
+	float Clamped =	FMath::Clamp(AxisValue * TurnSpeed, -45.f, 45.f);
 	AddActorLocalRotation(FRotator(0.f, Clamped, 0.f));
     if (AxisValue > 0.f)
     {
@@ -212,25 +212,41 @@ void ACar::StopBoosting()
 
 void ACar::Shooting()
 {
-	UWorld* World = GetWorld();
-	if (World)
-	{
-		FVector Location = GetActorLocation();
-		World->SpawnActor<AActor>(ActorToSpawn, Location + FVector(150.f, 0.f, 0.f), GetActorRotation());
+	if (AmmoTotal > 0) {
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			FVector Location = GetActorLocation();
+			FVector FwdVector = GetActorForwardVector();
+			FwdVector *= 200;
+			Location += FwdVector;
+			// THIS SPAWNER CAUSES PROBLEMS
+			// The FVector, not Location, spawns the bullets in the wrong place
+			// It works in Space Invaders, since the player doesn't rotate, but we need something new here
+			// Otherwise the bullets will only spawn in front of the player if they are
+			// pointed in the right direction
+			// Idea: Get cos(CarRotation) and multiply with spawn location
+			
+			World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
+			AmmoTotal--;
+			
+		}
 	}
-
-
 }
 
 void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (OtherActor->IsA(ASpeedBoost::StaticClass())) {
 		Cast<ASpeedBoost>(OtherActor)->Super::DeleteSelf();
-		if ((BoostAmount + 1) > 5) {
+		if ((BoostAmount + 1) > MaxBoostAmount) {
 			BoostAmount = 5;
 		}
 		else {
 			BoostAmount++;
 		}
+	}
+	else if (OtherActor->IsA(AAmmoRefill::StaticClass())) {
+		Cast<AAmmoRefill>(OtherActor)->Super::DeleteSelf();
+		AmmoTotal += 20;
 	}
 }
 

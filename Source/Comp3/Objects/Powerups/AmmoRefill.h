@@ -3,17 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../Powerups.h"
+#include "../Pickups.h"
 #include "AmmoRefill.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
-class COMP3_API AAmmoRefill : public APowerups
+class COMP3_API AAmmoRefill : public APickups
 {
 	GENERATED_BODY()
 	
-public:
-	AAmmoRefill();
 };

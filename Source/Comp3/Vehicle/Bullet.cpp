@@ -8,6 +8,8 @@ ABullet::ABullet()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	BulletMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BulletMesh"));
+	SetRootComponent(BulletMesh);
 
 }
 
@@ -23,6 +25,14 @@ void ABullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FVector NewLocation = GetActorLocation();
+	NewLocation += GetActorForwardVector() * TravelSpeed * DeltaTime;
+	SetActorLocation(NewLocation);
+
+	SecondsLived += DeltaTime;
+	if (SecondsLived >= DeleteAfter) {
+		this->Destroy();
+	}
 }
 
 void ABullet::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

@@ -22,10 +22,17 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 	void ImHit();
+
 	bool IsHit{ false };
 
+	FVector MoveDirection = FVector(1.f, 0.f, 0.f);
+
 public:
+
+	UPROPERTY(EditAnywhere)
+		float Speed{ 2000.f };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
 		class UStaticMeshComponent* FollowerMesh;

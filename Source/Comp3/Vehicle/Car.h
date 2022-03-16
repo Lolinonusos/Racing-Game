@@ -52,8 +52,15 @@ public:
 	float HoverHeight;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	int AmmoTotal;
+	int AmmoTotal = 20;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	float BoostAmount = 5; // Boost Fuel
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	float MaxBoostAmount = 5;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	float BoostPower = 10000.f;
+
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -93,14 +100,13 @@ private:
 	void StartBoosting();
 	void StopBoosting();
 	bool bBoosting = false;
-	float BoostAmount = 5; // Boost Fuel
-	float BoostPower = 10000.f;
+	
 	float RefillTimer;
 	
 	UFUNCTION(Category = "VehicleFunctions")
 	void Shooting();
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> ActorToSpawn;
 
 	UFUNCTION()
