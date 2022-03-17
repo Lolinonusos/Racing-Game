@@ -41,13 +41,18 @@ ACar::ACar()
 	// HoverBox->SetupAttachment(RootComponent);
 	
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	BackSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("BackSpringArm"));
 
 	VehicleMesh->SetSimulatePhysics(true);
 	
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
-	
+
+	BackCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("BackCamera"));
+	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
+	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
+
 	SpringArm->SetupAttachment(VehicleMesh, USpringArmComponent::SocketName);
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
@@ -59,6 +64,18 @@ ACar::ACar()
 	SpringArm->CameraLagSpeed = 3.f;
 	SpringArm->CameraRotationLagSpeed = 3.f;
 	SpringArm->CameraLagMaxDistance = 100.f;
+
+	BackSpringArm->SetupAttachment(VehicleMesh, USpringArmComponent::SocketName);
+	BackSpringArm->TargetArmLength = 500.f;
+	BackSpringArm->SetRelativeRotation(FRotator(-20.f, 180.f, 0.f));
+	BackSpringArm->bEnableCameraLag = true;
+	BackSpringArm->bEnableCameraRotationLag = true;
+
+	BackSpringArm->bUsePawnControlRotation = false;
+
+	BackSpringArm->CameraLagSpeed = 3.f;
+	BackSpringArm->CameraRotationLagSpeed = 3.f;
+	BackSpringArm->CameraLagMaxDistance = 100.f;
 	
 	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 
@@ -152,9 +169,12 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	// Rotate Player
 	InputComponent->BindAxis("Steer", this, &ACar::Turn);
 
-	//Shooting
+	// Shooting
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &ACar::Shooting);
 	InputComponent->BindAction("Special", IE_Pressed, this, &ACar::SpecialShooting);
+
+	// Camera
+	InputComponent->BindAction("SwitchCameraAngle", IE_Pressed, this, &ACar::ChangeCamera);
 
 }
 
@@ -219,12 +239,28 @@ void ACar::Shooting()
 		UWorld* World = GetWorld();
 		if (World)
 		{
-			FVector Location = GetActorLocation();
-			FVector FwdVector = GetActorForwardVector();
-			FwdVector *= 200;
-			Location += FwdVector;
-			World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
-			AmmoTotal--;
+			if (bBackCamera) {
+				// Shooting backwards
+				FVector Location = GetActorLocation();
+				FVector FwdVector = GetActorForwardVector();
+				FwdVector *= -200;
+				Location += FwdVector;
+				FRotator Rotation = GetActorRotation();
+				Rotation.Yaw += 180;
+				
+				World->SpawnActor<AActor>(ActorToSpawn, Location, Rotation);
+				AmmoTotal--;
+			}
+			else {
+				// Shooting forwards
+				FVector Location = GetActorLocation();
+				FVector FwdVector = GetActorForwardVector();
+				FwdVector *= 200;
+				Location += FwdVector;
+				World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
+				AmmoTotal--;
+			}
+			
 			
 		}
 	}
@@ -236,21 +272,52 @@ void ACar::SpecialShooting()
 		UWorld* tempWorld = GetWorld();
 		if (tempWorld)
 		{
-			
-			FVector Location = GetActorLocation();
-			FVector FwdVector = GetActorForwardVector();
-			FwdVector *= 200;
-			Location += FwdVector;
-			FRotator x(0, 2.5, 0);
-			for (int i = 0; i < 5; i++) {
-				tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
+			if (bBackCamera) {
+				// Shooting backwards
+				FVector Location = GetActorLocation();
+				FVector FwdVector = GetActorForwardVector();
+				FwdVector *= -200;
+				Location += FwdVector;
+				FRotator ShotgunRotation = GetActorRotation();
+				ShotgunRotation.Yaw += 180;
+				FRotator x(0, 2.5, 0);
+				for (int i = 0; i < 5; i++) {
+					tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
+				}
 			}
+			else {
+				FVector Location = GetActorLocation();
+				FVector FwdVector = GetActorForwardVector();
+				FwdVector *= 200;
+				Location += FwdVector;
+				FRotator x(0, 2.5, 0);
+				for (int i = 0; i < 5; i++) {
+					tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
+				}
+			}
+			
 			SpecialWeaponsInventory[0] = "";
 		}
 	}
 	else {
 		
 	}
+}
+
+void ACar::ChangeCamera()
+{
+	UE_LOG(LogTemp, Warning, TEXT("ENTERED"))
+	if (!bBackCamera) {
+		Camera->Deactivate();
+		BackCamera->Activate();
+		
+	}
+	else {
+		Camera->Activate();
+		BackCamera->Deactivate();
+	}
+	bBackCamera = !bBackCamera;
+	
 }
 
 void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {

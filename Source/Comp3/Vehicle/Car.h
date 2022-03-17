@@ -68,7 +68,13 @@ private:
 	class UCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
+	class UCameraComponent* BackCamera;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
+	class USpringArmComponent* BackSpringArm;
 
 	UPROPERTY(EditAnywhere, Category = "VehicleMesh")
 	class UStaticMeshComponent* VehicleMesh;
@@ -105,6 +111,7 @@ private:
 	void StartBoosting();
 	void StopBoosting();
 	bool bBoosting = false;
+	bool bBackCamera = false;
 	
 	float RefillTimer;
 	
@@ -112,6 +119,8 @@ private:
 	void Shooting();
 	UFUNCTION(Category = "VehicleFunctions")
 	void SpecialShooting();
+	UFUNCTION(Category = "VehicleFunctions")
+		void ChangeCamera();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> ActorToSpawn;
