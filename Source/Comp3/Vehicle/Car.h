@@ -96,7 +96,9 @@ private:
 	bool bBraking = false;
 	
 	void Turn(float AxisValue);
+	float CurrentTurnSpeed;
 
+	
 	void StartBoosting();
 	void StopBoosting();
 	bool bBoosting = false;

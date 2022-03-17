@@ -179,19 +179,19 @@ void ACar::StopBrake()
 void ACar::Turn(float AxisValue)
 {
 	// Rotation
-	// AddControllerYawInput(AxisValue * TurnSpeed);
 	
-	float Clamped =	FMath::Clamp(AxisValue * TurnSpeed, -45.f, 45.f);
-	AddActorLocalRotation(FRotator(0.f, Clamped, 0.f));
-    if (AxisValue > 0.f)
-    {
-    	//UE_LOG(LogTemp, Warning, TEXT("Turning"));
-    }
+	// float Clamped =	FMath::Clamp(AxisValue * TurnSpeed, -45.f, 45.f);
 
-	// FRotator CurrentRotation = GetActorRotation();
-	//
-	// FMath::FInterpTo(CurrentRotation, AxisValue, )
+	float TargetTurnSpeed = AxisValue * TurnSpeed;
+
+	// Gir smooth
+	CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, TargetTurnSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
+	AddActorLocalRotation(FRotator(0.f, CurrentTurnSpeed, 0.f));
 	
+    // if (AxisValue > 0.f)
+    // {
+    // 	//UE_LOG(LogTemp, Warning, TEXT("Turning"));
+    // }
 }
 
 void ACar::StartBoosting()
