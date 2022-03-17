@@ -2,6 +2,7 @@
 
 
 #include "Bullet.h"
+#include "Car.h"
 
 // Sets default values
 ABullet::ABullet()

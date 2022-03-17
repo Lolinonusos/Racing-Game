@@ -61,6 +61,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float BoostPower = 10000.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+		TArray<FString> SpecialWeaponsInventory;
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -86,6 +88,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
 	class USoundBase* ReloadSound;
 
+	
 
 	void StartDriving();
 	void StopDriving();
@@ -105,9 +108,13 @@ private:
 	
 	UFUNCTION(Category = "VehicleFunctions")
 	void Shooting();
+	UFUNCTION(Category = "VehicleFunctions")
+	void SpecialShooting();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> ActorToSpawn;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> ShotgunSpawn;
 
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 

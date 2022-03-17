@@ -23,16 +23,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, Category = "BulletVariables")
+		float TravelSpeed = 6000.f;
+
+	UPROPERTY(EditAnywhere, Category = "BulletVariables")
+		float SecondsLived;
+
+	UPROPERTY(EditAnywhere, Category = "BulletVariables")
+		float DeleteAfter = 3.f;
 
 private:
-	UPROPERTY(EditAnywhere, Category = "BulletVariables")
-	float TravelSpeed = 6000.f;
-
-	UPROPERTY(EditAnywhere, Category = "BulletVariables")
-	float SecondsLived;
 	
-	UPROPERTY(EditAnywhere, Category = "BulletVariables")
-	float DeleteAfter = 3.f;
 
 	UPROPERTY(EditAnywhere, Category = "Bullet")
 	class UStaticMeshComponent* BulletMesh;

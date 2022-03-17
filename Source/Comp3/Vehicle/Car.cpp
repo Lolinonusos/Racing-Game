@@ -19,6 +19,7 @@
 
 #include "../Objects/Powerups/SpeedBoost.h"
 #include "../Objects/Powerups/AmmoRefill.h"
+#include "../Objects/Powerups/ItemPickups.h"
 
 
 
@@ -67,7 +68,7 @@ ACar::ACar()
 		VehicleMesh->SetStaticMesh(VehicleMeshComponent.Object);
 	}
 
-
+	
 //VehicleMesh->SetMassOverrideInKg()
 	
 }
@@ -76,7 +77,7 @@ ACar::ACar()
 void ACar::BeginPlay()
 {
 	Super::BeginPlay();
-
+	SpecialWeaponsInventory.Add("Shotgun");
 	CollisionBox = this->FindComponentByClass<UBoxComponent>();
 
 	if (CollisionBox) {
@@ -153,6 +154,7 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	//Shooting
 	InputComponent->BindAction("Shoot", IE_Pressed, this, &ACar::Shooting);
+	InputComponent->BindAction("Special", IE_Pressed, this, &ACar::SpecialShooting);
 
 }
 
@@ -228,6 +230,29 @@ void ACar::Shooting()
 	}
 }
 
+void ACar::SpecialShooting() 
+{
+	if (SpecialWeaponsInventory[0] == "Shotgun") {
+		UWorld* tempWorld = GetWorld();
+		if (tempWorld)
+		{
+			
+			FVector Location = GetActorLocation();
+			FVector FwdVector = GetActorForwardVector();
+			FwdVector *= 200;
+			Location += FwdVector;
+			FRotator x(0, 2.5, 0);
+			for (int i = 0; i < 5; i++) {
+				tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
+			}
+			SpecialWeaponsInventory[0] = "";
+		}
+	}
+	else {
+		
+	}
+}
+
 void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (OtherActor->IsA(ASpeedBoost::StaticClass())) {
 		Cast<ASpeedBoost>(OtherActor)->Super::DeleteSelf();
@@ -241,6 +266,15 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	else if (OtherActor->IsA(AAmmoRefill::StaticClass())) {
 		Cast<AAmmoRefill>(OtherActor)->Super::DeleteSelf();
 		AmmoTotal += 30;
+	}
+	else if (OtherActor->IsA(AItemPickups::StaticClass())) {
+		FString ChosenItem = "";
+		if (SpecialWeaponsInventory[0] == "") {
+			ChosenItem = Cast<AItemPickups>(OtherActor)->UniqueItems[0];
+			SpecialWeaponsInventory[0] = ChosenItem;
+		}
+		
+		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
 	}
 }
 
