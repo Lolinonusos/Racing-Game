@@ -19,4 +19,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
 		TArray<FString> UniqueItems;
 	
+	virtual void Tick(float DeltaTime) override;
 };

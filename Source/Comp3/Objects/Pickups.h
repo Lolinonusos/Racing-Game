@@ -39,4 +39,22 @@ public:
 
 	UFUNCTION()
 		void DeleteSelf();
+
+	// Amplitude how fast
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PowerUp float")
+		float A;
+
+	// Period 2 * PI / ( ABS B )
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PowerUp float")
+		float B = 1;
+
+	// PHase Shift ( C / B )
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PowerUp float")
+		float C;
+
+	// Vertical Shift
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PowerUp float")
+		float D;
+
+	float RunningTime;
 };

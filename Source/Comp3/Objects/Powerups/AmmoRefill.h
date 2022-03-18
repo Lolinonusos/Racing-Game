@@ -11,5 +11,6 @@ UCLASS()
 class COMP3_API AAmmoRefill : public APickups
 {
 	GENERATED_BODY()
-	
+public:
+	virtual void Tick(float DeltaTime) override;
 };
