@@ -25,5 +25,12 @@ void APowerups::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FVector NewLocation = GetActorLocation();
+	
+	NewLocation.Z = InitialLocation + (100.f) * FMath::Sin(DeltaTime); 
+
+	SetActorLocation(NewLocation);
+	//RunningTime += DeltaTime;
+	
 }
 

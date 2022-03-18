@@ -43,11 +43,14 @@ public:
 	int Health;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float DriveSpeed = 5000.f;
+	float DriveSpeed = 3000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float TurnSpeed = 2.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	float TurnHelp;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float HoverHeight;
 

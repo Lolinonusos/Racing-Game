@@ -35,7 +35,7 @@ ACar::ACar()
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	CollisionBox->SetupAttachment(RootComponent);
 	
-
+	//UWorld::LineTraceSingleByChannel();
 
 	// HoverBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	// HoverBox->SetupAttachment(RootComponent);
@@ -108,6 +108,11 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FHitResult LineHit;
+	FVector LineOneStart = GetActorLocation();
+
+
+	
 	FVector Forward = GetActorForwardVector();
 	Forward.Z = 0;
 	
@@ -204,16 +209,24 @@ void ACar::Turn(float AxisValue)
 	
 	// float Clamped =	FMath::Clamp(AxisValue * TurnSpeed, -45.f, 45.f);
 
+	// Bruke torque?????
+	
 	float TargetTurnSpeed = AxisValue * TurnSpeed;
 
 	// Gir smooth
-	CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, TargetTurnSpeed, GetWorld()->GetDeltaSeconds(), 2.f);
+	CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, TargetTurnSpeed, GetWorld()->GetDeltaSeconds(), 1.f);
 	AddActorLocalRotation(FRotator(0.f, CurrentTurnSpeed, 0.f));
-	
-    // if (AxisValue > 0.f)
-    // {
-    // 	//UE_LOG(LogTemp, Warning, TEXT("Turning"));
-    // }
+
+	if (bDriving)
+	{
+		// Jeg vet ikke koden her blir ubrukelig eller ikke :////
+		FVector Turning = FVector (0.f, 1.f, 0.f);
+		
+		VehicleMesh->AddForce(Turning * TurnSpeed * VehicleMesh->GetMass());
+
+		// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))
+		
+	}
 }
 
 void ACar::StartBoosting()

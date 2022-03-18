@@ -29,7 +29,8 @@ public:
 		int SpeedBoost;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
 		class UStaticMeshComponent* PowerupMesh = nullptr;
-
 	
+
+	float InitialLocation;
 
 };
