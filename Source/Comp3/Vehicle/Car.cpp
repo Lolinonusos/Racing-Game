@@ -106,9 +106,9 @@ void ACar::BeginPlay()
 	if (ScreenWidget) {
 		MainWidget = CreateWidget<UUserWidget>(AActor::GetWorld(), ScreenWidget);
 	}
-	FVector dsds = GetActorLocation();
-	MainWidget->AddToViewport(); 
-	MainWidget->SetVisibility(ESlateVisibility::Visible);
+	
+	/*MainWidget->AddToViewport(); 
+	MainWidget->SetVisibility(ESlateVisibility::Visible);*/
 
 }
 
