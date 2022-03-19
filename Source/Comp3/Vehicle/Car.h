@@ -38,7 +38,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
 	class UBoxComponent* HoverBox = nullptr;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	int Health;
 	
@@ -109,7 +109,7 @@ private:
 	
 	void Turn(float AxisValue);
 	float CurrentTurnSpeed;
-
+	FVector Torqueing = FVector (1000.f, 0.f,0.f);
 	
 	void StartBoosting();
 	void StopBoosting();

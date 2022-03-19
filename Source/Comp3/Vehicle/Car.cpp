@@ -210,6 +210,10 @@ void ACar::Turn(float AxisValue)
 	// float Clamped =	FMath::Clamp(AxisValue * TurnSpeed, -45.f, 45.f);
 
 	// Bruke torque?????
+
+	
+	
+	//VehicleMesh->AddTorqueInRadians(Torqueing * AxisValue * VehicleMesh->GetMass());
 	
 	float TargetTurnSpeed = AxisValue * TurnSpeed;
 
