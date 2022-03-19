@@ -21,6 +21,8 @@
 #include "../Objects/Powerups/AmmoRefill.h"
 #include "../Objects/Powerups/ItemPickups.h"
 
+#include "../HUDClass.h"
+
 
 
 // Sets default values
@@ -101,6 +103,13 @@ void ACar::BeginPlay()
 		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACar::OnOverlap);
 	}
 	
+	if (ScreenWidget) {
+		MainWidget = CreateWidget<UUserWidget>(AActor::GetWorld(), ScreenWidget);
+	}
+	
+	/*MainWidget->AddToViewport(); 
+	MainWidget->SetVisibility(ESlateVisibility::Visible);*/
+
 }
 
 // Called every frame
@@ -111,7 +120,7 @@ void ACar::Tick(float DeltaTime)
 	FHitResult LineHit;
 	FVector LineOneStart = GetActorLocation();
 
-
+	
 	
 	FVector Forward = GetActorForwardVector();
 	Forward.Z = 0;
@@ -362,4 +371,21 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	}
 }
 
+int ACar::GetAmmo() {
+	return AmmoTotal;
+}
+
+int ACar::GetBoost() {
+	return BoostAmount;
+}
+
+int ACar::GetTotalBoost() {
+	return MaxBoostAmount;
+}
+
+FString ACar::GetSpecial()
+{
+	FString a = SpecialWeaponsInventory[0];
+	return a;
+}
 

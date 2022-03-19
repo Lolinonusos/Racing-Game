@@ -66,6 +66,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 		TArray<FString> SpecialWeaponsInventory;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+		TSubclassOf<UUserWidget> ScreenWidget;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+		TSubclassOf<UUserWidget> MainWidgetClass;
+	UPROPERTY(BlueprintReadWrite, Category = "UI")
+		UUserWidget* MainWidget = nullptr;
+
+	int GetAmmo();
+	int GetBoost();
+	int GetTotalBoost();
+	FString GetSpecial();
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -134,4 +146,6 @@ private:
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
 		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
 			const FHitResult &SweepResult);
+
+	
 };
