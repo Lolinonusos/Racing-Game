@@ -29,10 +29,8 @@ public:
 
 	FVector MoveDirection = FVector(1.f, 0.f, 0.f);
 
-public:
-
 	UPROPERTY(EditAnywhere)
-		float Speed{ 2000.f };
+		float Speed{ 20.f };
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
 		class UStaticMeshComponent* FollowerMesh;

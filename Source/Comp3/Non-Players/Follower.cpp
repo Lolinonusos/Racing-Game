@@ -21,20 +21,26 @@ AFollower::AFollower()
 void AFollower::BeginPlay()
 {
 	Super::BeginPlay();
-	MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
-	
-	SetActorRotation(MoveDirection.Rotation());
 }
 
 // Called every frame
 void AFollower::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	MoveDirection = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - GetActorLocation();
+	
+	SetActorRotation(MoveDirection.Rotation());
 
-	FVector NewLocation = GetActorLocation();
-	NewLocation += (MoveDirection * Speed * DeltaTime);
-	SetActorLocation(NewLocation);
+	//FVector NewLocation = GetActorLocation();
+	FollowerMesh->AddRelativeLocation(GetActorForwardVector() * Speed);
+	//SetActorLocation(NewLocation);
+	if(MoveDirection.Size() < 50.f)
+	{
+		// bFortnite = true;
+	}
 
+	
 }
 
 void AFollower::ImHit()

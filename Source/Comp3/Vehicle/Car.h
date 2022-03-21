@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HeightTracer_Component.h"
 #include "GameFramework/Pawn.h"
 
 //#include <UObject/ConstructorHelpers.h>
@@ -39,14 +40,26 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
 	class UBoxComponent* HoverBox = nullptr;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
+	UHeightTracer_Component* TracerPointOne = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
+	UHeightTracer_Component* TracerPointTwo = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
+	UHeightTracer_Component* TracerPointThree = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
+	UHeightTracer_Component* TracerPointFour = nullptr;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	int Health;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float DriveSpeed = 3000.f;
+	float DriveSpeed = 5000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float TurnSpeed = 2.f;
+	float TurnSpeed = 300.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float TurnHelp;
@@ -122,6 +135,8 @@ private:
 	void Turn(float AxisValue);
 	float CurrentTurnSpeed;
 	FVector Torqueing = FVector (1000.f, 0.f,0.f);
+
+	FRotator NeutralRotation;
 	
 	void StartBoosting();
 	void StopBoosting();

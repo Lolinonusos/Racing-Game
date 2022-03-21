@@ -23,9 +23,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	
 	
 	float GetDistance(float MaxDistance = 1000);
-		
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Springs")
+	float Resistance;
 };

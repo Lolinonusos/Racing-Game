@@ -23,10 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-int CheckpointsReached;
-	
-private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointVariables")
+	int CheckpointsReached;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointVariables")
+	int TotalCheckPoints;
 
 	UPROPERTY(EditAnywhere, Category = "CheckpointVariables")
-	bool bGoal;
+	bool bIsGoal;
 };

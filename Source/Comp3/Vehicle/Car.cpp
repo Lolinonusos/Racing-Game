@@ -11,8 +11,9 @@
 #include "GameFramework/PawnMovementComponent.h"
 #include "Engine/World.h"
 
-// for force
 #include "GameFramework/FloatingPawnMovement.h"
+
+// for force
 #include "Components/PrimitiveComponent.h"
 #include "Math/UnrealMathUtility.h"
 #include "Math/Vector.h"
@@ -31,11 +32,11 @@ ACar::ACar()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
-	SetRootComponent(VehicleMesh);
-
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
-	CollisionBox->SetupAttachment(RootComponent);
+	SetRootComponent(CollisionBox);
+
+	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
+	VehicleMesh->SetupAttachment(RootComponent);
 	
 	//UWorld::LineTraceSingleByChannel();
 
@@ -45,7 +46,7 @@ ACar::ACar()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	BackSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("BackSpringArm"));
 
-	VehicleMesh->SetSimulatePhysics(true);
+	CollisionBox->SetSimulatePhysics(true);
 	
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
@@ -55,7 +56,7 @@ ACar::ACar()
 	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
 	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
-	SpringArm->SetupAttachment(VehicleMesh, USpringArmComponent::SocketName);
+	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
@@ -67,7 +68,7 @@ ACar::ACar()
 	SpringArm->CameraRotationLagSpeed = 3.f;
 	SpringArm->CameraLagMaxDistance = 100.f;
 
-	BackSpringArm->SetupAttachment(VehicleMesh, USpringArmComponent::SocketName);
+	BackSpringArm->SetupAttachment(RootComponent);
 	BackSpringArm->TargetArmLength = 500.f;
 	BackSpringArm->SetRelativeRotation(FRotator(-20.f, 180.f, 0.f));
 	BackSpringArm->bEnableCameraLag = true;
@@ -78,6 +79,11 @@ ACar::ACar()
 	BackSpringArm->CameraLagSpeed = 3.f;
 	BackSpringArm->CameraRotationLagSpeed = 3.f;
 	BackSpringArm->CameraLagMaxDistance = 100.f;
+
+	TracerPointOne = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentOne"));
+	TracerPointTwo = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentTwo"));
+	TracerPointThree = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentThree"));
+	TracerPointFour = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentFour"));
 	
 	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 
@@ -87,7 +93,7 @@ ACar::ACar()
 		VehicleMesh->SetStaticMesh(VehicleMeshComponent.Object);
 	}
 
-	
+	PawnMovementComponent->MaxSpeed = 5000.f;
 //VehicleMesh->SetMassOverrideInKg()
 	
 }
@@ -117,10 +123,11 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FHitResult LineHit;
-	FVector LineOneStart = GetActorLocation();
+	// TracerPointOne->GetDistance();
+	// TracerPointTwo->GetDistance();
+	// TracerPointThree->GetDistance();
+	// TracerPointFour->GetDistance();
 
-	
 	
 	FVector Forward = GetActorForwardVector();
 	Forward.Z = 0;
@@ -128,7 +135,7 @@ void ACar::Tick(float DeltaTime)
 	if (bBoosting)
 	{
 		BoostAmount -= 0.05f;
-		VehicleMesh->AddForce(Forward * BoostPower * VehicleMesh->GetMass());
+		CollisionBox->AddForce(Forward * BoostPower * CollisionBox->GetMass());
 		if (BoostAmount < 0.f)
 		{
 			bBoosting = false;
@@ -151,14 +158,18 @@ void ACar::Tick(float DeltaTime)
 	
 	if (bDriving)
 	{
-		VehicleMesh->AddForce(Forward * DriveSpeed * VehicleMesh->GetMass());
+		//CollisionBox->AddForce(Forward * DriveSpeed * CollisionBox->GetMass());
 		//UE_LOG(LogTemp, Warning, TEXT("Forward"));
+
+		AddMovementInput(FVector(Forward), DriveSpeed);
 	}
 
 	if (bBraking)
 	{
-		VehicleMesh->AddForce(Forward * (-DriveSpeed/2) * VehicleMesh->GetMass());
+		//CollisionBox->AddForce(Forward * (-DriveSpeed/2) * CollisionBox->GetMass());
 		//UE_LOG(LogTemp, Warning, TEXT("Backward"));
+
+		AddMovementInput(FVector(Forward), (-DriveSpeed/2));
 	}
 	
 }
@@ -215,28 +226,25 @@ void ACar::StopBrake()
 void ACar::Turn(float AxisValue)
 {
 	// Rotation
-	
-	// float Clamped =	FMath::Clamp(AxisValue * TurnSpeed, -45.f, 45.f);
 
-	// Bruke torque?????
-
+	FVector Forward = GetActorForwardVector();
+	FVector Right = GetActorRightVector();
 	
-	
-	//VehicleMesh->AddTorqueInRadians(Torqueing * AxisValue * VehicleMesh->GetMass());
-	
-	float TargetTurnSpeed = AxisValue * TurnSpeed;
-
 	// Gir smooth
-	CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, TargetTurnSpeed, GetWorld()->GetDeltaSeconds(), 1.f);
-	AddActorLocalRotation(FRotator(0.f, CurrentTurnSpeed, 0.f));
+	CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, AxisValue, GetWorld()->GetDeltaSeconds(), 1.f);
+	//FMath::Clamp(TargetTurnSpeed, -200.f, 200.f);
+	CollisionBox->AddRelativeRotation(FRotator(0.f, 1.f,0.f) * CurrentTurnSpeed);
 
+	//float TargetTurnSpeed = AxisValue * TurnSpeed;
+	//FVector Turning = FVector (0.f, 0.f, 100.f);
+	//VehicleMesh->AddTorqueInRadians(Turning * TargetTurnSpeed * VehicleMesh->GetMass());
+	
 	if (bDriving)
 	{
 		// Jeg vet ikke koden her blir ubrukelig eller ikke :////
-		FVector Turning = FVector (0.f, 1.f, 0.f);
 		
-		VehicleMesh->AddForce(Turning * TurnSpeed * VehicleMesh->GetMass());
-
+		//VehicleMesh->AddForce(Turning * TurnSpeed * VehicleMesh->GetMass());
+		
 		// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))
 		
 	}
