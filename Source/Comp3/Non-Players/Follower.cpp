@@ -2,6 +2,8 @@
 
 
 #include "Follower.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/BoxComponent.h"
 
 
 // Sets default values
@@ -10,9 +12,11 @@ AFollower::AFollower()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	FollowerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FollowerMesh"));
-
-	SetRootComponent(FollowerMesh);
+	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
+	SetRootComponent(CollisionBox);
+	
+	FollowerMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FollowerMesh"));
+	FollowerMesh->SetupAttachment(CollisionBox);
 
 	FollowerMaterial = CreateDefaultSubobject<UMaterial>(TEXT("FollowerMaterial"));
 }
@@ -33,14 +37,18 @@ void AFollower::Tick(float DeltaTime)
 	SetActorRotation(MoveDirection.Rotation());
 
 	//FVector NewLocation = GetActorLocation();
-	FollowerMesh->AddRelativeLocation(GetActorForwardVector() * Speed);
-	//SetActorLocation(NewLocation);
-	if(MoveDirection.Size() < 50.f)
-	{
-		// bFortnite = true;
-	}
 
+	if(CollisionBox)
+	{
 	
+		CollisionBox->AddRelativeLocation(GetActorForwardVector() * Speed);
+	}
+	
+	//SetActorLocation(NewLocation);
+	// if(MoveDirection.Size() < 50.f)
+	// {
+	// 	// bFortnite = true;
+	// }
 }
 
 void AFollower::ImHit()

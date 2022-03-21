@@ -59,7 +59,7 @@ public:
 	float DriveSpeed = 5000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float TurnSpeed = 300.f;
+	float TurnSpeed = 500.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float TurnHelp;

@@ -37,8 +37,6 @@ ACar::ACar()
 
 	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
 	VehicleMesh->SetupAttachment(RootComponent);
-	
-	//UWorld::LineTraceSingleByChannel();
 
 	// HoverBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	// HoverBox->SetupAttachment(RootComponent);
@@ -233,7 +231,7 @@ void ACar::Turn(float AxisValue)
 	// Gir smooth
 	CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, AxisValue, GetWorld()->GetDeltaSeconds(), 1.f);
 	//FMath::Clamp(TargetTurnSpeed, -200.f, 200.f);
-	CollisionBox->AddRelativeRotation(FRotator(0.f, 1.f,0.f) * CurrentTurnSpeed);
+	CollisionBox->AddRelativeRotation(FRotator(0.f, 3.f,0.f) * CurrentTurnSpeed);
 
 	//float TargetTurnSpeed = AxisValue * TurnSpeed;
 	//FVector Turning = FVector (0.f, 0.f, 100.f);

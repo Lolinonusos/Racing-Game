@@ -29,14 +29,17 @@ public:
 
 	FVector MoveDirection = FVector(1.f, 0.f, 0.f);
 
-	UPROPERTY(EditAnywhere)
-		float Speed{ 20.f };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerVariables")
+		float Speed = 10.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
-		class UStaticMeshComponent* FollowerMesh;
-
+	class UBoxComponent* CollisionBox = nullptr;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
-		class UMaterial* FollowerMaterial;
+	class USkeletalMeshComponent* FollowerMesh = nullptr;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
+	class UMaterial* FollowerMaterial = nullptr;
 
 
 };
