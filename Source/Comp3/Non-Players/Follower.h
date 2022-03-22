@@ -42,4 +42,8 @@ public:
 	class UMaterial* FollowerMaterial = nullptr;
 
 
+	
+private:
+	
+
 };

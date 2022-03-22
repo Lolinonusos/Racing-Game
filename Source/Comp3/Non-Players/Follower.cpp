@@ -40,7 +40,6 @@ void AFollower::Tick(float DeltaTime)
 
 	if(CollisionBox)
 	{
-	
 		CollisionBox->AddRelativeLocation(GetActorForwardVector() * Speed);
 	}
 	
@@ -54,5 +53,8 @@ void AFollower::Tick(float DeltaTime)
 void AFollower::ImHit()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Follower got hit"));
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+	this->Destroy();
 	IsHit = true;
 }
