@@ -327,7 +327,7 @@ void ACar::SpecialShooting()
 					ShotgunRotation.Yaw += 180;
 					FRotator x(0, 2.5, 0);
 					for (int i = 0; i < 5; i++) {
-						tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
+						tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
 					}
 				}
 				else {
@@ -337,7 +337,7 @@ void ACar::SpecialShooting()
 					Location += FwdVector;
 					FRotator x(0, 2.5, 0);
 					for (int i = 0; i < 5; i++) {
-						tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
+						tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
 					}
 				}
 
