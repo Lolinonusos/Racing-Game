@@ -61,8 +61,19 @@ void AFollower::Tick(float DeltaTime)
 void AFollower::ImHit()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Follower got hit"));
-	SetActorHiddenInGame(true);
-	SetActorEnableCollision(false);
-	this->Destroy();
-	IsHit = true;
+	CurrentHealth--;
+	if (CurrentHealth == 0) {
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+		this->Destroy();
+		IsHit = true;
+	}
+}
+
+float AFollower::ReturnCurrentHealth() {
+	return CurrentHealth;
+}
+
+float AFollower::ReturnMaxHealth() {
+	return MaxHealth;
 }
