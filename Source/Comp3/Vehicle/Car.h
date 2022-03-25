@@ -91,6 +91,7 @@ public:
 	int GetBoost();
 	int GetTotalBoost();
 	FString GetSpecial();
+	bool bTimerIsFinished = false;
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;

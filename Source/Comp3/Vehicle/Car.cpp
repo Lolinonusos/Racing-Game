@@ -204,7 +204,9 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ACar::StartDriving()
 {
-	bDriving = true;
+	if (bTimerIsFinished) {
+		bDriving = true;
+	}
 }
 
 void ACar::StopDriving()
@@ -214,7 +216,9 @@ void ACar::StopDriving()
 
 void ACar::StartBrake()
 {
-	bBraking = true;
+	if (bTimerIsFinished) {
+		bBraking = true;
+	}
 }
 
 void ACar::StopBrake()
@@ -229,23 +233,25 @@ void ACar::Turn(float AxisValue)
 	FVector Forward = GetActorForwardVector();
 	FVector Right = GetActorRightVector();
 	
-	// Gir smooth
-	CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, AxisValue, GetWorld()->GetDeltaSeconds(), 1.f);
-	//FMath::Clamp(TargetTurnSpeed, -200.f, 200.f);
-	CollisionBox->AddRelativeRotation(FRotator(0.f, 3.f,0.f) * CurrentTurnSpeed);
+	if (bTimerIsFinished) {
+		// Gir smooth
+		CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, AxisValue, GetWorld()->GetDeltaSeconds(), 1.f);
+		//FMath::Clamp(TargetTurnSpeed, -200.f, 200.f);
+		CollisionBox->AddRelativeRotation(FRotator(0.f, 3.f, 0.f) * CurrentTurnSpeed);
 
-	//float TargetTurnSpeed = AxisValue * TurnSpeed;
-	//FVector Turning = FVector (0.f, 0.f, 100.f);
-	//VehicleMesh->AddTorqueInRadians(Turning * TargetTurnSpeed * VehicleMesh->GetMass());
-	
-	if (bDriving)
-	{
-		// Jeg vet ikke koden her blir ubrukelig eller ikke :////
-		
-		//VehicleMesh->AddForce(Turning * TurnSpeed * VehicleMesh->GetMass());
-		
-		// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))
-		
+		//float TargetTurnSpeed = AxisValue * TurnSpeed;
+		//FVector Turning = FVector (0.f, 0.f, 100.f);
+		//VehicleMesh->AddTorqueInRadians(Turning * TargetTurnSpeed * VehicleMesh->GetMass());
+
+		if (bDriving)
+		{
+			// Jeg vet ikke koden her blir ubrukelig eller ikke :////
+
+			//VehicleMesh->AddForce(Turning * TurnSpeed * VehicleMesh->GetMass());
+
+			// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))
+
+		}
 	}
 }
 
@@ -253,10 +259,13 @@ void ACar::StartBoosting()
 {
 	// Add boost power to forward movement
 	// Should push forward when not driving
-	if (BoostAmount > 0) 
-	{
-		bBoosting = true;
+	if (bTimerIsFinished) {
+		if (BoostAmount > 0)
+		{
+			bBoosting = true;
+		}
 	}
+	
 }
 
 void ACar::StopBoosting()
@@ -267,74 +276,79 @@ void ACar::StopBoosting()
 
 void ACar::Shooting()
 {
-	
-	if (AmmoTotal > 0 && bBoosting == false) {
-		UWorld* World = GetWorld();
-		if (World)
-		{
-			if (bBackCamera) {
-				// Shooting backwards
-				FVector Location = GetActorLocation();
-				FVector FwdVector = GetActorForwardVector();
-				FwdVector *= -200;
-				Location += FwdVector;
-				FRotator Rotation = GetActorRotation();
-				Rotation.Yaw += 180;
-				
-				World->SpawnActor<AActor>(ActorToSpawn, Location, Rotation);
-				AmmoTotal--;
+	if (bTimerIsFinished) {
+		if (AmmoTotal > 0 && bBoosting == false) {
+			UWorld* World = GetWorld();
+			if (World)
+			{
+				if (bBackCamera) {
+					// Shooting backwards
+					FVector Location = GetActorLocation();
+					FVector FwdVector = GetActorForwardVector();
+					FwdVector *= -200;
+					Location += FwdVector;
+					FRotator Rotation = GetActorRotation();
+					Rotation.Yaw += 180;
+
+					World->SpawnActor<AActor>(ActorToSpawn, Location, Rotation);
+					AmmoTotal--;
+				}
+				else {
+					// Shooting forwards
+					FVector Location = GetActorLocation();
+					FVector FwdVector = GetActorForwardVector();
+					FwdVector *= 200;
+					Location += FwdVector;
+					World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
+					AmmoTotal--;
+				}
+
+
 			}
-			else {
-				// Shooting forwards
-				FVector Location = GetActorLocation();
-				FVector FwdVector = GetActorForwardVector();
-				FwdVector *= 200;
-				Location += FwdVector;
-				World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
-				AmmoTotal--;
-			}
-			
-			
 		}
 	}
+	
 }
 
 void ACar::SpecialShooting() 
 {
-	if (SpecialWeaponsInventory[0] == "Shotgun") {
-		UWorld* tempWorld = GetWorld();
-		if (tempWorld)
-		{
-			if (bBackCamera) {
-				// Shooting backwards
-				FVector Location = GetActorLocation();
-				FVector FwdVector = GetActorForwardVector();
-				FwdVector *= -200;
-				Location += FwdVector;
-				FRotator ShotgunRotation = GetActorRotation();
-				ShotgunRotation.Yaw += 180;
-				FRotator x(0, 2.5, 0);
-				for (int i = 0; i < 5; i++) {
-					tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
+	if (bTimerIsFinished) {
+		if (SpecialWeaponsInventory[0] == "Shotgun") {
+			UWorld* tempWorld = GetWorld();
+			if (tempWorld)
+			{
+				if (bBackCamera) {
+					// Shooting backwards
+					FVector Location = GetActorLocation();
+					FVector FwdVector = GetActorForwardVector();
+					FwdVector *= -200;
+					Location += FwdVector;
+					FRotator ShotgunRotation = GetActorRotation();
+					ShotgunRotation.Yaw += 180;
+					FRotator x(0, 2.5, 0);
+					for (int i = 0; i < 5; i++) {
+						tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
+					}
 				}
-			}
-			else {
-				FVector Location = GetActorLocation();
-				FVector FwdVector = GetActorForwardVector();
-				FwdVector *= 200;
-				Location += FwdVector;
-				FRotator x(0, 2.5, 0);
-				for (int i = 0; i < 5; i++) {
-					tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
+				else {
+					FVector Location = GetActorLocation();
+					FVector FwdVector = GetActorForwardVector();
+					FwdVector *= 200;
+					Location += FwdVector;
+					FRotator x(0, 2.5, 0);
+					for (int i = 0; i < 5; i++) {
+						tempWorld->SpawnActor<AActor>(ShotgunSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
+					}
 				}
+
+				SpecialWeaponsInventory[0] = "";
 			}
-			
-			SpecialWeaponsInventory[0] = "";
+		}
+		else {
+
 		}
 	}
-	else {
-		
-	}
+	
 }
 
 void ACar::ChangeCamera()
