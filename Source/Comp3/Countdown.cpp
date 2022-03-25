@@ -85,6 +85,13 @@ void ACountdown::AdvanceTimer() {
 		//Countdown finished
 		ACar* PlayerCar = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 		PlayerCar->bTimerIsFinished = true;
+
+		AFollower* Follower = Cast<AFollower>(UGameplayStatics::GetActorOfClass(GetWorld(), FollowerActor));
+		
+		if (Follower) {
+			Follower->bCanMove = true;
+		}
+
 		CountdownText->SetTextRenderColor(FColor::Green);
 		CountdownText->SetText(INVTEXT("GO!"));
 	} 

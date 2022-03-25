@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Vehicle/Car.h"
+#include "Non-Players/Follower.h"
 #include "Countdown.generated.h"
 
 class UTextRenderComponent;
@@ -38,4 +39,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Countdown")
 		TArray<UStaticMeshComponent*> CountdownBalls;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Countdown")
+		TSubclassOf<AActor> FollowerActor;
+
+	
 };

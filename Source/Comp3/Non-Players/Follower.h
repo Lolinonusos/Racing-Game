@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Vehicle/Car.h"
+#include "Kismet/GameplayStatics.h"
 #include "Follower.generated.h"
 
 UCLASS()
@@ -35,14 +37,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
 	class UBoxComponent* CollisionBox = nullptr;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
+	UPROPERTY(Instanced, EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
 	class USkeletalMeshComponent* FollowerMesh = nullptr;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FollowerMesh")
 	class UMaterial* FollowerMaterial = nullptr;
 
-
-	
+	bool bCanMove = false;
+	ACar* PlayerCarPtr = nullptr; 
 private:
 	
 

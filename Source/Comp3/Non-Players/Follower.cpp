@@ -3,6 +3,7 @@
 
 #include "Follower.h"
 #include "Components/SkeletalMeshComponent.h"
+
 #include "Components/BoxComponent.h"
 
 
@@ -19,12 +20,17 @@ AFollower::AFollower()
 	FollowerMesh->SetupAttachment(CollisionBox);
 
 	FollowerMaterial = CreateDefaultSubobject<UMaterial>(TEXT("FollowerMaterial"));
+
+	
+
 }
 
 // Called when the game starts or when spawned
 void AFollower::BeginPlay()
 {
 	Super::BeginPlay();
+	PlayerCarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+
 }
 
 // Called every frame
@@ -40,7 +46,9 @@ void AFollower::Tick(float DeltaTime)
 
 	if(CollisionBox)
 	{
-		CollisionBox->AddRelativeLocation(GetActorForwardVector() * Speed);
+		if (PlayerCarPtr->bTimerIsFinished) {
+			CollisionBox->AddRelativeLocation(GetActorForwardVector() * Speed);
+		}
 	}
 	
 	//SetActorLocation(NewLocation);
