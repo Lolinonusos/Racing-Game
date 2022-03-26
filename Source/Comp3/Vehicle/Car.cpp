@@ -401,6 +401,7 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
 	}
+	
 }
 
 int ACar::GetAmmo() {
