@@ -122,11 +122,22 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// TracerPointOne->GetDistance();
-	// TracerPointTwo->GetDistance();
-	// TracerPointThree->GetDistance();
-	// TracerPointFour->GetDistance();
+	//CollisionBox->Set
+	
+	float MaxDistance = 100.f;
+	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * -MaxDistance);
+    FHitResult HitResult;
+	FCollisionObjectQueryParams CollisionObjectQueryParams;
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+	if(GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
+	{
+		//CollisionBox->AddForce(GetActorUpVector() * 10000.f * CollisionBox->GetMass());
+		UE_LOG(LogTemp, Warning, TEXT("Tracer works"));
+	}
 
+	
+	
+	
 	
 	FVector Forward = GetActorForwardVector();
 	Forward.Z = 0;
@@ -247,7 +258,7 @@ void ACar::Turn(float AxisValue)
 		{
 			// Jeg vet ikke koden her blir ubrukelig eller ikke :////
 
-			//VehicleMesh->AddForce(Turning * TurnSpeed * VehicleMesh->GetMass());
+			//VehicleMesh->AddTorqueInRadians(TurnSpeed * VehicleMesh->GetMass());
 
 			// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))
 
