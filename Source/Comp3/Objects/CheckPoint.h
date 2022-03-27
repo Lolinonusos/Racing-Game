@@ -23,6 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointBox")
+	class UBoxComponent* CheckpointBox;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointVariables")
 	int CheckpointsReached;
 
@@ -30,5 +33,13 @@ public:
 	int TotalCheckPoints;
 
 	UPROPERTY(EditAnywhere, Category = "CheckpointVariables")
+	int LapsFinished;
+	
+	UPROPERTY(EditAnywhere, Category = "CheckpointVariables")
 	bool bIsGoal;
+	
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
+		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
+			const FHitResult &SweepResult);
 };

@@ -23,6 +23,10 @@
 #include "../Objects/Powerups/AmmoRefill.h"
 #include "../Objects/Powerups/ItemPickups.h"
 
+// Objects
+#include "../Objects/CheckPoint.h"
+#include "../Objects/BoostPad.h"
+
 #include "../HUDClass.h"
 
 
@@ -401,7 +405,10 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
 	}
-	
+	else if(OtherActor->IsA(ABoostPad::StaticClass()))
+	{
+		
+	}
 }
 
 int ACar::GetAmmo() {

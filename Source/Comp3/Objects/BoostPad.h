@@ -26,7 +26,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Boost Pad Mesh")
 	class UStaticMeshComponent* MeshComponent;
 
-	UPROPERTY(EditAnywhere, Category = "Boost Pad Mesh")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boost Pad Mesh")
 	class UBoxComponent* BoostArea;
 	
 	UPROPERTY(EditAnywhere, Category = "Boost Pad Variables")
