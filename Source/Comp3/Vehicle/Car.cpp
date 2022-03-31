@@ -126,7 +126,7 @@ void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//CollisionBox->Set
+	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
 	
 	float MaxDistance = 100.f;
 	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * -MaxDistance);
