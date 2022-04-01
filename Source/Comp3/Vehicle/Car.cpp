@@ -329,6 +329,7 @@ void ACar::SpecialShooting()
 {
 	if (bTimerIsFinished) {
 		if (SpecialWeaponsInventory[0] == "Shotgun") {
+			
 			UWorld* tempWorld = GetWorld();
 			if (tempWorld)
 			{
@@ -355,8 +356,10 @@ void ACar::SpecialShooting()
 						tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
 					}
 				}
-
-				SpecialWeaponsInventory[0] = "";
+				ShotgunUses--;
+				if (ShotgunUses == 0) {
+					SpecialWeaponsInventory[0] = "";
+				}	
 			}
 		}
 		else {

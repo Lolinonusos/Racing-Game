@@ -28,7 +28,22 @@ void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 			Special->SetText(FText::FromString(CurrentSpecial.Append("None")));
 		}
 		else {
-			Special->SetText(FText::FromString(CurrentSpecial));
+			if (PlayerShipPtr2->GetSpecial() == "Shotgun") {
+				if (PlayerShipPtr2->ShotgunUses )
+				
+				switch (PlayerShipPtr2->ShotgunUses) {
+				case 2:
+					Special->SetText(FText::FromString(CurrentSpecial.Append(" x2")));
+					break;
+				case 1:
+					Special->SetText(FText::FromString(CurrentSpecial));
+					break;
+				default:
+					Special->SetText(FText::FromString("None"));
+					break;
+				}
+			}
+			
 			
 		}
 	}
