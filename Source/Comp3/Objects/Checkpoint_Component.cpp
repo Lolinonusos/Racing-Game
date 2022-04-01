@@ -2,7 +2,10 @@
 
 
 #include "Checkpoint_Component.h"
+#include "Components/BoxComponent.h"
+
 #include "../Comp3GameModeBase.h"
+
 // Sets default values for this component's properties
 UCheckpoint_Component::UCheckpoint_Component()
 {
@@ -10,6 +13,8 @@ UCheckpoint_Component::UCheckpoint_Component()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
+	CheckpointBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CheckpointBox"));
+	
 	// ...
 }
 

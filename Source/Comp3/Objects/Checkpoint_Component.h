@@ -26,6 +26,12 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(EditInstanceOnly, Category = "ChecpointVariables")
+	bool bIsGoal = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointBox")
+	class UBoxComponent* CheckpointBox;
+	
 	UPROPERTY()
 	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
