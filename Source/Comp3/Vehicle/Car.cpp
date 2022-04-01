@@ -2,7 +2,7 @@
 
 #include "Car.h"
 #include "Bullet.h"
-
+#include "../Non-Players/Follower.h"
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerInput.h"
@@ -328,7 +328,7 @@ void ACar::Shooting()
 void ACar::SpecialShooting() 
 {
 	if (bTimerIsFinished) {
-		if (SpecialWeaponsInventory[0] == "Shotgun") {
+		if (SpecialWeaponsInventory[0] == "Shotgun" && bBoosting == false) {
 			
 			UWorld* tempWorld = GetWorld();
 			if (tempWorld)
@@ -404,6 +404,9 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		if (SpecialWeaponsInventory[0] == "") {
 			ChosenItem = Cast<AItemPickups>(OtherActor)->UniqueItems[0];
 			SpecialWeaponsInventory[0] = ChosenItem;
+			if (ChosenItem == "Shotgun") {
+				ShotgunUses = 2;
+			}
 		}
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
@@ -411,6 +414,10 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	else if(OtherActor->IsA(ABoostPad::StaticClass()))
 	{
 		
+	}
+	else if (OtherActor->IsA(AFollower::StaticClass())) {
+		CurrentHealth--;
+
 	}
 }
 
@@ -430,5 +437,15 @@ FString ACar::GetSpecial()
 {
 	FString a = SpecialWeaponsInventory[0];
 	return a;
+}
+
+float ACar::GetTotalHealth()
+{
+	return MaxHealth;
+}
+
+float ACar::GetCurrentHealth()
+{
+	return CurrentHealth;
 }
 

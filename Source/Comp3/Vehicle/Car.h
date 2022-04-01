@@ -92,8 +92,18 @@ public:
 	int GetTotalBoost();
 	FString GetSpecial();
 	bool bTimerIsFinished = false;
+	
 
 	int ShotgunUses = 2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	float MaxHealth = 10;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
+	float CurrentHealth = 10;
+
+	float GetTotalHealth();
+	float GetCurrentHealth();
+
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;

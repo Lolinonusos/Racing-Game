@@ -15,6 +15,11 @@ void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 		float MaxBoost = PlayerShipPtr2->GetTotalBoost();
 		FString CurrentSpecial = "Special: ";
 		CurrentSpecial.Append(PlayerShipPtr2->GetSpecial());
+
+		float PlayersHealth = PlayerShipPtr2->GetCurrentHealth();
+		float PlayersTotalhealth = PlayerShipPtr2->GetTotalHealth();
+
+		float HealthPercentage = PlayersHealth / PlayersTotalhealth;
 		
 		FString CurrentAmmo = "Ammo: ";
 		CurrentAmmo.Append(FString::FromInt(Ammo));
@@ -23,6 +28,7 @@ void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 
 		BoostBar->SetPercent(BoostBarPercent);
 		AmmoNum->SetText(FText::FromString(CurrentAmmo));
+		HealthBar->SetPercent(HealthPercentage);
 		
 		if (PlayerShipPtr2->GetSpecial() == "") {
 			Special->SetText(FText::FromString(CurrentSpecial.Append("None")));

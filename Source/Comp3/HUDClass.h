@@ -28,6 +28,9 @@ public:
 		class UProgressBar* BoostBar;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
+		class UProgressBar* HealthBar;
+
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
 		class UTextBlock* AmmoNum;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
