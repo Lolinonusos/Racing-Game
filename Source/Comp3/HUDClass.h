@@ -33,4 +33,5 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
 		class UTextBlock* Special;
 
+	
 };

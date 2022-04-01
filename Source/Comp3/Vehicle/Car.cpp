@@ -112,9 +112,9 @@ void ACar::BeginPlay()
 		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACar::OnOverlap);
 	}
 	
-	if (ScreenWidget) {
+	/*if (ScreenWidget) {
 		MainWidget = CreateWidget<UUserWidget>(AActor::GetWorld(), ScreenWidget);
-	}
+	}*/
 	
 	/*MainWidget->AddToViewport(); 
 	MainWidget->SetVisibility(ESlateVisibility::Visible);*/

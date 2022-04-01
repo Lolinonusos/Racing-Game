@@ -32,7 +32,5 @@ void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 			
 		}
 	}
-	else {
-		return;
-	}
+	else { return; }
 }
