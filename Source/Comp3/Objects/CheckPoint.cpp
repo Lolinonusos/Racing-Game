@@ -5,6 +5,8 @@
 #include "../Vehicle/Car.h"
 #include "Components/BoxComponent.h"
 
+#include "../Comp3GameModeBase.h"
+
 // Sets default values
 ACheckPoint::ACheckPoint()
 {
@@ -19,7 +21,9 @@ ACheckPoint::ACheckPoint()
 void ACheckPoint::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
+	//Cast<AComp3GameModeBase>->TotalCheckPoints += 1;
 }
 
 // Called every frame

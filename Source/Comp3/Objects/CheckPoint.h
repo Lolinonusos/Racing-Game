@@ -29,8 +29,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointVariables")
 	int CheckpointsReached;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointVariables")
-	int TotalCheckPoints;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointVariables")
+	// int TotalCheckPoints;
 
 	UPROPERTY(EditAnywhere, Category = "CheckpointVariables")
 	int LapsFinished;
