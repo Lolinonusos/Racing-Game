@@ -27,7 +27,7 @@ public:
 	UPROPERTY()
 	class UBoxComponent* RootComponenentVariable;
 	
-	float HoverForce = 2000.f;
+	float HoverForce = 1000.f;
 	
 
 	float MaxDistance = 200.f;
