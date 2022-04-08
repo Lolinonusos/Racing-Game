@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HeightTracer_Component.h"
 #include "GameFramework/Pawn.h"
 
 //#include <UObject/ConstructorHelpers.h>
@@ -40,17 +39,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
 	class UBoxComponent* HoverBox = nullptr;
 
+	// Create tracers
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
-	UHeightTracer_Component* TracerPointOne = nullptr;
-
+	class UHeightTracer_Component* TracerPointOne = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
-	UHeightTracer_Component* TracerPointTwo = nullptr;
-
+	class UHeightTracer_Component* TracerPointTwo = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
-	UHeightTracer_Component* TracerPointThree = nullptr;
-
+	class UHeightTracer_Component* TracerPointThree = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
-	UHeightTracer_Component* TracerPointFour = nullptr;
+	class UHeightTracer_Component* TracerPointFour = nullptr;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	int Health;
