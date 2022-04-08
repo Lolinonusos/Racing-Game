@@ -8,7 +8,7 @@
 #include "GameFramework/PlayerInput.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/BoxComponent.h"
-
+#include "DrawDebugHelpers.h"
 #include "Engine/World.h"
 
 // for Movement
@@ -97,6 +97,7 @@ ACar::ACar()
 	}
 
 	PawnMovementComponent->MaxSpeed = 5000.f;
+	PawnMovementComponent->Deceleration = 1500.f;
 //VehicleMesh->SetMassOverrideInKg()
 	
 }
@@ -127,22 +128,34 @@ void ACar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
+
 	
-	float MaxDistance = 100.f;
+	float MaxDistance = 200.f;
 	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * -MaxDistance);
     FHitResult HitResult;
 	FCollisionObjectQueryParams CollisionObjectQueryParams;
 	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
-	if(GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
+
+	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, -130.f,0.f), EndLocation - FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+
+	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, -130.f,0.f), EndLocation - FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+
+	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, 130.f,0.f), EndLocation - FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+
+	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, 130.f,0.f), EndLocation - FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+	
+	if(GetWorld()->LineTraceSingleByObjectType(HitResult, VehicleMesh->GetComponentLocation(), EndLocation, CollisionObjectQueryParams))
 	{
 		//CollisionBox->AddForce(GetActorUpVector() * 10000.f * CollisionBox->GetMass());
+		// FVector TraceOneNormal = HitResult.ImpactNormal * FVector(0.f, 0.f,1.f);
+		// VehicleMesh->SetRelativeRotation(TraceOneNormal.Rotation());
 		UE_LOG(LogTemp, Warning, TEXT("Tracer works"));
 	}
 
+
+	//FRotator NewRotation = FVector::Rotation(TraceOneNormal);
 	
-	
-	
-	
+	// Movement
 	FVector Forward = GetActorForwardVector();
 	Forward.Z = 0;
 	
