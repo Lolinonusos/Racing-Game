@@ -26,8 +26,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UPROPERTY(EditInstanceOnly, Category = "ChecpointVariables")
+	UPROPERTY(EditInstanceOnly, Category = "CheckpointVariables")
 	bool bIsGoal = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Checkpoint")
+	class UStaticMeshComponent* CheckpointMesh = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointBox")
 	class UBoxComponent* CheckpointBox;

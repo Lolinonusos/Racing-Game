@@ -30,7 +30,7 @@ public:
 	float HoverForce = 1000.f;
 	
 
-	float MaxDistance = 200.f;
+	float MaxDistance = 150.f;
 
 	FHitResult HitResult;
 	float GetDistance();
