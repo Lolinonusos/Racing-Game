@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+
 #include "HeightTracer_Component.generated.h"
 
 
@@ -20,12 +20,20 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
-	float GetDistance(float MaxDistance = 1000);
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Springs")
-	float Resistance;
+	UPROPERTY()
+	class UBoxComponent* RootComponenentVariable;
+	
+	float HoverForce = 2000.f;
+	
+
+	float MaxDistance = 200.f;
+
+	FHitResult HitResult;
+	float GetDistance();
+
+
 };

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Comp3GameModeBase.h"
+#include "Kismet/GamePlayStatics.h"
 #include "CheckPoint.generated.h"
 
 UCLASS()
@@ -42,4 +44,6 @@ public:
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
 		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
 			const FHitResult &SweepResult);
+
+	AComp3GameModeBase* GameModeRef = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 };

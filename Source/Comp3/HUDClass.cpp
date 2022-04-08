@@ -10,6 +10,7 @@ void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
 	if (PlayerShipPtr2) {
+		// These function calls return the values needed to be shown on screen every tick
 		int Ammo = PlayerShipPtr2->GetAmmo();
 		float CurrentBoost = PlayerShipPtr2->GetBoost();
 		float MaxBoost = PlayerShipPtr2->GetTotalBoost();
@@ -26,17 +27,21 @@ void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 
 		float BoostBarPercent = CurrentBoost / MaxBoost;
 
+		
 		BoostBar->SetPercent(BoostBarPercent);
 		AmmoNum->SetText(FText::FromString(CurrentAmmo));
 		HealthBar->SetPercent(HealthPercentage);
 		
+		// This if sentence checks if the special weapon slot for the player is empty
 		if (PlayerShipPtr2->GetSpecial() == "") {
+			// If it is, then change the text to "None"
 			Special->SetText(FText::FromString(CurrentSpecial.Append("None")));
 		}
 		else {
+			// If it is taken, check the weapon
 			if (PlayerShipPtr2->GetSpecial() == "Shotgun") {
-				if (PlayerShipPtr2->ShotgunUses )
 				
+				// The shotgun has multiple uses, so check how many there are and change the text accordingly
 				switch (PlayerShipPtr2->ShotgunUses) {
 				case 2:
 					Special->SetText(FText::FromString(CurrentSpecial.Append(" x2")));

@@ -3,7 +3,7 @@
 #include "Car.h"
 #include "Bullet.h"
 #include "../Non-Players/Follower.h"
-
+#include "HeightTracer_Component.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerInput.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -84,10 +84,21 @@ ACar::ACar()
 	BackSpringArm->CameraLagMaxDistance = 100.f;
 
 	TracerPointOne = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentOne"));
+	TracerPointOne->SetupAttachment(GetRootComponent());
+	//TracerPointOne->SetRelativeLocation(FVector(60.f, 30.f, 0.f));
+
 	TracerPointTwo = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentTwo"));
+	TracerPointTwo->SetupAttachment(GetRootComponent());
+	//TracerPointTwo->SetRelativeLocation(FVector(60.f, -30.f, 0.f));
+
 	TracerPointThree = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentThree"));
+	TracerPointThree->SetupAttachment(GetRootComponent());
+	//TracerPointThree->SetRelativeLocation(FVector(-60.f, 30.f, 0.f));
+
 	TracerPointFour = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentFour"));
-	
+	TracerPointFour->SetupAttachment(GetRootComponent());
+	//TracerPointFour->SetRelativeLocation(FVector(-60.f, -30.f, 0.f));
+
 	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> VehicleMeshComponent(TEXT("StaticMesh'/Game/Art_Assets/TempVehicle.TempVehicle'"));
@@ -129,28 +140,28 @@ void ACar::Tick(float DeltaTime)
 
 	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
 
-	
-	float MaxDistance = 200.f;
-	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * -MaxDistance);
-    FHitResult HitResult;
-	FCollisionObjectQueryParams CollisionObjectQueryParams;
-	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
-
-	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, -130.f,0.f), EndLocation - FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
-
-	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, -130.f,0.f), EndLocation - FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
-
-	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, 130.f,0.f), EndLocation - FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
-
-	DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, 130.f,0.f), EndLocation - FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
-	
-	if(GetWorld()->LineTraceSingleByObjectType(HitResult, VehicleMesh->GetComponentLocation(), EndLocation, CollisionObjectQueryParams))
-	{
-		//CollisionBox->AddForce(GetActorUpVector() * 10000.f * CollisionBox->GetMass());
-		// FVector TraceOneNormal = HitResult.ImpactNormal * FVector(0.f, 0.f,1.f);
-		// VehicleMesh->SetRelativeRotation(TraceOneNormal.Rotation());
-		UE_LOG(LogTemp, Warning, TEXT("Tracer works"));
-	}
+	//
+	// float MaxDistance = 200.f;
+	// FVector EndLocation = GetActorLocation() + (GetActorUpVector() * -MaxDistance);
+ //    FHitResult HitResult;
+	// FCollisionObjectQueryParams CollisionObjectQueryParams;
+	// CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+ //
+	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, -130.f,0.f), EndLocation - FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+ //
+	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, -130.f,0.f), EndLocation - FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+ //
+	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, 130.f,0.f), EndLocation + FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+ //
+	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, 130.f,0.f), EndLocation + FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
+	//
+	// if(GetWorld()->LineTraceSingleByObjectType(HitResult, VehicleMesh->GetComponentLocation(), EndLocation, CollisionObjectQueryParams))
+	// {
+	// 	//CollisionBox->AddForce(GetActorUpVector() * 10000.f * CollisionBox->GetMass());
+	// 	// FVector TraceOneNormal = HitResult.ImpactNormal * FVector(0.f, 0.f,1.f);
+	// 	// VehicleMesh->SetRelativeRotation(TraceOneNormal.Rotation());
+	// 	UE_LOG(LogTemp, Warning, TEXT("Tracer works"));
+	// }
 
 
 	//FRotator NewRotation = FVector::Rotation(TraceOneNormal);

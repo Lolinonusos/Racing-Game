@@ -4,15 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "../Pickups.h"
-#include "AmmoRefill.generated.h"
+#include "HealthRefill.generated.h"
 
-
+/**
+ * 
+ */
 UCLASS()
-class COMP3_API AAmmoRefill : public APickups
+class COMP3_API AHealthRefill : public APickups
 {
 	GENERATED_BODY()
+
+	
 public:
 	virtual void Tick(float DeltaTime) override;
-	int AmmoRegen = 10;
-	int GetAmmoRegen();
+	float HealthRegen = 5;
+	float GetHealthRegen();
 };
