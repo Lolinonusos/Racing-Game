@@ -22,7 +22,6 @@
 #include "../Objects/Powerups/SpeedBoost.h"
 #include "../Objects/Powerups/AmmoRefill.h"
 #include "../Objects/Powerups/ItemPickups.h"
-#include "../Objects/Powerups/HealthRefill.h"
 
 // Objects
 #include "../Objects/CheckPoint.h"
@@ -42,7 +41,7 @@ ACar::ACar()
 	SetRootComponent(CollisionBox);
 
 	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
-	VehicleMesh->SetupAttachment(RootComponent);
+	VehicleMesh->SetupAttachment(GetRootComponent());
 
 	// HoverBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	// HoverBox->SetupAttachment(RootComponent);
@@ -52,15 +51,19 @@ ACar::ACar()
 
 	CollisionBox->SetSimulatePhysics(true);
 	
-	//
-	// CAMERAS
-	// Back facing camera (Points forward)
-	//
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
+<<<<<<< Updated upstream
+	BackCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("BackCamera"));
+	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
+	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
+
 	SpringArm->SetupAttachment(RootComponent);
+=======
+	SpringArm->SetupAttachment(GetRootComponent());
+>>>>>>> Stashed changes
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
@@ -71,12 +74,6 @@ ACar::ACar()
 	SpringArm->CameraLagSpeed = 3.f;
 	SpringArm->CameraRotationLagSpeed = 3.f;
 	SpringArm->CameraLagMaxDistance = 100.f;
-
-	// Front facing camera (Points backwards)
-
-	BackCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("BackCamera"));
-	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
-	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
 	BackSpringArm->SetupAttachment(RootComponent);
 	BackSpringArm->TargetArmLength = 500.f;
@@ -89,8 +86,6 @@ ACar::ACar()
 	BackSpringArm->CameraLagSpeed = 3.f;
 	BackSpringArm->CameraRotationLagSpeed = 3.f;
 	BackSpringArm->CameraLagMaxDistance = 100.f;
-	
-	// End of camera stuff
 
 	TracerPointOne = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentOne"));
 	TracerPointOne->SetupAttachment(GetRootComponent());
@@ -118,7 +113,6 @@ ACar::ACar()
 
 	PawnMovementComponent->MaxSpeed = 5000.f;
 	PawnMovementComponent->Deceleration = 1500.f;
-//VehicleMesh->SetMassOverrideInKg()
 	
 }
 
@@ -148,32 +142,6 @@ void ACar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
-
-	//
-	// float MaxDistance = 200.f;
-	// FVector EndLocation = GetActorLocation() + (GetActorUpVector() * -MaxDistance);
- //    FHitResult HitResult;
-	// FCollisionObjectQueryParams CollisionObjectQueryParams;
-	// CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, -130.f,0.f), EndLocation - FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, -130.f,0.f), EndLocation - FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, 130.f,0.f), EndLocation + FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, 130.f,0.f), EndLocation + FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
-	//
-	// if(GetWorld()->LineTraceSingleByObjectType(HitResult, VehicleMesh->GetComponentLocation(), EndLocation, CollisionObjectQueryParams))
-	// {
-	// 	//CollisionBox->AddForce(GetActorUpVector() * 10000.f * CollisionBox->GetMass());
-	// 	// FVector TraceOneNormal = HitResult.ImpactNormal * FVector(0.f, 0.f,1.f);
-	// 	// VehicleMesh->SetRelativeRotation(TraceOneNormal.Rotation());
-	// 	UE_LOG(LogTemp, Warning, TEXT("Tracer works"));
-	// }
-
-
-	//FRotator NewRotation = FVector::Rotation(TraceOneNormal);
 	
 	// Movement
 	FVector Forward = GetActorForwardVector();
@@ -291,16 +259,37 @@ void ACar::Turn(float AxisValue)
 		//FVector Turning = FVector (0.f, 0.f, 100.f);
 		//VehicleMesh->AddTorqueInRadians(Turning * TargetTurnSpeed * VehicleMesh->GetMass());
 
-		if (bDriving)
+		 if (bDriving)
 		{
 			// Jeg vet ikke koden her blir ubrukelig eller ikke :////
-
+			UpdateRoll(AxisValue);
 			//VehicleMesh->AddTorqueInRadians(TurnSpeed * VehicleMesh->GetMass());
 
-			// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))
-
+			// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))			
 		}
 	}
+}
+
+void ACar::UpdateRoll(float Input)
+{
+	
+
+	float RollTarget = 10.f;
+	
+	
+	RollInterp = FMath::FInterpTo(RollInterp, (Input * RollTarget), GetWorld()->GetDeltaSeconds(), 1.f);
+	
+	RollInterp = FMath::Clamp(RollInterp, -RollTarget, RollTarget);
+
+	UE_LOG(LogTemp, Warning , TEXT("%f"), RollInterp);
+	
+	VehicleMesh->SetRelativeRotation(FRotator(0.f,0.f,10.f)* RollInterp);
+	
+
+	FRotator CurrentRoll = VehicleMesh->GetRelativeRotation();
+		
+	//RollAlpha = GetWorld()->DeltaTimeSeconds;
+	//FMath::Lerp(0.f, TargetRoll, GetWorld()->DeltaTimeSeconds);
 }
 
 void ACar::StartBoosting()
@@ -360,10 +349,6 @@ void ACar::Shooting()
 
 void ACar::SpecialShooting() 
 {
-	// This function is responsible for the logic behind shooting with a special item
-	// The outer if sentence checks if the countdown timer at the beginning is finished
-	// The inner one checks if the inventory item is a shootgun and checks if the player boosts
-	// The player cannot fire a special item while they boost
 	if (bTimerIsFinished) {
 		if (SpecialWeaponsInventory[0] == "Shotgun" && bBoosting == false) {
 			
@@ -371,20 +356,19 @@ void ACar::SpecialShooting()
 			if (tempWorld)
 			{
 				if (bBackCamera) {
-					// Camera is in front, looking back, so the player is shooting backwards
+					// Shooting backwards
 					FVector Location = GetActorLocation();
 					FVector FwdVector = GetActorForwardVector();
 					FwdVector *= -200;
 					Location += FwdVector;
 					FRotator ShotgunRotation = GetActorRotation();
-					ShotgunRotation.Yaw += 180; // This makes the bullets appear behind the player
+					ShotgunRotation.Yaw += 180;
 					FRotator x(0, 2.5, 0);
 					for (int i = 0; i < 5; i++) {
 						tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
 					}
 				}
 				else {
-					// Camera is in the default state, which means the player is shooting forwards
 					FVector Location = GetActorLocation();
 					FVector FwdVector = GetActorForwardVector();
 					FwdVector *= 200;
@@ -394,8 +378,6 @@ void ACar::SpecialShooting()
 						tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
 					}
 				}
-				// Regardless of camera  angle, uses of the shotgun will decrease by 1
-				// It then checks if it should be removed from the inventory
 				ShotgunUses--;
 				if (ShotgunUses == 0) {
 					SpecialWeaponsInventory[0] = "";
@@ -411,7 +393,7 @@ void ACar::SpecialShooting()
 
 void ACar::ChangeCamera()
 {
-	// This function changes camera angle from back to front
+	UE_LOG(LogTemp, Warning, TEXT("ENTERED"))
 	if (!bBackCamera) {
 		Camera->Deactivate();
 		BackCamera->Activate();
@@ -426,8 +408,6 @@ void ACar::ChangeCamera()
 }
 
 void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	
-	// This if chain checks what hits the player, this line is for speed boost
 	if (OtherActor->IsA(ASpeedBoost::StaticClass())) {
 		Cast<ASpeedBoost>(OtherActor)->Super::DeleteSelf();
 		if ((BoostAmount + 1) > MaxBoostAmount) {
@@ -437,19 +417,10 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 			BoostAmount++;
 		}
 	}
-	// This line checks for ammo boxes
 	else if (OtherActor->IsA(AAmmoRefill::StaticClass())) {
-		AAmmoRefill* AmmoTemp = Cast<AAmmoRefill>(OtherActor);
-		if ((AmmoTotal + AmmoTemp->GetAmmoRegen()) > MaxAmmo) {
-			AmmoTotal = MaxAmmo;
-		}
-		else {
-			AmmoTotal += AmmoTemp->GetAmmoRegen();
-		}
-		
-		AmmoTemp->Super::DeleteSelf();
+		Cast<AAmmoRefill>(OtherActor)->Super::DeleteSelf();
+		AmmoTotal += 30;
 	}
-	// This line checks for item pickups and checks if the player's inventory is full
 	else if (OtherActor->IsA(AItemPickups::StaticClass())) {
 		FString ChosenItem = "";
 		if (SpecialWeaponsInventory[0] == "") {
@@ -462,38 +433,15 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
 	}
-	// This line checks for health pickups
-	else if (OtherActor->IsA(AHealthRefill::StaticClass())) {
-		AHealthRefill* tmp = Cast<AHealthRefill>(OtherActor);
-		if ((CurrentHealth + tmp->GetHealthRegen()) > MaxHealth) {
-			CurrentHealth = MaxHealth;
-		}
-		else {
-			CurrentHealth += tmp->GetHealthRegen();
-		}
-		//UE_LOG(LogTemp, Warning, TEXT("HEALTH: %f"), CurrentHealth);
-		tmp->Super::DeleteSelf();
-	}
 	else if(OtherActor->IsA(ABoostPad::StaticClass()))
 	{
 		
 	}
-	// This checks if the player hit an enemy, currently it lowers health, will be changed later
 	else if (OtherActor->IsA(AFollower::StaticClass())) {
-		if ((CurrentHealth - 1) < 0) {
-			CurrentHealth = 0;
-		}
-		else {
-			CurrentHealth--;
-		}
+		CurrentHealth--;
+
 	}
 }
-
-
-//
-// FUNCTIONS THAT RETURN THE VARIABLES THE HUD USES
-//
-
 
 int ACar::GetAmmo() {
 	return AmmoTotal;
