@@ -22,6 +22,7 @@
 #include "../Objects/Powerups/SpeedBoost.h"
 #include "../Objects/Powerups/AmmoRefill.h"
 #include "../Objects/Powerups/ItemPickups.h"
+#include "../Objects/Powerups/HealthRefill.h"
 
 // Objects
 #include "../Objects/CheckPoint.h"
@@ -427,8 +428,15 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	}
 	// This line checks for ammo boxes
 	else if (OtherActor->IsA(AAmmoRefill::StaticClass())) {
-		Cast<AAmmoRefill>(OtherActor)->Super::DeleteSelf();
-		AmmoTotal += 30;
+		AAmmoRefill* AmmoTemp = Cast<AAmmoRefill>(OtherActor);
+		if ((AmmoTotal + AmmoTemp->GetAmmoRegen()) > MaxAmmo) {
+			AmmoTotal = MaxAmmo;
+		}
+		else {
+			AmmoTotal += AmmoTemp->GetAmmoRegen();
+		}
+		
+		AmmoTemp->Super::DeleteSelf();
 	}
 	// This line checks for item pickups and checks if the player's inventory is full
 	else if (OtherActor->IsA(AItemPickups::StaticClass())) {
@@ -443,14 +451,30 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
 	}
+	// This line checks for health pickups
+	else if (OtherActor->IsA(AHealthRefill::StaticClass())) {
+		AHealthRefill* tmp = Cast<AHealthRefill>(OtherActor);
+		if ((CurrentHealth + tmp->GetHealthRegen()) > MaxHealth) {
+			CurrentHealth = MaxHealth;
+		}
+		else {
+			CurrentHealth += tmp->GetHealthRegen();
+		}
+		UE_LOG(LogTemp, Warning, TEXT("HEALTH: %f"), CurrentHealth);
+		tmp->Super::DeleteSelf();
+	}
 	else if(OtherActor->IsA(ABoostPad::StaticClass()))
 	{
 		
 	}
 	// This checks if the player hit an enemy, currently it lowers health, will be changed later
 	else if (OtherActor->IsA(AFollower::StaticClass())) {
-		CurrentHealth--;
-
+		if ((CurrentHealth - 1) < 0) {
+			CurrentHealth = 0;
+		}
+		else {
+			CurrentHealth--;
+		}
 	}
 }
 

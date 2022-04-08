@@ -1,11 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AmmoRefill.h"
+#include "HealthRefill.h"
 
-void AAmmoRefill::Tick(float DeltaTime) {
-	Super::Tick(DeltaTime);
 
+void AHealthRefill::Tick(float DeltaTime) {
 	FVector NewLocation = GetActorLocation();
 
 	NewLocation.Z = NewLocation.Z + (0.25f) * FMath::Sin(B * RunningTime - C) + D;
@@ -14,6 +13,6 @@ void AAmmoRefill::Tick(float DeltaTime) {
 	RunningTime += DeltaTime;
 }
 
-int AAmmoRefill::GetAmmoRegen() {
-	return AmmoRegen;
+float AHealthRefill::GetHealthRegen() {
+	return HealthRegen;
 }
