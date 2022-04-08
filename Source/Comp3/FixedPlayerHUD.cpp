@@ -7,6 +7,10 @@
 void UFixedPlayerHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
+	// This HUD class is for things like laps and checkpoint number
+	// This HUD will be fixed to the screen, meaning it will not change based on environment
+
+
 	if (FixedHUDPtr) {
 		int CurrentCheckpoints = FixedHUDPtr->CheckPointsReached;
 		int LevelsTotalCheckpoints = FixedHUDPtr->TotalCheckPoints;
