@@ -41,7 +41,7 @@ ACar::ACar()
 	SetRootComponent(CollisionBox);
 
 	VehicleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VehicleMesh"));
-	VehicleMesh->SetupAttachment(RootComponent);
+	VehicleMesh->SetupAttachment(GetRootComponent());
 
 	// HoverBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	// HoverBox->SetupAttachment(RootComponent);
@@ -55,11 +55,15 @@ ACar::ACar()
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
+<<<<<<< Updated upstream
 	BackCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("BackCamera"));
 	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
 	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
 	SpringArm->SetupAttachment(RootComponent);
+=======
+	SpringArm->SetupAttachment(GetRootComponent());
+>>>>>>> Stashed changes
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
@@ -109,7 +113,6 @@ ACar::ACar()
 
 	PawnMovementComponent->MaxSpeed = 5000.f;
 	PawnMovementComponent->Deceleration = 1500.f;
-//VehicleMesh->SetMassOverrideInKg()
 	
 }
 
@@ -139,32 +142,6 @@ void ACar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
-
-	//
-	// float MaxDistance = 200.f;
-	// FVector EndLocation = GetActorLocation() + (GetActorUpVector() * -MaxDistance);
- //    FHitResult HitResult;
-	// FCollisionObjectQueryParams CollisionObjectQueryParams;
-	// CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, -130.f,0.f), EndLocation - FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, -130.f,0.f), EndLocation - FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(-30.f, 130.f,0.f), EndLocation + FVector(-30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
- //
-	// DrawDebugLine(GetWorld(), VehicleMesh->GetComponentLocation()+ FVector(30.f, 130.f,0.f), EndLocation + FVector(30.f,-130.f,0.f), FColor(255.f,0.f,0.f), false, 1.f, 0, 5.f);
-	//
-	// if(GetWorld()->LineTraceSingleByObjectType(HitResult, VehicleMesh->GetComponentLocation(), EndLocation, CollisionObjectQueryParams))
-	// {
-	// 	//CollisionBox->AddForce(GetActorUpVector() * 10000.f * CollisionBox->GetMass());
-	// 	// FVector TraceOneNormal = HitResult.ImpactNormal * FVector(0.f, 0.f,1.f);
-	// 	// VehicleMesh->SetRelativeRotation(TraceOneNormal.Rotation());
-	// 	UE_LOG(LogTemp, Warning, TEXT("Tracer works"));
-	// }
-
-
-	//FRotator NewRotation = FVector::Rotation(TraceOneNormal);
 	
 	// Movement
 	FVector Forward = GetActorForwardVector();
@@ -282,16 +259,37 @@ void ACar::Turn(float AxisValue)
 		//FVector Turning = FVector (0.f, 0.f, 100.f);
 		//VehicleMesh->AddTorqueInRadians(Turning * TargetTurnSpeed * VehicleMesh->GetMass());
 
-		if (bDriving)
+		 if (bDriving)
 		{
 			// Jeg vet ikke koden her blir ubrukelig eller ikke :////
-
+			UpdateRoll(AxisValue);
 			//VehicleMesh->AddTorqueInRadians(TurnSpeed * VehicleMesh->GetMass());
 
-			// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))
-
+			// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))			
 		}
 	}
+}
+
+void ACar::UpdateRoll(float Input)
+{
+	
+
+	float RollTarget = 10.f;
+	
+	
+	RollInterp = FMath::FInterpTo(RollInterp, (Input * RollTarget), GetWorld()->GetDeltaSeconds(), 1.f);
+	
+	RollInterp = FMath::Clamp(RollInterp, -RollTarget, RollTarget);
+
+	UE_LOG(LogTemp, Warning , TEXT("%f"), RollInterp);
+	
+	VehicleMesh->SetRelativeRotation(FRotator(0.f,0.f,10.f)* RollInterp);
+	
+
+	FRotator CurrentRoll = VehicleMesh->GetRelativeRotation();
+		
+	//RollAlpha = GetWorld()->DeltaTimeSeconds;
+	//FMath::Lerp(0.f, TargetRoll, GetWorld()->DeltaTimeSeconds);
 }
 
 void ACar::StartBoosting()
