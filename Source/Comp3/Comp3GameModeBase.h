@@ -14,8 +14,13 @@ class COMP3_API AComp3GameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 public:
-	int TotalCheckPoints;
+	
+	int TotalCheckPoints = 0;
+
 	int CheckPointsReached;
 	int TotalLaps;
 	int LapsReached;
+
+	void SetTotalCheckPoints(int Increase);
+	AComp3GameModeBase();
 };

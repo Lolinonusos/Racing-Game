@@ -460,7 +460,7 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		else {
 			CurrentHealth += tmp->GetHealthRegen();
 		}
-		UE_LOG(LogTemp, Warning, TEXT("HEALTH: %f"), CurrentHealth);
+		//UE_LOG(LogTemp, Warning, TEXT("HEALTH: %f"), CurrentHealth);
 		tmp->Super::DeleteSelf();
 	}
 	else if(OtherActor->IsA(ABoostPad::StaticClass()))

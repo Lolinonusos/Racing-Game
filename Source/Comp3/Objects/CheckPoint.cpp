@@ -24,6 +24,7 @@ void ACheckPoint::BeginPlay()
 
 	
 	//Cast<AComp3GameModeBase>->TotalCheckPoints += 1;
+	//GameModeRef->SetTotalCheckPoints(1);
 }
 
 // Called every frame
