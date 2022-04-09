@@ -55,15 +55,13 @@ ACar::ACar()
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
-<<<<<<< Updated upstream
 	BackCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("BackCamera"));
 	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
 	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
 	SpringArm->SetupAttachment(RootComponent);
-=======
 	SpringArm->SetupAttachment(GetRootComponent());
->>>>>>> Stashed changes
+
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
