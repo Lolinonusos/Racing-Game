@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "LevelSelect.h"
+#include "Kismet/GamePlayStatics.h"
 #include "LevelSelectWidget.generated.h"
 
 /**
@@ -17,6 +19,9 @@ class COMP3_API ULevelSelectWidget : public UUserWidget
 public:
 
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ALevelSelect* LevelSelectPtr = Cast<ALevelSelect>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+
 
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI", meta = (BindWidget))
 	class UTextBlock* LevelName;
