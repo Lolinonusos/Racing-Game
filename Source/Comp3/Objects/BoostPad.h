@@ -28,9 +28,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boost Pad Mesh")
 	class UBoxComponent* BoostArea;
-	
-	UPROPERTY(EditAnywhere, Category = "Boost Pad Variables")
-	float ForceAdded;
 
-	
+	UFUNCTION()
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
+	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
+		const FHitResult &SweepResult);
 };

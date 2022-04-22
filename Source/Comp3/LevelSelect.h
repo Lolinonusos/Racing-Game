@@ -51,8 +51,9 @@ public:
 
 	bool bStartingToLerp = false;
 	bool bMovingRight = false;
+	bool bPausedControls = false;
 	float Alpha = 0.f;
-	float CameraChangeSpeed = 0.005f;
+	float CameraChangeSpeed = 0.01f;
 private:
 	UPROPERTY(EditAnywhere, Category = "LevelSelectComponents")
 	class UCameraComponent* LevelSelectCamera;
