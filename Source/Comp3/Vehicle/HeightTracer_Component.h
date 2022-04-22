@@ -25,13 +25,17 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY()
-	class UBoxComponent* RootComponenentVariable;
+	class UBoxComponent* RootComponentVariable;
 	
 	float HoverForce = 1000.f;
 	
 
 	float MaxDistance = 150.f;
 
+
+	bool bInAir;
+	float AirTime;
+	
 	FHitResult HitResult;
 	float GetDistance();
 

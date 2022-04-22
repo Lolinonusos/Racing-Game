@@ -21,7 +21,7 @@ void UHeightTracer_Component::BeginPlay()
 {
 	Super::BeginPlay();
 
-	RootComponenentVariable = Cast<UBoxComponent>(GetOwner()->GetRootComponent());
+	RootComponentVariable = Cast<UBoxComponent>(GetOwner()->GetRootComponent());
 }
 
 // Called every frame
@@ -36,11 +36,20 @@ void UHeightTracer_Component::TickComponent(float DeltaTime, ELevelTick TickType
 	float Resistance = FMath::Lerp(HoverForce, 0.f, Alpha);
 
 	// Do movement
-	FVector Force = (Resistance * HitResult.ImpactNormal * RootComponenentVariable->GetMass());
-	FRotator Rotation = RootComponenentVariable->GetComponentRotation();
-	FVector Location = (RootComponenentVariable->GetCenterOfMass() + Rotation.RotateVector(GetRelativeLocation()));
+	FVector Force = (Resistance * HitResult.ImpactNormal * RootComponentVariable->GetMass());
+	FRotator Rotation = RootComponentVariable->GetComponentRotation();
+	FVector Location = (RootComponentVariable->GetCenterOfMass() + Rotation.RotateVector(GetRelativeLocation()));
 
-	RootComponenentVariable->AddForceAtLocation(Force, Location);
+	RootComponentVariable->AddForceAtLocation(Force, Location);
+	//
+	// if (bInAir)
+	// {
+	// 	AirTime += DeltaTime;
+	// 	if (AirTime > 3.f)
+	// 	{
+	// 		RootComponentVariable->SetRelativeRotation()
+	// 	}
+	// }
 }
 
 float UHeightTracer_Component::GetDistance()
@@ -55,8 +64,10 @@ float UHeightTracer_Component::GetDistance()
 		// Vector between the component and what it hit
 		DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
 		return (HitResult.Location - GetComponentLocation()).Size();
+		bInAir = false;
 	}
 	DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+	bInAir = true;
 	return 0.f;
 	// return MaxDistance +1;
 }

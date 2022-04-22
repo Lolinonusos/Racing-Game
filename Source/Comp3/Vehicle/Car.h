@@ -150,6 +150,9 @@ private:
 	FVector Torqueing = FVector (1000.f, 0.f,0.f);
 
 	FRotator NeutralRotation;
+	float RollAlpha = 0;
+	float RollInterp = 0.f;
+	void UpdateRoll(float Input);
 	
 	void StartBoosting();
 	void StopBoosting();
