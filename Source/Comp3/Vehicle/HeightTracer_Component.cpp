@@ -50,6 +50,7 @@ void UHeightTracer_Component::TickComponent(float DeltaTime, ELevelTick TickType
 	// 		RootComponentVariable->SetRelativeRotation()
 	// 	}
 	// }
+	
 }
 
 float UHeightTracer_Component::GetDistance()

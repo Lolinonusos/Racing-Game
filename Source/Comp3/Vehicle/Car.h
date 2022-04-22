@@ -149,8 +149,11 @@ private:
 	
 	void Turn(float AxisValue);
 	float CurrentTurnSpeed;
-	FVector Torqueing = FVector (1000.f, 0.f,0.f);
-
+	
+	float CurrentYawRotation;
+	float CurrentPitchRotation;
+	float CurrentRollRotation;
+	
 	FRotator NeutralRotation;
 	float RollAlpha = 0;
 	float RollInterp = 0.f;
