@@ -49,6 +49,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Vehicle")
 	class UHeightTracer_Component* TracerPointFour = nullptr;
 	
+	bool bInAir;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	int Health;
 	

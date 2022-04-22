@@ -26,9 +26,10 @@
 // Objects
 #include "../Objects/CheckPoint.h"
 #include "../Objects/BoostPad.h"
+#include "Comp3/Objects/JumpPadComponent.h"
 
 #include "../HUDClass.h"
-
+#include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 
 
 // Sets default values
@@ -54,16 +55,14 @@ ACar::ACar()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
-
-<<<<<<< Updated upstream
+	
 	BackCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("BackCamera"));
 	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
 	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
 	SpringArm->SetupAttachment(RootComponent);
-=======
 	SpringArm->SetupAttachment(GetRootComponent());
->>>>>>> Stashed changes
+
 	SpringArm->TargetArmLength = 500.f;
 	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
@@ -276,12 +275,12 @@ void ACar::UpdateRoll(float Input)
 
 	float RollTarget = 10.f;
 	
-	
+	// Gradual tilt
 	RollInterp = FMath::FInterpTo(RollInterp, (Input * RollTarget), GetWorld()->GetDeltaSeconds(), 1.f);
 	
 	RollInterp = FMath::Clamp(RollInterp, -RollTarget, RollTarget);
 
-	UE_LOG(LogTemp, Warning , TEXT("%f"), RollInterp);
+	//UE_LOG(LogTemp, Warning , TEXT("%f"), RollInterp);
 	
 	VehicleMesh->SetRelativeRotation(FRotator(0.f,0.f,10.f)* RollInterp);
 	
@@ -439,6 +438,20 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	}
 	else if (OtherActor->IsA(AFollower::StaticClass())) {
 		CurrentHealth--;
+
+	}
+	// Boost pad
+	else if (OtherActor->IsA(ABoostPad::StaticClass()))
+	{
+		FVector BoostPadVector = FVector(CollisionBox->GetForwardVector());
+		CollisionBox->AddForce(BoostPadVector * BoostPower * CollisionBox->GetMass());
+
+	}
+	// Jump pad
+	else if (OtherActor->IsA(UJumpPadComponent::StaticClass()))
+	{
+		FVector JumpVector = FVector(CollisionBox->GetUpVector());
+		CollisionBox->AddForce(JumpVector * 100000.f * CollisionBox->GetMass());
 
 	}
 }
