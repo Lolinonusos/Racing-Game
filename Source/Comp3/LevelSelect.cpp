@@ -25,12 +25,22 @@ ALevelSelect::ALevelSelect()
 
 	FPlanet Level3;
 	Level3.PlanetName = "Level 3";
-	Level3.IdealCameraRotation = FRotator(0, 90, 0);
-	Level3.IdealCameraLocation = FVector(400, -480, 0);
+	Level3.IdealCameraRotation = FRotator(0, 180, 0);
+	Level3.IdealCameraLocation = FVector(880, 0, 0);
 	
+	
+	FPlanet Level4;
+	Level4.PlanetName = "Level 4";
+	Level4.IdealCameraRotation = FRotator(0, 90, 0);
+	Level4.IdealCameraLocation = FVector(400, -480, 0);
+
 	Levels.Add(Level1);
 	Levels.Add(Level2);
 	Levels.Add(Level3);
+	Levels.Add(Level4);
+
+
+
 	UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
 
 	sdsd = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("sdsd"));
@@ -46,7 +56,7 @@ ALevelSelect::ALevelSelect()
 	//LevelSelectCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
 	LevelSelectSpringArm->SetupAttachment(RootComponent);
-	LevelSelectSpringArm->TargetArmLength = 200.f;
+	LevelSelectSpringArm->TargetArmLength = 250.f;
 	LevelSelectSpringArm->bEnableCameraLag = true;
 	LevelSelectSpringArm->bEnableCameraRotationLag = true;
 
@@ -76,6 +86,8 @@ void ALevelSelect::Tick(float DeltaTime)
 			SetActorRotation(FMath::Lerp(GetActorRotation(), Levels[RotationNumber].IdealCameraRotation, Alpha));
 
 			if (Alpha >= 1) {
+				Alpha = 0;
+				bPausedControls = false;
 				bStartingToLerp = false;
 			}
 		}
@@ -86,6 +98,8 @@ void ALevelSelect::Tick(float DeltaTime)
 			SetActorRotation(FMath::Lerp(GetActorRotation(), Levels[RotationNumber].IdealCameraRotation, Alpha));
 			
 			if (Alpha <= 0) {
+				Alpha = 0;
+				bPausedControls = false;
 				bStartingToLerp = false;
 			}
 		}
@@ -104,16 +118,29 @@ void ALevelSelect::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 }
 
 void ALevelSelect::MoveCameraLeft() {
-	if (Levels.IsValidIndex((RotationNumber - 1))) {
-		RotationNumber--;
-		bMovingRight = false;
+	if (!bPausedControls) {
+		if (Levels.IsValidIndex((RotationNumber - 1))) {
+			RotationNumber--;
+		}
+		else {
+			RotationNumber = (Levels.Num() - 1);
+		}
+		bPausedControls = true;
+		UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
+		bMovingRight = true;
 		bStartingToLerp = true;
 	}
 }
 
 void ALevelSelect::MoveCameraRight() {
-	if (Levels.IsValidIndex((RotationNumber + 1))) {
-		RotationNumber++;
+	if (!bPausedControls) {
+		if (Levels.IsValidIndex((RotationNumber + 1))) {
+			RotationNumber++;
+		}
+		else {
+			RotationNumber = 0;
+		}
+		bPausedControls = true;
 		UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
 		bMovingRight = true;
 		bStartingToLerp = true;
