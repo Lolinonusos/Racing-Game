@@ -7,7 +7,7 @@
 
 void ULevelSelectWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-
-	LevelName->SetText(FText::FromString(LevelSelectPtr->Levels[LevelSelectPtr->RotationNumber]));
-
+	//UE_LOG(LogTemp, Warning, TEXT("Level Name in Widget: %s"), *LevelSelectPtr->Levels[LevelSelectPtr->RotationNumber].PlanetName);
+	LevelName->SetText(FText::FromString(LevelSelectPtr->Levels[LevelSelectPtr->RotationNumber].PlanetName));
+	//UE_LOG(LogTemp, Warning, TEXT("Level Name in Widget: %s"), *LevelSelectPtr->Levels[LevelSelectPtr->RotationNumber].PlanetName);
 }

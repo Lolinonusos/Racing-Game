@@ -6,6 +6,17 @@
 #include "GameFramework/Pawn.h"
 #include "LevelSelect.generated.h"
 
+USTRUCT(BlueprintType)
+struct FPlanet {
+	GENERATED_BODY()
+public:
+	UPROPERTY(BlueprintReadWrite)
+	FString PlanetName;
+
+	FRotator IdealCameraRotation;
+	FVector IdealCameraLocation;
+};
+
 UCLASS()
 class COMP3_API ALevelSelect : public APawn
 {
@@ -26,14 +37,22 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-
 	UFUNCTION(BlueprintCallable)
-	void MoveCamera(float AxisValue);
+	void MoveCameraLeft();
+	UFUNCTION(BlueprintCallable)
+	void MoveCameraRight();
+	UFUNCTION(BlueprintCallable)
+	void SelectLevel();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int RotationNumber = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> Levels;
+	TArray<FPlanet> Levels;
 
+	bool bStartingToLerp = false;
+	bool bMovingRight = false;
+	float Alpha = 0.f;
+	float CameraChangeSpeed = 0.005f;
 private:
 	UPROPERTY(EditAnywhere, Category = "LevelSelectComponents")
 	class UCameraComponent* LevelSelectCamera;
