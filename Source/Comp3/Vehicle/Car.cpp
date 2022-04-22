@@ -17,6 +17,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "Math/UnrealMathUtility.h"
 #include "Math/Vector.h"
+#include "Math/Rotator.h"
 
 // Pickups
 #include "../Objects/Powerups/SpeedBoost.h"
@@ -26,9 +27,10 @@
 // Objects
 #include "../Objects/CheckPoint.h"
 #include "../Objects/BoostPad.h"
+#include "Comp3/Objects/JumpPadComponent.h"
 
 #include "../HUDClass.h"
-
+#include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 
 
 // Sets default values
@@ -54,12 +56,12 @@ ACar::ACar()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
-
+	
 	BackCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("BackCamera"));
 	BackCamera->SetupAttachment(BackSpringArm, USpringArmComponent::SocketName);
 	BackCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
-	SpringArm->SetupAttachment(RootComponent);
+	SpringArm->SetupAttachment(VehicleMesh);
 	SpringArm->SetupAttachment(GetRootComponent());
 
 	SpringArm->TargetArmLength = 500.f;
@@ -140,9 +142,17 @@ void ACar::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
+
+	CurrentPitchRotation = CollisionBox->GetRelativeRotation().Pitch;
+	CurrentPitchRotation = FMath::Clamp(CurrentPitchRotation, -10.f, 10.f);
+	CurrentYawRotation = CollisionBox->GetRelativeRotation().Yaw;
+	CurrentRollRotation = CollisionBox->GetRelativeRotation().Roll;
+	CurrentRollRotation = FMath::Clamp(CurrentRollRotation, -30.f, 30.f);
+	
+	CollisionBox->SetRelativeRotation(FRotator(CurrentPitchRotation, CurrentYawRotation, CurrentRollRotation));
 	
 	// Movement
-	FVector Forward = GetActorForwardVector();
+	FVector Forward = VehicleMesh->GetForwardVector();
 	Forward.Z = 0;
 	
 	if (bBoosting)
@@ -259,11 +269,10 @@ void ACar::Turn(float AxisValue)
 
 		 if (bDriving)
 		{
-			// Jeg vet ikke koden her blir ubrukelig eller ikke :////
+		 	// Roll only happens when you are driving
 			UpdateRoll(AxisValue);
 			//VehicleMesh->AddTorqueInRadians(TurnSpeed * VehicleMesh->GetMass());
-
-			// Også gjør vi sånne yaw, pitch og roll inni her og tror jeg :))			
+	
 		}
 	}
 }
@@ -271,15 +280,14 @@ void ACar::Turn(float AxisValue)
 void ACar::UpdateRoll(float Input)
 {
 	
-
 	float RollTarget = 10.f;
 	
-	
+	// Gradual tilt
 	RollInterp = FMath::FInterpTo(RollInterp, (Input * RollTarget), GetWorld()->GetDeltaSeconds(), 1.f);
 	
 	RollInterp = FMath::Clamp(RollInterp, -RollTarget, RollTarget);
 
-	UE_LOG(LogTemp, Warning , TEXT("%f"), RollInterp);
+	//UE_LOG(LogTemp, Warning , TEXT("%f"), RollInterp);
 	
 	VehicleMesh->SetRelativeRotation(FRotator(0.f,0.f,10.f)* RollInterp);
 	
@@ -438,6 +446,22 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	else if (OtherActor->IsA(AFollower::StaticClass())) {
 		CurrentHealth--;
 
+	}
+	// // Boost pad
+	// else if (OtherActor->IsA(ABoostPad::StaticClass()))
+	// {
+	// 	FVector BoostPadVector = FVector(CollisionBox->GetForwardVector());
+	// 	//CollisionBox->AddForce(BoostPadVector * 100000.f * CollisionBox->GetMass());
+	// 	CollisionBox->AddImpulse(FVector(BoostPadVector * 10.f));
+	// 	UE_LOG(LogTemp, Warning, TEXT("BoostPad"));
+	// }
+	// Jump pad
+	else if (OtherActor->IsA(UJumpPadComponent::StaticClass()))
+	{
+		FVector JumpVector = FVector(CollisionBox->GetUpVector());
+		//CollisionBox->AddForce(JumpVector * 100000.f * CollisionBox->GetMass());
+		CollisionBox->AddImpulse(FVector(JumpVector * 100000000.f * CollisionBox->GetMass()));
+		UE_LOG(LogTemp, Warning, TEXT("JumpPad"));
 	}
 }
 
