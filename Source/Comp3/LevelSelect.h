@@ -10,11 +10,15 @@ USTRUCT(BlueprintType)
 struct FPlanet {
 	GENERATED_BODY()
 public:
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FString PlanetName;
 
 	FRotator IdealCameraRotation;
 	FVector IdealCameraLocation;
+
+	FVector FocusedCameraLocation;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool bCanFocus;
 };
 
 UCLASS()
@@ -52,8 +56,12 @@ public:
 	bool bStartingToLerp = false;
 	bool bMovingRight = false;
 	bool bPausedControls = false;
+	bool bIsEnteringFocus = false;
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsLeavingFocus = false;
 	float Alpha = 0.f;
 	float CameraChangeSpeed = 0.01f;
+	float FocusAlpha = 0.f;
 private:
 	UPROPERTY(EditAnywhere, Category = "LevelSelectComponents")
 	class UCameraComponent* LevelSelectCamera;

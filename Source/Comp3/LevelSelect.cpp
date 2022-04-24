@@ -17,22 +17,38 @@ ALevelSelect::ALevelSelect()
 	Level1.PlanetName = "The Big Cheesus";
 	Level1.IdealCameraRotation = FRotator(0, 0, 0);
 	Level1.IdealCameraLocation= FVector(-80, 0, 0);
+	Level1.FocusedCameraLocation = GetActorLocation();
+	Level1.FocusedCameraLocation.X = Level1.IdealCameraLocation.X + 50;
+	Level1.FocusedCameraLocation.Y = Level1.IdealCameraLocation.Y + 100;
+	Level1.bCanFocus = true;
 
 	FPlanet Level2;
-	Level2.PlanetName = "Broccoli Trees";
+	Level2.PlanetName = "NOT YET IMPLEMENTED";
 	Level2.IdealCameraRotation = FRotator(0, -90, 0);
 	Level2.IdealCameraLocation = FVector(400, 480, 0);
+	Level2.FocusedCameraLocation = GetActorLocation();
+	Level2.FocusedCameraLocation.X = Level2.IdealCameraLocation.X + 100;
+	Level2.FocusedCameraLocation.Y = Level2.IdealCameraLocation.Y - 50;
+	Level2.bCanFocus = false;
 
 	FPlanet Level3;
-	Level3.PlanetName = "Level 3";
+	Level3.PlanetName = "NOT YET IMPLEMENTED";
 	Level3.IdealCameraRotation = FRotator(0, 180, 0);
 	Level3.IdealCameraLocation = FVector(880, 0, 0);
+	Level3.FocusedCameraLocation = GetActorLocation();
+	Level3.FocusedCameraLocation.X = Level3.IdealCameraLocation.X - 50;
+	Level3.FocusedCameraLocation.Y = Level3.IdealCameraLocation.Y - 100;
+	Level3.bCanFocus = false;
 	
 	
 	FPlanet Level4;
-	Level4.PlanetName = "Level 4";
+	Level4.PlanetName = "NOT YET IMPLEMENTED";
 	Level4.IdealCameraRotation = FRotator(0, 90, 0);
 	Level4.IdealCameraLocation = FVector(400, -480, 0);
+	Level4.FocusedCameraLocation = GetActorLocation();
+	Level4.FocusedCameraLocation.X = Level4.IdealCameraLocation.X - 100;
+	Level4.FocusedCameraLocation.Y = Level4.IdealCameraLocation.Y + 50;
+	Level4.bCanFocus = false;
 
 	Levels.Add(Level1);
 	Levels.Add(Level2);
@@ -53,7 +69,6 @@ ALevelSelect::ALevelSelect()
 
 	LevelSelectCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("LevelSelectCamera"));
 	LevelSelectCamera->SetupAttachment(LevelSelectSpringArm, USpringArmComponent::SocketName);
-	//LevelSelectCamera->AddLocalOffset(FVector(0.0f, 0.0f, 60.0f));
 
 	LevelSelectSpringArm->SetupAttachment(RootComponent);
 	LevelSelectSpringArm->TargetArmLength = 250.f;
@@ -77,7 +92,6 @@ void ALevelSelect::BeginPlay()
 void ALevelSelect::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
 	if (bStartingToLerp) {
 		if (bMovingRight) {
 			Alpha += CameraChangeSpeed;
@@ -103,9 +117,27 @@ void ALevelSelect::Tick(float DeltaTime)
 				bStartingToLerp = false;
 			}
 		}
-		
 	}
 
+	if (bIsEnteringFocus && Levels[RotationNumber].bCanFocus) {
+		FocusAlpha += CameraChangeSpeed;
+		UE_LOG(LogTemp, Warning, TEXT("New Location: %s"), *Levels[RotationNumber].FocusedCameraLocation.ToString());
+		SetActorLocation(FMath::Lerp(GetActorLocation(), Levels[RotationNumber].FocusedCameraLocation, FocusAlpha));
+		
+		if (FocusAlpha >= 1) {
+			FocusAlpha = 1;
+			bIsEnteringFocus = false;
+		}
+	}
+	if (bIsLeavingFocus && (bIsEnteringFocus == false)) {
+		FocusAlpha -= CameraChangeSpeed;
+		SetActorLocation(FMath::Lerp(GetActorLocation(), Levels[RotationNumber].IdealCameraLocation, FocusAlpha));
+		
+		if (FocusAlpha <= 0) {
+			FocusAlpha = 0;
+			bIsLeavingFocus = false;
+		}
+	}
 }
 
 // Called to bind functionality to input
@@ -114,7 +146,7 @@ void ALevelSelect::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	InputComponent->BindAction("SelectLeft", IE_Pressed, this, &ALevelSelect::MoveCameraLeft);
 	InputComponent->BindAction("SelectRight", IE_Pressed, this, &ALevelSelect::MoveCameraRight);
-	InputComponent->BindAction("Select", IE_Pressed, this, &ALevelSelect::SelectLevel);
+	//InputComponent->BindAction("Select", IE_Pressed, this, &ALevelSelect::SelectLevel);
 }
 
 void ALevelSelect::MoveCameraLeft() {
@@ -148,13 +180,6 @@ void ALevelSelect::MoveCameraRight() {
 }
 
 void ALevelSelect::SelectLevel() {
-	
-	if (Levels[RotationNumber].PlanetName == "The Big Cheesus") {
-		UGameplayStatics::OpenLevel(GetWorld(), "Test");
-		
-	}
-	else if (Levels[RotationNumber].PlanetName == "Broccoli Trees") {
-		
-	}
+	bIsEnteringFocus = true;
 }
 
