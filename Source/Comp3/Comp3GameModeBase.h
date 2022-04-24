@@ -16,10 +16,10 @@ class COMP3_API AComp3GameModeBase : public AGameModeBase
 public:
 	
 	int TotalCheckPoints = 0;
+	int CheckPointsReached = 0;
 
-	int CheckPointsReached;
-	int TotalLaps;
-	int LapsReached;
+	int TotalLaps = 3;
+	int LapsReached = 0;
 
 	void SetTotalCheckPoints(int Increase);
 	AComp3GameModeBase();

@@ -65,10 +65,10 @@ float UHeightTracer_Component::GetDistance()
 		// Vector between the component and what it hit
 		DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
 		return (HitResult.Location - GetComponentLocation()).Size();
-		bInAir = false;
+		//bInAir = false;
 	}
 	DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
-	bInAir = true;
+	//bInAir = true;
 	return 0.f;
 	// return MaxDistance +1;
 }

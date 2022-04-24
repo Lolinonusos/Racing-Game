@@ -45,5 +45,6 @@ public:
 		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
 			const FHitResult &SweepResult);
 
+	UPROPERTY()
 	AComp3GameModeBase* GameModeRef = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 };

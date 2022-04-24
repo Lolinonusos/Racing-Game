@@ -3,20 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Comp3/Comp3GameModeBase.h"
-#include "Components/ActorComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include "Checkpoint_Component.generated.h"
+
+#include "Kismet/GamePlayStatics.h"
+
+#include "CheckpointSceneComponent.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class COMP3_API UCheckpoint_Component : public UActorComponent
+class COMP3_API UCheckpointSceneComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UCheckpoint_Component();
+	UCheckpointSceneComponent();
 
 protected:
 	// Called when the game starts
@@ -25,21 +25,16 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	
-	
-	UPROPERTY(EditInstanceOnly, Category = "CheckpointVariables")
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "CheckpointVariables")
 	bool bIsGoal = false;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Checkpoint")
-	class UStaticMeshComponent* CheckpointMesh = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointBox")
 	class UBoxComponent* CheckpointBox;
 	
-
 	UFUNCTION()
-	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
-	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
-		const FHitResult &SweepResult);
+	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+	
+	void OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
+

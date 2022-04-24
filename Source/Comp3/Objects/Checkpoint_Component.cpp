@@ -27,7 +27,7 @@ void UCheckpoint_Component::BeginPlay()
 {
 	Super::BeginPlay();
 	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	// ...
+
 	GameModePtr->SetTotalCheckPoints(1);
 }
 
