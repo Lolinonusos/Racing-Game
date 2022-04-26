@@ -31,10 +31,14 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CheckpointBox")
 	class UBoxComponent* CheckpointBox;
+
+	UFUNCTION()
+	auto TurnOnCollision() -> void;
 	
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
-	
-	void OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	// UFUNCTION()
+	// void OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
 

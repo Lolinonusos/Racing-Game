@@ -176,11 +176,10 @@ private:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> ActorToSpawn;
 	
-
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
 		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
 			const FHitResult &SweepResult);
 
-	
+	TArray<class UCheckpointSceneComponent> LatestCheckpointVistited;
 };

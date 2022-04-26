@@ -27,8 +27,8 @@ void UCheckpointSceneComponent::BeginPlay()
 	{
 		if (CheckpointBox)
 		{
-			//CheckpointBox->OnComponentBeginOverlap.AddDynamic(this, &UCheckpointSceneComponent::OnOverlap);
-			CheckpointBox->OnComponentEndOverlap.AddDynamic(this, &UCheckpointSceneComponent::OnComponentEndOverlap);
+			CheckpointBox->OnComponentBeginOverlap.AddDynamic(this, &UCheckpointSceneComponent::OnOverlap);
+			//CheckpointBox->OnComponentEndOverlap.AddDynamic(this, &UCheckpointSceneComponent::OnComponentEndOverlap);
 		}
 	}
 	
@@ -44,23 +44,31 @@ void UCheckpointSceneComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	
 }
 
+void UCheckpointSceneComponent::TurnOnCollision()
+{
+	CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+}
+
 void UCheckpointSceneComponent::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                                          UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
 		AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GameModePtr->CheckPointsReached += 1;
+		CheckpointBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 }
 
-void UCheckpointSceneComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if (OtherActor->IsA(ACar::StaticClass()))
-	{
-		AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-		GameModePtr->CheckPointsReached += 1;
-	}
-}
+// void UCheckpointSceneComponent::OnComponentEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+// 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+// {
+// 	if (OtherActor->IsA(ACar::StaticClass()))
+// 	{
+// 		AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+// 		GameModePtr->CheckPointsReached += 1;
+// 		CheckpointBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+//
+// 	}
+// }
 

@@ -10,3 +10,12 @@ AComp3GameModeBase::AComp3GameModeBase() {
 void AComp3GameModeBase::SetTotalCheckPoints(int Increase) {
 	TotalCheckPoints += Increase;
 }
+
+void AComp3GameModeBase::LapCleared()
+{
+	LapsCleared += 1;
+	if (LapsCleared >= TotalLaps)
+	{
+		
+	}
+}
