@@ -25,7 +25,6 @@
 #include "../Objects/Powerups/ItemPickups.h"
 
 // Objects
-#include "../Objects/CheckPoint.h"
 #include "../Objects/BoostPad.h"
 #include "Comp3/Objects/JumpPadComponent.h"
 
