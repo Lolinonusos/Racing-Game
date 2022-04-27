@@ -110,7 +110,7 @@ ACar::ACar()
 		VehicleMesh->SetStaticMesh(VehicleMeshComponent.Object);
 	}
 
-	PawnMovementComponent->MaxSpeed = 5000.f;
+	PawnMovementComponent->MaxSpeed = 2500.f;
 	PawnMovementComponent->Deceleration = 1500.f;
 	
 }
@@ -260,7 +260,7 @@ void ACar::Turn(float AxisValue)
 		// Gir smooth
 		CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, AxisValue, GetWorld()->GetDeltaSeconds(), 1.f);
 		//FMath::Clamp(TargetTurnSpeed, -200.f, 200.f);
-		CollisionBox->AddRelativeRotation(FRotator(0.f, 3.f, 0.f) * CurrentTurnSpeed);
+		CollisionBox->AddRelativeRotation(FRotator(0.f, 5.f, 0.f) * CurrentTurnSpeed);
 
 		//float TargetTurnSpeed = AxisValue * TurnSpeed;
 		//FVector Turning = FVector (0.f, 0.f, 100.f);

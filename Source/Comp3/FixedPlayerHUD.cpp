@@ -15,7 +15,7 @@ void UFixedPlayerHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		int CurrentCheckpoints = FixedHUDPtr->CheckPointsReached;
 		int LevelsTotalCheckpoints = FixedHUDPtr->TotalCheckPoints;
 		int LevelsTotalLaps = FixedHUDPtr->TotalLaps;
-		int CurrentLaps = FixedHUDPtr->LapsReached;
+		int CurrentLaps = FixedHUDPtr->LapsCleared;
 
 		FString CheckpointTextOutput = "CPs: ";
 		CheckpointTextOutput.Append(FString::FromInt(CurrentCheckpoints));

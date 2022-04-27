@@ -33,7 +33,7 @@ public:
 	class UBoxComponent* CheckpointBox;
 
 	UFUNCTION()
-	auto TurnOnCollision() -> void;
+	void TurnOnCollision();
 	
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);

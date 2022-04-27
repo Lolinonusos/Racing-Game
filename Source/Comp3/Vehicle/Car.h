@@ -181,5 +181,5 @@ private:
 		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
 			const FHitResult &SweepResult);
 
-	TArray<class UCheckpointSceneComponent> LatestCheckpointVistited;
+	//TArray<class UCheckpointSceneComponent> LatestCheckpointVistited[1];
 };
