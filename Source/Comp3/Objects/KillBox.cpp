@@ -37,7 +37,7 @@ void AKillBox::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other
 {
 	if(OtherActor->IsA(ACar::StaticClass()))
 	{
-		//ACar* CarPtr = Cast<ACar>(GetWorld()->SpawnActor(ACar::StaticClass()));
+		ACar* CarPtr = Cast<ACar>(GetWorld()->SpawnActor(ACar::StaticClass()));
 		
 	}
 }

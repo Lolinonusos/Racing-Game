@@ -11,11 +11,18 @@ void AComp3GameModeBase::SetTotalCheckPoints(int Increase) {
 	TotalCheckPoints += Increase;
 }
 
-void AComp3GameModeBase::LapCleared()
+bool AComp3GameModeBase::LapCleared()
 {
-	LapsCleared += 1;
-	if (LapsCleared >= TotalLaps)
+	if (CheckPointsReached >= TotalCheckPoints)
 	{
+		LapsCleared += 1;
+		CheckPointsReached = 0;
 		
+		if (LapsCleared >= TotalLaps)
+		{
+			// Win, but only in shooter mode
+		}
+		return true;
 	}
+	return false;
 }

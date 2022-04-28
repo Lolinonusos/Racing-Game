@@ -23,7 +23,7 @@ ACountdown::ACountdown()
 
 	CountdownText->GetComponentLocation();
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMeshCom(TEXT("StaticMesh'/Game/Meshes/CountdownTimerBalls.CountdownTimerBalls'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMeshCom(TEXT("D:/Unreal projects/Comp3/Content/Meshes/Temp/CountdownTimerBalls.uasset"));
 	
 
 	CountdownBalls[0] = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("light1"));

@@ -24,5 +24,5 @@ public:
 
 	void SetTotalCheckPoints(int Increase);
 
-	void LapCleared();
+	bool LapCleared();
 };
