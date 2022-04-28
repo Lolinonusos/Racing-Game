@@ -47,7 +47,7 @@ void ABoostPad::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 	{
 		ACar* CarBoostPointer = Cast<ACar>(OtherActor);
 		FVector Forward = CarBoostPointer->CollisionBox->GetForwardVector();
-		CarBoostPointer->CollisionBox->AddImpulse(Forward * 10000.f * CarBoostPointer->CollisionBox->GetMass());
+		CarBoostPointer->CollisionBox->AddImpulse(Forward * 1000.f * CarBoostPointer->CollisionBox->GetMass());
 	}
 }
 
