@@ -57,6 +57,8 @@ void UCheckpointSceneComponent::OnOverlap(UPrimitiveComponent* OverlappedCompone
 		AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GameModePtr->CheckPointsReached += 1;
 		CheckpointBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		CurrentCheckpointPosition = GetComponentLocation();
+		UE_LOG(LogTemp, Warning, TEXT("Current checkpoint position is %f, %f, %f"), CurrentCheckpointPosition.X, CurrentCheckpointPosition.Y, CurrentCheckpointPosition.Z);
 	}
 }
 

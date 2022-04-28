@@ -182,4 +182,10 @@ private:
 			const FHitResult &SweepResult);
 
 	//TArray<class UCheckpointSceneComponent> LatestCheckpointVistited[1];
+
+	// Respawn position should be a little higher than 
+	FVector RespawnPosition;
+	FRotator RespawnRotation;
+	void Respawn();
+	
 };

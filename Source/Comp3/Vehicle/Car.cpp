@@ -104,6 +104,9 @@ ACar::ACar()
 
 	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 
+
+	//StaticMesh'/Game/Placeholders/car/mouse_car.mouse_car'
+	// StaticMesh'/Game/Art_Assets/TempVehicle.TempVehicle'
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> VehicleMeshComponent(TEXT("StaticMesh'/Game/Art_Assets/TempVehicle.TempVehicle'"));
 	if (VehicleMeshComponent.Succeeded())
 	{
@@ -462,6 +465,14 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		CollisionBox->AddImpulse(FVector(JumpVector * 100000000.f * CollisionBox->GetMass()));
 		UE_LOG(LogTemp, Warning, TEXT("JumpPad"));
 	}
+}
+
+void ACar::Respawn()
+{
+	
+
+	// SetActorLocation(RespawnPosition);
+	// SetActorRotation(RespawnRotation);
 }
 
 int ACar::GetAmmo() {
