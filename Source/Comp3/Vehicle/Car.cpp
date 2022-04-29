@@ -113,7 +113,7 @@ ACar::ACar()
 
 	PawnMovementComponent->MaxSpeed = 2500.f;
 	PawnMovementComponent->Deceleration = 1500.f;
-	
+
 }
 
 // Called when the game starts or when spawned
@@ -127,6 +127,7 @@ void ACar::BeginPlay()
 		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACar::OnOverlap);
 	}
 	
+	RespawnTransform = GetActorTransform();
 	/*if (ScreenWidget) {
 		MainWidget = CreateWidget<UUserWidget>(AActor::GetWorld(), ScreenWidget);
 	}*/
@@ -224,6 +225,9 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	// Camera
 	InputComponent->BindAction("SwitchCameraAngle", IE_Pressed, this, &ACar::ChangeCamera);
 
+	// Respawn testing
+	InputComponent->BindAction("KillSelf", IE_Pressed, this, &ACar::Respawn);
+
 }
 
 void ACar::StartDriving()
@@ -274,6 +278,11 @@ void ACar::Turn(float AxisValue)
 			//VehicleMesh->AddTorqueInRadians(TurnSpeed * VehicleMesh->GetMass());
 	
 		}
+	}
+
+	if (CurrentHealth <= 0)
+	{
+		Respawn();
 	}
 }
 
@@ -345,8 +354,6 @@ void ACar::Shooting()
 					World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
 					AmmoTotal--;
 				}
-
-
 			}
 		}
 	}
@@ -448,7 +455,7 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 
 void ACar::Respawn()
 {
-	
+	SetActorTransform(RespawnTransform);
 
 	// SetActorLocation(RespawnPosition);
 	// SetActorRotation(RespawnRotation);
