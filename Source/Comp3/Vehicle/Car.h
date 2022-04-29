@@ -109,6 +109,9 @@ public:
 
 	UPROPERTY(EditAnywhere) TSubclassOf<UUserWidget> PauseMenu;
 		UUserWidget* PauseMenuInstance;
+	FTransform RespawnTransform;
+	void Respawn();
+	
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -187,8 +190,6 @@ private:
 	//TArray<class UCheckpointSceneComponent> LatestCheckpointVistited[1];
 
 	// Respawn position should be a little higher than 
-	FVector RespawnPosition;
-	FRotator RespawnRotation;
-	void Respawn();
+
 	
 };
