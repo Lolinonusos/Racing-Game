@@ -52,9 +52,6 @@ public:
 	bool bInAir;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	int Health;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float DriveSpeed = 5000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
