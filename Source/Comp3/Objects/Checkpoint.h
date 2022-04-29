@@ -3,29 +3,29 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
 
 #include "Kismet/GamePlayStatics.h"
 
-#include "CheckpointSceneComponent.generated.h"
+#include "Checkpoint.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class COMP3_API UCheckpointSceneComponent : public USceneComponent
+UCLASS()
+class COMP3_API ACheckpoint : public AActor
 {
 	GENERATED_BODY()
-
+	
 public:	
-	// Sets default values for this component's properties
-	UCheckpointSceneComponent();
+	// Sets default values for this actor's properties
+	ACheckpoint();
 
 protected:
-	// Called when the game starts
+	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
+	virtual void Tick(float DeltaTime) override;
+
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "CheckpointVariables")
 	bool bIsGoal = false;
 
@@ -40,7 +40,4 @@ public:
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
 
-	// UFUNCTION()
-	// void OnComponentEndOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 };
-

@@ -25,8 +25,6 @@
 #include "../Objects/Powerups/ItemPickups.h"
 
 // Objects
-#include "../Objects/BoostPad.h"
-#include "Comp3/Objects/JumpPadComponent.h"
 
 #include "../HUDClass.h"
 #include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
@@ -64,7 +62,7 @@ ACar::ACar()
 	SpringArm->SetupAttachment(GetRootComponent());
 
 	SpringArm->TargetArmLength = 500.f;
-	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
+	SpringArm->SetRelativeRotation(FRotator(-5.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->bEnableCameraRotationLag = true;
 
@@ -76,7 +74,7 @@ ACar::ACar()
 
 	BackSpringArm->SetupAttachment(RootComponent);
 	BackSpringArm->TargetArmLength = 500.f;
-	BackSpringArm->SetRelativeRotation(FRotator(-20.f, 180.f, 0.f));
+	BackSpringArm->SetRelativeRotation(FRotator(-5.f, 180.f, 0.f));
 	BackSpringArm->bEnableCameraLag = true;
 	BackSpringArm->bEnableCameraRotationLag = true;
 
@@ -159,7 +157,7 @@ void ACar::Tick(float DeltaTime)
 	
 	if (bBoosting)
 	{
-		BoostAmount -= 0.05f;
+		BoostAmount -= 0.01f;
 		CollisionBox->AddForce(Forward * BoostPower * CollisionBox->GetMass());
 		if (BoostAmount < 0.f)
 		{
@@ -172,14 +170,14 @@ void ACar::Tick(float DeltaTime)
 		RefillTimer += 0.01f;
 		if (RefillTimer >= 1.f)
 		{
-			if (BoostAmount < 3.f)
+			if (BoostAmount < 5.f)
 			{
 				BoostAmount += 0.01f;
 			}
 		}
 	}
 	
-	//UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
+	UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
 	
 	if (bDriving)
 	{
@@ -441,29 +439,10 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
 	}
-	else if(OtherActor->IsA(ABoostPad::StaticClass()))
-	{
-		
-	}
+
 	else if (OtherActor->IsA(AFollower::StaticClass())) {
 		CurrentHealth--;
 
-	}
-	// // Boost pad
-	// else if (OtherActor->IsA(ABoostPad::StaticClass()))
-	// {
-	// 	FVector BoostPadVector = FVector(CollisionBox->GetForwardVector());
-	// 	//CollisionBox->AddForce(BoostPadVector * 100000.f * CollisionBox->GetMass());
-	// 	CollisionBox->AddImpulse(FVector(BoostPadVector * 10.f));
-	// 	UE_LOG(LogTemp, Warning, TEXT("BoostPad"));
-	// }
-	// Jump pad
-	else if (OtherActor->IsA(UJumpPadComponent::StaticClass()))
-	{
-		FVector JumpVector = FVector(CollisionBox->GetUpVector());
-		//CollisionBox->AddForce(JumpVector * 100000.f * CollisionBox->GetMass());
-		CollisionBox->AddImpulse(FVector(JumpVector * 100000000.f * CollisionBox->GetMass()));
-		UE_LOG(LogTemp, Warning, TEXT("JumpPad"));
 	}
 }
 
