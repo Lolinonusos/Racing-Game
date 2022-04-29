@@ -11,7 +11,7 @@
 // Sets default values
 ACountdown::ACountdown()
 {
-	CountdownBalls.Init(NULL, 3);
+	CountdownBallsArray.Init(NULL, 3);
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -23,20 +23,23 @@ ACountdown::ACountdown()
 
 	CountdownText->GetComponentLocation();
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMeshCom(TEXT("D:/Unreal projects/Comp3/Content/Meshes/Temp/CountdownTimerBalls.uasset"));
+	//static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMeshCom(TEXT("D:/Unreal projects/Comp3/Content/Meshes/Temp/CountdownTimerBalls.uasset"));
 	
+	CountdownBall1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CountdownBall1"));
+	CountdownBall2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CountdownBall2"));
+	CountdownBall3 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CountdownBall3"));
 
-	CountdownBalls[0] = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("light1"));
-	CountdownBalls[1] = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("light2"));
-	CountdownBalls[2] = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("light3"));
+	CountdownBallsArray[0] = CountdownBall1;
+	CountdownBallsArray[1] = CountdownBall2;
+	CountdownBallsArray[2] = CountdownBall3;
 
-	int ArraySize = CountdownBalls.Num();
-	if (SphereMeshCom.Succeeded()) {
+	int ArraySize = CountdownBallsArray.Num();
+	/*if (CountdownBall1) {
 		for (int i = 0; i < ArraySize; i++) {
-			CountdownBalls[i]->SetStaticMesh(SphereMeshCom.Object);
+			CountdownBallsArray[i]->SetStaticMesh(SphereMeshCom.Object);
 			UE_LOG(LogTemp, Warning, TEXT("check"));
 		}
-	}
+	}*/
 	
 	TimerTime = 3;
 }
@@ -59,9 +62,9 @@ void ACountdown::BeginPlay()
 	Sphere3Location.Z += 300;
 
 
-	CountdownBalls[0]->SetWorldLocation(Sphere1Location);
-	CountdownBalls[1]->SetWorldLocation(Sphere2Location);
-	CountdownBalls[2]->SetWorldLocation(Sphere3Location);
+	CountdownBallsArray[0]->SetWorldLocation(Sphere1Location);
+	CountdownBallsArray[1]->SetWorldLocation(Sphere2Location);
+	CountdownBallsArray[2]->SetWorldLocation(Sphere3Location);
 
 	CountdownText->SetText(FText::AsNumber(TimerTime));
 	GetWorld()->GetTimerManager().SetTimer(CountdownTimerHandle, this, &ACountdown::AdvanceTimer, 1.0f, true);
@@ -101,6 +104,6 @@ void ACountdown::AdvanceTimer() {
 	}
 	TimerTime--;
 	if (TimerTime >= 0 && TimerTime < 3) {
-		CountdownBalls[TimerTime]->DestroyComponent();
+		CountdownBallsArray[TimerTime]->DestroyComponent();
 	}
 }
