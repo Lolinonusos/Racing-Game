@@ -494,19 +494,21 @@ float ACar::GetCurrentHealth()
 }
 
 void ACar::PauseGame() {
-	if (!PauseMenuInstance) {
-		PauseMenuInstance = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
-	}
-	
-	bGameIsPaused = !bGameIsPaused;
-	if (bGameIsPaused) {
-		PauseMenuInstance->AddToViewport();
-		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
-	}
-	else {
-		PauseMenuInstance->RemoveFromParent();
-		UGameplayStatics::SetGamePaused(GetWorld(), false);	
-		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;		
+	if (!bOpenedOptions) {
+		if (!PauseMenuInstance) {
+			PauseMenuInstance = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
+		}
+
+		bGameIsPaused = !bGameIsPaused;
+		if (bGameIsPaused) {
+			PauseMenuInstance->AddToViewport();
+			UGameplayStatics::SetGamePaused(GetWorld(), true);
+			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+		}
+		else {
+			PauseMenuInstance->RemoveFromParent();
+			UGameplayStatics::SetGamePaused(GetWorld(), false);
+			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
+		}
 	}
 }

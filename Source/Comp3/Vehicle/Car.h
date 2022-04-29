@@ -92,7 +92,7 @@ public:
 	int GetAmmo();
 	int GetBoost();
 	int GetTotalBoost();
-	void PauseGame();
+	
 	FString GetSpecial();
 	bool bTimerIsFinished = false;
 	bool bGameIsPaused = false;
@@ -103,6 +103,8 @@ public:
 	float MaxHealth = 10;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float CurrentHealth = 10;
+	UPROPERTY(BlueprintReadWrite)
+	bool bOpenedOptions = false;
 
 	float GetTotalHealth();
 	float GetCurrentHealth();
@@ -112,6 +114,8 @@ public:
 	FTransform RespawnTransform;
 	void Respawn();
 	
+	UFUNCTION(BlueprintCallable)
+		void PauseGame();
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -169,6 +173,7 @@ private:
 	void StopBoosting();
 	bool bBoosting = false;
 	bool bBackCamera = false;
+	
 	
 	float RefillTimer;
 	

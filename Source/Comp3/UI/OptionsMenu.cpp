@@ -2,9 +2,15 @@
 
 
 #include "OptionsMenu.h"
+#include "Components/TextBlock.h"
+#include "Components/Button.h"
+#include "Components/Slider.h"
 
 void UOptionsMenu::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-
 	
+	int AudioPercentage = AudioSlider->GetValue() * 100;
+	FString OutputAudioPercentage = FString::FromInt(AudioPercentage);
+	OutputAudioPercentage.Append("%");
+	AudioPercentText->SetText(FText::FromString(OutputAudioPercentage));
 }

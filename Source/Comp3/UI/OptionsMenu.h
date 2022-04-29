@@ -19,5 +19,12 @@ class COMP3_API UOptionsMenu : public UUserWidget
 public:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
-	ACar* PlayerPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	//ACar* PlayerPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+
+	UPROPERTY(BlueprintReadWrite, Category = "Options Menu", meta = (BindWidget))
+	class UTextBlock* AudioPercentText;
+	UPROPERTY(BlueprintReadWrite, Category = "Options Menu", meta = (BindWidget))
+	class UButton* ReturnButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Options Menu", meta = (BindWidget))
+	class USlider* AudioSlider;
 };
