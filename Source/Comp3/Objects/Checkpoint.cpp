@@ -28,11 +28,15 @@ void ACheckpoint::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (CheckpointBox) {
+		CheckpointBox->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnOverlap);
+	}
+	
 }
 
 void ACheckpoint::TurnOnCollision()
 {
-	CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	//CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
 }
 
@@ -43,7 +47,7 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	{
 		AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GameModePtr->CheckPointsReached += 1;
-		CheckpointBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		//CheckpointBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 		ACar* CarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 		CurrentCheckpointPosition = GetActorLocation();

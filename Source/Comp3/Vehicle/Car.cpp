@@ -180,7 +180,7 @@ void ACar::Tick(float DeltaTime)
 		}
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
+	//UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
 	
 	if (bDriving)
 	{
