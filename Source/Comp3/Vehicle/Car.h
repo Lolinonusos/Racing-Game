@@ -92,9 +92,10 @@ public:
 	int GetAmmo();
 	int GetBoost();
 	int GetTotalBoost();
+	void PauseGame();
 	FString GetSpecial();
 	bool bTimerIsFinished = false;
-	
+	bool bGameIsPaused = false;
 
 	int ShotgunUses = 2;
 
@@ -106,6 +107,8 @@ public:
 	float GetTotalHealth();
 	float GetCurrentHealth();
 
+	UPROPERTY(EditAnywhere) TSubclassOf<UUserWidget> PauseMenu;
+		UUserWidget* PauseMenuInstance;
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;

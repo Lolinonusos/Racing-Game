@@ -10,6 +10,7 @@
 #include "Components/BoxComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 // for Movement
 #include "GameFramework/PawnMovementComponent.h"
@@ -114,6 +115,7 @@ ACar::ACar()
 	PawnMovementComponent->MaxSpeed = 2500.f;
 	PawnMovementComponent->Deceleration = 1500.f;
 	
+	
 }
 
 // Called when the game starts or when spawned
@@ -133,7 +135,7 @@ void ACar::BeginPlay()
 	
 	/*MainWidget->AddToViewport(); 
 	MainWidget->SetVisibility(ESlateVisibility::Visible);*/
-
+	
 }
 
 // Called every frame
@@ -223,6 +225,9 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	// Camera
 	InputComponent->BindAction("SwitchCameraAngle", IE_Pressed, this, &ACar::ChangeCamera);
+
+	// Pausing
+	InputComponent->BindAction("Pause", IE_Pressed, this, &ACar::PauseGame).bExecuteWhenPaused = true;
 
 }
 
@@ -482,3 +487,20 @@ float ACar::GetCurrentHealth()
 	return CurrentHealth;
 }
 
+void ACar::PauseGame() {
+	if (!PauseMenuInstance) {
+		PauseMenuInstance = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
+	}
+	
+	bGameIsPaused = !bGameIsPaused;
+	if (bGameIsPaused) {
+		PauseMenuInstance->AddToViewport();
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+	}
+	else {
+		PauseMenuInstance->RemoveFromParent();
+		UGameplayStatics::SetGamePaused(GetWorld(), false);	
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;		
+	}
+}
