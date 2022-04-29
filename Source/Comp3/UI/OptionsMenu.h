@@ -27,4 +27,7 @@ public:
 	class UButton* ReturnButton;
 	UPROPERTY(BlueprintReadWrite, Category = "Options Menu", meta = (BindWidget))
 	class USlider* AudioSlider;
+
+	UFUNCTION()
+		void UpdateSliderPercentage();
 };

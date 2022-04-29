@@ -92,6 +92,7 @@ public:
 	
 	FString GetSpecial();
 	bool bTimerIsFinished = false;
+	UPROPERTY(BlueprintReadWrite)
 	bool bGameIsPaused = false;
 
 	int ShotgunUses = 2;
@@ -101,7 +102,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float CurrentHealth = 10;
 	UPROPERTY(BlueprintReadWrite)
-	bool bOpenedOptions = false;
+	bool bIsInOptions = false;
+	UPROPERTY(BlueprintReadWrite)
+	bool bReadyToLeavePause = false;
 
 	float GetTotalHealth();
 	float GetCurrentHealth();

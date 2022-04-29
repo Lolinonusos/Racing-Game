@@ -28,6 +28,7 @@
 // Objects
 
 #include "../HUDClass.h"
+#include "../GameHUD.h"
 #include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 
 
@@ -36,7 +37,6 @@ ACar::ACar()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionBox"));
 	SetRootComponent(CollisionBox);
 
@@ -494,21 +494,19 @@ float ACar::GetCurrentHealth()
 }
 
 void ACar::PauseGame() {
-	if (!bOpenedOptions) {
-		if (!PauseMenuInstance) {
-			PauseMenuInstance = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
-		}
-
-		bGameIsPaused = !bGameIsPaused;
-		if (bGameIsPaused) {
-			PauseMenuInstance->AddToViewport();
+	AGameHUD* HUDPtr = Cast<AGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+	if (HUDPtr) {
+		if (bGameIsPaused == false) {
+			HUDPtr->OpenPauseMenu();
+			bReadyToLeavePause = true;
 			UGameplayStatics::SetGamePaused(GetWorld(), true);
 			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
 		}
-		else {
-			PauseMenuInstance->RemoveFromParent();
+		else {			
+			HUDPtr->ClosePauseMenu();
+			bGameIsPaused = false;
 			UGameplayStatics::SetGamePaused(GetWorld(), false);
-			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
+			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;	
 		}
 	}
 }
