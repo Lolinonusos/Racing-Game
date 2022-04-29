@@ -10,6 +10,7 @@
 #include "Components/BoxComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 
 // for Movement
 #include "GameFramework/PawnMovementComponent.h"
@@ -25,8 +26,6 @@
 #include "../Objects/Powerups/ItemPickups.h"
 
 // Objects
-#include "../Objects/BoostPad.h"
-#include "Comp3/Objects/JumpPadComponent.h"
 
 #include "../HUDClass.h"
 #include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
@@ -64,7 +63,7 @@ ACar::ACar()
 	SpringArm->SetupAttachment(GetRootComponent());
 
 	SpringArm->TargetArmLength = 500.f;
-	SpringArm->SetRelativeRotation(FRotator(-20.f, 0.f, 0.f));
+	SpringArm->SetRelativeRotation(FRotator(-5.f, 0.f, 0.f));
 	SpringArm->bEnableCameraLag = true;
 	SpringArm->bEnableCameraRotationLag = true;
 
@@ -76,7 +75,7 @@ ACar::ACar()
 
 	BackSpringArm->SetupAttachment(RootComponent);
 	BackSpringArm->TargetArmLength = 500.f;
-	BackSpringArm->SetRelativeRotation(FRotator(-20.f, 180.f, 0.f));
+	BackSpringArm->SetRelativeRotation(FRotator(-5.f, 180.f, 0.f));
 	BackSpringArm->bEnableCameraLag = true;
 	BackSpringArm->bEnableCameraRotationLag = true;
 
@@ -116,6 +115,7 @@ ACar::ACar()
 	PawnMovementComponent->MaxSpeed = 2500.f;
 	PawnMovementComponent->Deceleration = 1500.f;
 	
+	
 }
 
 // Called when the game starts or when spawned
@@ -129,13 +129,14 @@ void ACar::BeginPlay()
 		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACar::OnOverlap);
 	}
 	
+	RespawnTransform = GetActorTransform();
 	/*if (ScreenWidget) {
 		MainWidget = CreateWidget<UUserWidget>(AActor::GetWorld(), ScreenWidget);
 	}*/
 	
 	/*MainWidget->AddToViewport(); 
 	MainWidget->SetVisibility(ESlateVisibility::Visible);*/
-
+	
 }
 
 // Called every frame
@@ -159,7 +160,7 @@ void ACar::Tick(float DeltaTime)
 	
 	if (bBoosting)
 	{
-		BoostAmount -= 0.05f;
+		BoostAmount -= 0.01f;
 		CollisionBox->AddForce(Forward * BoostPower * CollisionBox->GetMass());
 		if (BoostAmount < 0.f)
 		{
@@ -172,14 +173,14 @@ void ACar::Tick(float DeltaTime)
 		RefillTimer += 0.01f;
 		if (RefillTimer >= 1.f)
 		{
-			if (BoostAmount < 3.f)
+			if (BoostAmount < 5.f)
 			{
 				BoostAmount += 0.01f;
 			}
 		}
 	}
 	
-	//UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
+	UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
 	
 	if (bDriving)
 	{
@@ -225,6 +226,11 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	// Camera
 	InputComponent->BindAction("SwitchCameraAngle", IE_Pressed, this, &ACar::ChangeCamera);
+
+	// Pausing
+	InputComponent->BindAction("Pause", IE_Pressed, this, &ACar::PauseGame).bExecuteWhenPaused = true;
+	// Respawn testing
+	InputComponent->BindAction("KillSelf", IE_Pressed, this, &ACar::Respawn);
 
 }
 
@@ -276,6 +282,11 @@ void ACar::Turn(float AxisValue)
 			//VehicleMesh->AddTorqueInRadians(TurnSpeed * VehicleMesh->GetMass());
 	
 		}
+	}
+
+	if (CurrentHealth <= 0)
+	{
+		Respawn();
 	}
 }
 
@@ -347,8 +358,6 @@ void ACar::Shooting()
 					World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
 					AmmoTotal--;
 				}
-
-
 			}
 		}
 	}
@@ -441,35 +450,16 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
 	}
-	else if(OtherActor->IsA(ABoostPad::StaticClass()))
-	{
-		
-	}
+
 	else if (OtherActor->IsA(AFollower::StaticClass())) {
 		CurrentHealth--;
 
-	}
-	// // Boost pad
-	// else if (OtherActor->IsA(ABoostPad::StaticClass()))
-	// {
-	// 	FVector BoostPadVector = FVector(CollisionBox->GetForwardVector());
-	// 	//CollisionBox->AddForce(BoostPadVector * 100000.f * CollisionBox->GetMass());
-	// 	CollisionBox->AddImpulse(FVector(BoostPadVector * 10.f));
-	// 	UE_LOG(LogTemp, Warning, TEXT("BoostPad"));
-	// }
-	// Jump pad
-	else if (OtherActor->IsA(UJumpPadComponent::StaticClass()))
-	{
-		FVector JumpVector = FVector(CollisionBox->GetUpVector());
-		//CollisionBox->AddForce(JumpVector * 100000.f * CollisionBox->GetMass());
-		CollisionBox->AddImpulse(FVector(JumpVector * 100000000.f * CollisionBox->GetMass()));
-		UE_LOG(LogTemp, Warning, TEXT("JumpPad"));
 	}
 }
 
 void ACar::Respawn()
 {
-	
+	SetActorTransform(RespawnTransform);
 
 	// SetActorLocation(RespawnPosition);
 	// SetActorRotation(RespawnRotation);
@@ -503,3 +493,20 @@ float ACar::GetCurrentHealth()
 	return CurrentHealth;
 }
 
+void ACar::PauseGame() {
+	if (!PauseMenuInstance) {
+		PauseMenuInstance = CreateWidget<UUserWidget>(GetWorld(), PauseMenu);
+	}
+	
+	bGameIsPaused = !bGameIsPaused;
+	if (bGameIsPaused) {
+		PauseMenuInstance->AddToViewport();
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+	}
+	else {
+		PauseMenuInstance->RemoveFromParent();
+		UGameplayStatics::SetGamePaused(GetWorld(), false);	
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;		
+	}
+}

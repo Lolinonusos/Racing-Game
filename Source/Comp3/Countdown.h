@@ -38,10 +38,15 @@ public:
 	void AdvanceTimer();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Countdown")
-		TArray<UStaticMeshComponent*> CountdownBalls;
+		TArray<UStaticMeshComponent*> CountdownBallsArray;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Countdown")
 		TSubclassOf<AActor> FollowerActor;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Countdown")
+		UStaticMeshComponent* CountdownBall1 = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Countdown")
+		UStaticMeshComponent* CountdownBall2 = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Countdown")
+		UStaticMeshComponent* CountdownBall3 = nullptr;
 };

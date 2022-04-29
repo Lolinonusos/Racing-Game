@@ -92,9 +92,10 @@ public:
 	int GetAmmo();
 	int GetBoost();
 	int GetTotalBoost();
+	void PauseGame();
 	FString GetSpecial();
 	bool bTimerIsFinished = false;
-	
+	bool bGameIsPaused = false;
 
 	int ShotgunUses = 2;
 
@@ -106,6 +107,11 @@ public:
 	float GetTotalHealth();
 	float GetCurrentHealth();
 
+	UPROPERTY(EditAnywhere) TSubclassOf<UUserWidget> PauseMenu;
+		UUserWidget* PauseMenuInstance;
+	FTransform RespawnTransform;
+	void Respawn();
+	
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;
@@ -184,8 +190,6 @@ private:
 	//TArray<class UCheckpointSceneComponent> LatestCheckpointVistited[1];
 
 	// Respawn position should be a little higher than 
-	FVector RespawnPosition;
-	FRotator RespawnRotation;
-	void Respawn();
+
 	
 };
