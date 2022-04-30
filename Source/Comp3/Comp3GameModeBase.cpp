@@ -2,6 +2,22 @@
 
 
 #include "Comp3GameModeBase.h"
+#include "GameHUD.h"
+#include "Kismet/GameplayStatics.h"
+
+void AComp3GameModeBase::BeginPlay() {
+	Super::BeginPlay();
+
+	AGameHUD* GMBGameHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	if (GMBGameHUDPtr->GetGameModeSelected() == "Racing") {
+		// Player selecteed racing mode
+		GMBGameHUDPtr->OpenOptionsMenu();
+	}
+	else if (GMBGameHUDPtr->GetGameModeSelected() == "Time") {
+		// Player selected time trial mode
+		GMBGameHUDPtr->CloseOptionsMenu();
+	}
+}
 
 AComp3GameModeBase::AComp3GameModeBase() {
 	TotalCheckPoints = 0;

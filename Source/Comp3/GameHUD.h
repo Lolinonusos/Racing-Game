@@ -8,6 +8,10 @@
 #include "Components/WidgetComponent.h"
 #include "UI/PauseScreen.h"
 #include "UI/OptionsMenu.h"
+#include "UI/LevelSelectWidget.h"
+#include "UI/FocusedLevelSelectHUD.h"
+
+#include "Kismet/GameplayStatics.h"
 
 #include "GameHUD.generated.h"
 
@@ -34,6 +38,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> OptionsWidgetClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> LevelSelectWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> FocusedLevelSelectWidgetClass;
+
 	UFUNCTION(BlueprintCallable)
 		void UpdateSliderPercentage();
 
@@ -55,7 +65,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void ClosePauseMenu();
 
+	UFUNCTION(BlueprintCallable)
+		void FocusOnPlanet();
+
+	UFUNCTION(BlueprintCallable)
+		void LeaveFocusOnPlanet();
+
+	UFUNCTION(BlueprintCallable)
+		FString GetGameModeSelected();
+
 private:
 	UPauseScreen* PauseWidget;
 	UOptionsMenu* OptionsWidget;
+	ULevelSelectWidget* LevelSelectWidget;
+	UFocusedLevelSelectHUD* FocusedLevelSelectWidget;
 };

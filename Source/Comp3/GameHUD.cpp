@@ -24,6 +24,27 @@ void AGameHUD::BeginPlay() {
 			OptionsWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
+
+	if (LevelSelectWidgetClass) {
+		LevelSelectWidget = CreateWidget<ULevelSelectWidget>(GetWorld(), LevelSelectWidgetClass);
+		if (LevelSelectWidget) {
+			LevelSelectWidget->AddToViewport();
+			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_LevelSelect") {
+				LevelSelectWidget->SetVisibility(ESlateVisibility::Visible);
+			}
+			else {
+				LevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);
+			}
+		}
+	}
+
+	if (FocusedLevelSelectWidgetClass) {
+		FocusedLevelSelectWidget = CreateWidget<UFocusedLevelSelectHUD>(GetWorld(), FocusedLevelSelectWidgetClass);
+		if (FocusedLevelSelectWidget) {
+			FocusedLevelSelectWidget->AddToViewport();
+			FocusedLevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
 }
 
 void AGameHUD::Tick(float DeltaSeconds) {
@@ -68,3 +89,17 @@ void AGameHUD::ClosePauseMenu() {
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
+void AGameHUD::FocusOnPlanet() {
+	LevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);
+	FocusedLevelSelectWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AGameHUD::LeaveFocusOnPlanet() {
+	LevelSelectWidget->SetVisibility(ESlateVisibility::Visible);
+	FocusedLevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+FString AGameHUD::GetGameModeSelected() {
+	FString a = FocusedLevelSelectWidget->SelectedGameMode;
+	return a;
+}

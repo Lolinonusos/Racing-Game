@@ -56,9 +56,13 @@ public:
 	bool bStartingToLerp = false;
 	bool bMovingRight = false;
 	bool bPausedControls = false;
+
+	UPROPERTY(BlueprintReadOnly)
 	bool bIsEnteringFocus = false;
+	
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsLeavingFocus = false;
+	
 	float Alpha = 0.f;
 	float CameraChangeSpeed = 0.01f;
 	float FocusAlpha = 0.f;

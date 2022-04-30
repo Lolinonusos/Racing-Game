@@ -15,7 +15,8 @@ class COMP3_API AComp3GameModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	AComp3GameModeBase();
-	
+	virtual void BeginPlay() override;
+
 	int TotalCheckPoints = 0;
 	int CheckPointsReached = 0;
 

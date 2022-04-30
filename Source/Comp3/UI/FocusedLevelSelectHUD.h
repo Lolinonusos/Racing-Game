@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "LevelSelect.h"
+#include "../LevelSelect.h"
 #include "Kismet/GamePlayStatics.h"
 #include "FocusedLevelSelectHUD.generated.h"
 

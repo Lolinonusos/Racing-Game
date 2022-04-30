@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "LevelSelectGameMode.generated.h"
 
+
 /**
  * 
  */
@@ -13,5 +14,4 @@ UCLASS()
 class COMP3_API ALevelSelectGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };
