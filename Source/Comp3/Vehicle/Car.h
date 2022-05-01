@@ -137,7 +137,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "VehicleParticles")
 	class UParticleSystem* VehicleDeath;
-	
+
+	UPROPERTY(EditAnywhere, Category = "VehicleParticles")
+	class UParticleSystem* BoostParticle;
+
+	UPROPERTY(EditAnywhere, Category = "VehicleParticles")
+	class UParticleSystem* BoostExhausted;
 	
 	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
 	class USoundBase* DriveSound;

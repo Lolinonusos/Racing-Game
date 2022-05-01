@@ -163,8 +163,10 @@ void ACar::Tick(float DeltaTime)
 	{
 		BoostAmount -= 0.01f;
 		CollisionBox->AddForce(Forward * BoostPower * CollisionBox->GetMass());
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BoostParticle, GetTransform(), true);
 		if (BoostAmount < 0.f)
 		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BoostExhausted, GetTransform(), true);
 			bBoosting = false;
 		}
 	}
