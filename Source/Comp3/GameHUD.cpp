@@ -31,6 +31,7 @@ void AGameHUD::BeginPlay() {
 			LevelSelectWidget->AddToViewport();
 			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_LevelSelect") {
 				LevelSelectWidget->SetVisibility(ESlateVisibility::Visible);
+				UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
 			}
 			else {
 				LevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);

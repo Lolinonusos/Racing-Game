@@ -16,6 +16,7 @@ class COMP3_API UFocusedLevelSelectHUD : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	virtual bool Initialize();
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -38,4 +39,15 @@ public:
 	class UButton* TimeTrialModeButton;
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
 	class UButton* PlayButton;
+	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
+	class UButton* BackButton;
+
+	UFUNCTION()
+		void ClickRacingModeBtn();
+	UFUNCTION()
+		void ClickTimeTrialModeBtn();
+	UFUNCTION()
+		void ClickBackButton();
+	UFUNCTION()
+		void ClickPlayButton();
 };

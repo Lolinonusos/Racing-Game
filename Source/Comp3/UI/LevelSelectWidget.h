@@ -18,6 +18,8 @@ class COMP3_API ULevelSelectWidget : public UUserWidget
 	
 public:
 
+	virtual bool Initialize();
+
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	ALevelSelect* LevelSelectPtr = Cast<ALevelSelect>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
@@ -33,4 +35,11 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI", meta = (BindWidget))
 	class UButton* SelectStage;
+
+	UFUNCTION()
+	void WidMoveCameraLeft();
+	UFUNCTION()
+	void WidMoveCameraRight();
+	UFUNCTION()
+	void WidSelectLevel();
 };

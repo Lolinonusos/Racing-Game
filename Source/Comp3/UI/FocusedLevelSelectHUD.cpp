@@ -3,7 +3,19 @@
 
 #include "FocusedLevelSelectHUD.h"
 #include "Components/TextBlock.h"
+#include "../GameHUD.h"
 #include "Components/Button.h"
+
+bool UFocusedLevelSelectHUD::Initialize() {
+	Super::Initialize();
+
+	RacingModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickRacingModeBtn);
+	TimeTrialModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickTimeTrialModeBtn);
+	BackButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickBackButton);
+	PlayButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickPlayButton);
+
+	return true;
+}
 
 void UFocusedLevelSelectHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);
@@ -16,5 +28,30 @@ void UFocusedLevelSelectHUD::NativeTick(const FGeometry& MyGeometry, float InDel
 	}
 	else {
 		PlayButtonText->SetText(FText::FromString("Start Game"));
+	}
+}
+
+void UFocusedLevelSelectHUD::ClickRacingModeBtn() {
+	SelectedGameMode = "Racing";
+	bGameModeSelected = true;
+}
+
+void UFocusedLevelSelectHUD::ClickTimeTrialModeBtn() {
+	SelectedGameMode = "Time";
+	bGameModeSelected = true;
+}
+
+void UFocusedLevelSelectHUD::ClickBackButton() {
+	if (!FocusedLevelSelectPtr->bIsEnteringFocus) {
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->LeaveFocusOnPlanet();
+		FocusedLevelSelectPtr->bIsLeavingFocus = true;
+	}
+}
+
+void UFocusedLevelSelectHUD::ClickPlayButton() {
+	if (bGameModeSelected) {
+		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "The Big Cheesus") {
+			UGameplayStatics::OpenLevel(GetWorld(), "Test");
+		}
 	}
 }
