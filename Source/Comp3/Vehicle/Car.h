@@ -111,6 +111,8 @@ public:
 
 	UPROPERTY(EditAnywhere) TSubclassOf<UUserWidget> PauseMenu;
 		UUserWidget* PauseMenuInstance;
+
+	float RespawnTime = 0;
 	FTransform RespawnTransform;
 	void Respawn();
 	

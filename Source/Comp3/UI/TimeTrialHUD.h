@@ -24,8 +24,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
 		class UTextBlock* MilliSecondsText;
 
-	
-
 	void IncreaseTime();
 	int MilliSeconds{};
 	int Seconds{};
@@ -34,4 +32,19 @@ public:
 	FString MinutesOutput = "";
 	FString SecondsOutput;
 	FString MilliSecondsOutput;
+	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
+	// Progressbaren er full når spilleren har mer enn 1 minutt igjen
+	UPROPERTY()
+	class UProgressBar* TimerBar;
+
+	UPROPERTY()
+	class UTextBlock* TimerMinutes;
+	
+	UPROPERTY()
+	class UTextBlock* TimerSeconds;
+
+	UPROPERTY()
+	class UTextBlock* TimerMilliSeconds;
+
 };

@@ -53,6 +53,7 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		CurrentCheckpointPosition = GetActorLocation();
 		UE_LOG(LogTemp, Warning, TEXT("Current checkpoint position is %f, %f, %f"), CurrentCheckpointPosition.X, CurrentCheckpointPosition.Y, CurrentCheckpointPosition.Z);
 
+		// 
 		CarPtr->RespawnTransform = GetActorTransform();
 		
 		// Re-enables collision when all checkpoints are reached
