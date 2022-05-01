@@ -30,5 +30,26 @@ void UFixedPlayerHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		Laps->SetText(FText::FromString(LapsTextOutput));
 		Checkpoints->SetText(FText::FromString(CheckpointTextOutput));
 	}
-	else { return; }
+
+	if (FixedCarPtr) {
+		FString AmmoOutput = "Ammo: ";
+		int ObtainedAmmo = FixedCarPtr->GetAmmo();
+		AmmoOutput.Append(FString::FromInt(ObtainedAmmo));
+		AmmoText->SetText(FText::FromString(AmmoOutput));
+
+		FString SpecialOutput = "Special: ";
+		FString ObtainedSpecial = FixedCarPtr->GetSpecial();
+		
+		if (ObtainedSpecial == "") {
+			SpecialOutput.Append("None");
+		}
+		else if (ObtainedSpecial == "Shotgun") {
+			SpecialOutput.Append(ObtainedSpecial);
+			if (FixedCarPtr->ShotgunUses == 2) {
+				SpecialOutput.Append(" x2");
+			}
+		}
+		
+		SpecialText->SetText(FText::FromString(SpecialOutput));
+	}
 }
