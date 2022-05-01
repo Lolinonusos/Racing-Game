@@ -2,7 +2,7 @@
 
 
 #include "TimeTrialHUD.h"
-
+#include "Components/ProgressBar.h"
 
 
 void UTimeTrialHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
@@ -10,6 +10,8 @@ void UTimeTrialHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 
 }
 
-void UTimeTrialHUD::IncreaseTime() {
+void UTimeTrialHUD::IncreaseTime() 
+{
+
 
 }
