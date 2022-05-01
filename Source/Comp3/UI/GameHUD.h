@@ -6,10 +6,10 @@
 #include "GameFramework/HUD.h"
 
 #include "Components/WidgetComponent.h"
-#include "UI/PauseScreen.h"
-#include "UI/OptionsMenu.h"
-#include "UI/LevelSelectWidget.h"
-#include "UI/FocusedLevelSelectHUD.h"
+#include "PauseScreen.h"
+#include "OptionsMenu.h"
+#include "LevelSelectWidget.h"
+#include "FocusedLevelSelectHUD.h"
 
 #include "Kismet/GameplayStatics.h"
 

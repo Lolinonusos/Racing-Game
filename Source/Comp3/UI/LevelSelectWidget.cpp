@@ -3,7 +3,7 @@
 
 #include "LevelSelectWidget.h"
 #include "Components/TextBlock.h"
-#include "../GameHUD.h"
+#include "GameHUD.h"
 #include "Components/Button.h"
 
 bool ULevelSelectWidget::Initialize() {

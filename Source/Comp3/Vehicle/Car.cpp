@@ -27,8 +27,8 @@
 
 // Objects
 
-#include "../HUDClass.h"
-#include "../GameHUD.h"
+#include "../UI/HUDClass.h"
+#include "../UI/GameHUD.h"
 #include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 
 
@@ -180,7 +180,7 @@ void ACar::Tick(float DeltaTime)
 		}
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
+	//UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
 	
 	if (bDriving)
 	{

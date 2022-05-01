@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Vehicle/Car.h"
-#include "Comp3GameModeBase.h"
+#include "../Vehicle/Car.h"
+#include "../Comp3GameModeBase.h"
 #include "Kismet/GamePlayStatics.h"
 #include "HUDClass.generated.h"
 

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Comp3GameModeBase.h"
+#include "../Comp3GameModeBase.h"
 #include "Kismet/GamePlayStatics.h"
 #include "FixedPlayerHUD.generated.h"
 

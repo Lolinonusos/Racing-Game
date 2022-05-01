@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/UserWidget.h"
-#include "Non-Players/Follower.h"
+#include "../Non-Players/Follower.h"
 #include "EnemyHUD.generated.h"
 
 /**

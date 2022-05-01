@@ -2,21 +2,22 @@
 
 
 #include "Comp3GameModeBase.h"
-#include "GameHUD.h"
+#include "UI/GameHUD.h"
+#include "Game-Logic/RacingGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
 void AComp3GameModeBase::BeginPlay() {
 	Super::BeginPlay();
 
-	//AGameHUD* GMBGameHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-	//if (GMBGameHUDPtr->GetGameModeSelected() == "Racing") {
-	//	// Player selecteed racing mode
-	//	GMBGameHUDPtr->OpenOptionsMenu();
-	//}
-	//else if (GMBGameHUDPtr->GetGameModeSelected() == "Time") {
-	//	// Player selected time trial mode
-	//	GMBGameHUDPtr->CloseOptionsMenu();
-	//}
+	URacingGameInstance* GMBInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	if (GMBInstancePtr) {
+		if (GMBInstancePtr->ChosenGameModeToPlay == "Racing") {
+			UE_LOG(LogTemp, Warning, TEXT("ENTERED RACNIG MODE"))
+		}
+		else if (GMBInstancePtr->ChosenGameModeToPlay == "Time") {
+			UE_LOG(LogTemp, Warning, TEXT("ENTERED TIME TRIAL MODE"))
+		}
+	}
 }
 
 AComp3GameModeBase::AComp3GameModeBase() {

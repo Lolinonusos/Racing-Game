@@ -4,7 +4,7 @@
 #include "OptionsMenu.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
-#include "../GameHUD.h"
+#include "GameHUD.h"
 #include "Components/Slider.h"
 
 bool UOptionsMenu::Initialize() {

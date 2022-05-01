@@ -4,7 +4,7 @@
 #include "PauseScreen.h"
 #include "Components/TextBlock.h"
 #include "../Vehicle/Car.h"
-#include "../GameHUD.h"
+#include "GameHUD.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/Button.h"
 

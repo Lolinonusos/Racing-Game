@@ -121,7 +121,7 @@ void ALevelSelect::Tick(float DeltaTime)
 
 	if (bIsEnteringFocus && Levels[RotationNumber].bCanFocus && (bIsLeavingFocus == false)) {
 		FocusAlpha += CameraChangeSpeed;
-		UE_LOG(LogTemp, Warning, TEXT("New Location: %s"), *Levels[RotationNumber].FocusedCameraLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("New Location: %s"), *Levels[RotationNumber].FocusedCameraLocation.ToString());
 		SetActorLocation(FMath::Lerp(GetActorLocation(), Levels[RotationNumber].FocusedCameraLocation, FocusAlpha));
 		
 		if (FocusAlpha >= 1) {
@@ -158,7 +158,7 @@ void ALevelSelect::MoveCameraLeft() {
 			RotationNumber = (Levels.Num() - 1);
 		}
 		bPausedControls = true;
-		UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
+		//UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
 		bMovingRight = true;
 		bStartingToLerp = true;
 	}
@@ -173,7 +173,7 @@ void ALevelSelect::MoveCameraRight() {
 			RotationNumber = 0;
 		}
 		bPausedControls = true;
-		UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
+		//UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
 		bMovingRight = true;
 		bStartingToLerp = true;
 	}

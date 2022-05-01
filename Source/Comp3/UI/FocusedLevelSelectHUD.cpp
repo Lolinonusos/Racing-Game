@@ -3,7 +3,8 @@
 
 #include "FocusedLevelSelectHUD.h"
 #include "Components/TextBlock.h"
-#include "../GameHUD.h"
+#include "GameHUD.h"
+#include "../Game-Logic/RacingGameInstance.h"
 #include "Components/Button.h"
 
 bool UFocusedLevelSelectHUD::Initialize() {
@@ -32,12 +33,14 @@ void UFocusedLevelSelectHUD::NativeTick(const FGeometry& MyGeometry, float InDel
 }
 
 void UFocusedLevelSelectHUD::ClickRacingModeBtn() {
-	SelectedGameMode = "Racing";
+	URacingGameInstance* InstancePtr1 = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	InstancePtr1->ChosenGameModeToPlay = "Racing";
 	bGameModeSelected = true;
 }
 
 void UFocusedLevelSelectHUD::ClickTimeTrialModeBtn() {
-	SelectedGameMode = "Time";
+	URacingGameInstance* InstancePtr2 = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	InstancePtr2->ChosenGameModeToPlay = "Time";
 	bGameModeSelected = true;
 }
 

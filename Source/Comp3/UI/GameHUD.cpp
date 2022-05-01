@@ -101,6 +101,9 @@ void AGameHUD::LeaveFocusOnPlanet() {
 }
 
 FString AGameHUD::GetGameModeSelected() {
-	FString a = FocusedLevelSelectWidget->SelectedGameMode;
-	return a;
+	if (FocusedLevelSelectWidget) {
+		FString a = FocusedLevelSelectWidget->SelectedGameMode;
+		return a;
+	}
+	return "";
 }
