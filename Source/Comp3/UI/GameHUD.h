@@ -10,8 +10,11 @@
 #include "OptionsMenu.h"
 #include "LevelSelectWidget.h"
 #include "FocusedLevelSelectHUD.h"
+#include "TimeTrialHUD.h"
+#include "FixedPlayerHUD.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "../Game-Logic/RacingGameInstance.h"
 
 #include "GameHUD.generated.h"
 
@@ -44,6 +47,12 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> FocusedLevelSelectWidgetClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> TimeTrialHUDWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> FixedPlayerHUDWidgetClass;
+
 	UFUNCTION(BlueprintCallable)
 		void UpdateSliderPercentage();
 
@@ -74,9 +83,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 		FString GetGameModeSelected();
 
+	UFUNCTION(BlueprintCallable)
+		void SetupHUDForRacingMode();
+
+	UFUNCTION(BlueprintCallable)
+		void SetupHUDForTimeTrialMode();
+
 private:
 	UPauseScreen* PauseWidget;
 	UOptionsMenu* OptionsWidget;
 	ULevelSelectWidget* LevelSelectWidget;
 	UFocusedLevelSelectHUD* FocusedLevelSelectWidget;
+	UTimeTrialHUD* TimeTrialHUDWidget;
+	UFixedPlayerHUD* FixedPlayerHUDWidget;
 };

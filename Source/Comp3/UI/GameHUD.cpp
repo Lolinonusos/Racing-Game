@@ -46,6 +46,29 @@ void AGameHUD::BeginPlay() {
 			FocusedLevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
+
+	if (TimeTrialHUDWidgetClass) {
+		TimeTrialHUDWidget = CreateWidget<UTimeTrialHUD>(GetWorld(), TimeTrialHUDWidgetClass);
+		if (TimeTrialHUDWidget) {
+			TimeTrialHUDWidget->AddToViewport();
+			TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+
+	if (FixedPlayerHUDWidgetClass) {
+		FixedPlayerHUDWidget = CreateWidget<UFixedPlayerHUD>(GetWorld(), FixedPlayerHUDWidgetClass);
+		if (FixedPlayerHUDWidget) {
+			FixedPlayerHUDWidget->AddToViewport();
+			FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Racing") {
+		SetupHUDForRacingMode();
+	}
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
+		SetupHUDForTimeTrialMode();
+	}
 }
 
 void AGameHUD::Tick(float DeltaSeconds) {
@@ -106,4 +129,12 @@ FString AGameHUD::GetGameModeSelected() {
 		return a;
 	}
 	return "";
+}
+
+void AGameHUD::SetupHUDForRacingMode() {
+	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AGameHUD::SetupHUDForTimeTrialMode() {
+	TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Visible);
 }

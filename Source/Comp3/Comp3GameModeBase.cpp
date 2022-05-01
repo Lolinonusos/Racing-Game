@@ -3,7 +3,6 @@
 
 #include "Comp3GameModeBase.h"
 #include "UI/GameHUD.h"
-#include "Game-Logic/RacingGameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
 void AComp3GameModeBase::BeginPlay() {
