@@ -16,7 +16,7 @@ ALevelSelect::ALevelSelect()
 	FPlanet Level1;
 	Level1.PlanetName = "The Big Cheesus";
 	Level1.IdealCameraRotation = FRotator(0, 0, 0);
-	Level1.IdealCameraLocation= FVector(-80, 0, 0);
+	Level1.IdealCameraLocation= FVector(-100, 0, 0);
 	Level1.FocusedCameraLocation = GetActorLocation();
 	Level1.FocusedCameraLocation.X = Level1.IdealCameraLocation.X + 50;
 	Level1.FocusedCameraLocation.Y = Level1.IdealCameraLocation.Y + 100;
@@ -25,7 +25,7 @@ ALevelSelect::ALevelSelect()
 	FPlanet Level2;
 	Level2.PlanetName = "NOT YET IMPLEMENTED";
 	Level2.IdealCameraRotation = FRotator(0, -90, 0);
-	Level2.IdealCameraLocation = FVector(400, 480, 0);
+	Level2.IdealCameraLocation = FVector(400, 500, 0);
 	Level2.FocusedCameraLocation = GetActorLocation();
 	Level2.FocusedCameraLocation.X = Level2.IdealCameraLocation.X + 100;
 	Level2.FocusedCameraLocation.Y = Level2.IdealCameraLocation.Y - 50;
@@ -34,7 +34,7 @@ ALevelSelect::ALevelSelect()
 	FPlanet Level3;
 	Level3.PlanetName = "NOT YET IMPLEMENTED";
 	Level3.IdealCameraRotation = FRotator(0, 180, 0);
-	Level3.IdealCameraLocation = FVector(880, 0, 0);
+	Level3.IdealCameraLocation = FVector(900, 0, 0);
 	Level3.FocusedCameraLocation = GetActorLocation();
 	Level3.FocusedCameraLocation.X = Level3.IdealCameraLocation.X - 50;
 	Level3.FocusedCameraLocation.Y = Level3.IdealCameraLocation.Y - 100;
@@ -44,7 +44,7 @@ ALevelSelect::ALevelSelect()
 	FPlanet Level4;
 	Level4.PlanetName = "NOT YET IMPLEMENTED";
 	Level4.IdealCameraRotation = FRotator(0, 90, 0);
-	Level4.IdealCameraLocation = FVector(400, -480, 0);
+	Level4.IdealCameraLocation = FVector(400, -500, 0);
 	Level4.FocusedCameraLocation = GetActorLocation();
 	Level4.FocusedCameraLocation.X = Level4.IdealCameraLocation.X - 100;
 	Level4.FocusedCameraLocation.Y = Level4.IdealCameraLocation.Y + 50;
@@ -59,9 +59,9 @@ ALevelSelect::ALevelSelect()
 
 	UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
 
-	sdsd = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("sdsd"));
+	//sdsd = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("sdsd"));
 
-	SetRootComponent(sdsd);
+	//SetRootComponent(sdsd);
 
 	LevelSelectSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("LevelSelectSpringArm"));
 

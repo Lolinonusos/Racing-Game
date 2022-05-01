@@ -73,6 +73,4 @@ private:
 	UPROPERTY(EditAnywhere, Category = "LevelSelectComponents")
 	class USpringArmComponent* LevelSelectSpringArm;
 
-	UPROPERTY(EditAnywhere, Category = "sdsd")
-		class UStaticMeshComponent* sdsd;
 };
