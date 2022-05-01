@@ -114,6 +114,7 @@ public:
 
 	float RespawnTime = 0;
 	FTransform RespawnTransform;
+	void KillTest();
 	void Respawn();
 	
 	UFUNCTION(BlueprintCallable)
@@ -134,6 +135,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "VehicleMesh")
 	class UStaticMeshComponent* VehicleMesh;
 
+	UPROPERTY(EditAnywhere, Category = "VehicleParticles")
+	class UParticleSystem* VehicleDeath;
+	
+	
 	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
 	class USoundBase* DriveSound;
 	

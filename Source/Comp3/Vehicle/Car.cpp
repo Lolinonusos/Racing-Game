@@ -26,11 +26,12 @@
 #include "../Objects/Powerups/ItemPickups.h"
 
 // Objects
-
 #include "../UI/HUDClass.h"
 #include "../UI/GameHUD.h"
 #include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 
+// Timer
+#include "TimerManager.h"
 
 // Sets default values
 ACar::ACar()
@@ -230,7 +231,7 @@ void ACar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	// Pausing
 	InputComponent->BindAction("Pause", IE_Pressed, this, &ACar::PauseGame).bExecuteWhenPaused = true;
 	// Respawn testing
-	InputComponent->BindAction("KillSelf", IE_Pressed, this, &ACar::Respawn);
+	InputComponent->BindAction("KillSelf", IE_Pressed, this, &ACar::KillTest);
 
 }
 
@@ -286,7 +287,17 @@ void ACar::Turn(float AxisValue)
 
 	if (CurrentHealth <= 0)
 	{
-		Respawn();
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), VehicleDeath, GetTransform(), true);
+		
+		CurrentHealth = MaxHealth;
+		FTimerHandle RespawnTimer;
+		
+		SetActorTickEnabled(false);
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+		// Call Respawn() after 2 seconds 
+		GetWorldTimerManager().SetTimer(RespawnTimer, this, &ACar::Respawn, 1.f, false, 2.f);
+
 	}
 }
 
@@ -457,10 +468,24 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 	}
 }
 
+void ACar::KillTest()
+{
+	CurrentHealth = 0;
+}
+
 void ACar::Respawn()
 {
 	SetActorTransform(RespawnTransform);
-	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen();
+
+	SetActorTickEnabled(true);
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+
+	CurrentHealth = MaxHealth;
+	
+	//Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen();
+
+
 	// SetActorLocation(RespawnPosition);
 	// SetActorRotation(RespawnRotation);
 }
