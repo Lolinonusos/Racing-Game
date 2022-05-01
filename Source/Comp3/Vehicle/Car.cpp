@@ -460,7 +460,7 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 void ACar::Respawn()
 {
 	SetActorTransform(RespawnTransform);
-
+	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen();
 	// SetActorLocation(RespawnPosition);
 	// SetActorRotation(RespawnRotation);
 }

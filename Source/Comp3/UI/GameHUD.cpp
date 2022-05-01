@@ -63,11 +63,20 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
-	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Racing") {
+	if (FinishedRaceScreenWidgetClass) {
+		FinishedRaceScreenWidget = CreateWidget<UFinishedRaceScreen>(GetWorld(), FinishedRaceScreenWidgetClass);
+		if (FinishedRaceScreenWidget) {
+			FinishedRaceScreenWidget->AddToViewport();
+			FinishedRaceScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+
+	if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
 		SetupHUDForRacingMode();
 	}
-	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
+	if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
 		SetupHUDForTimeTrialMode();
+		GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 4.f);
 	}
 }
 
@@ -137,4 +146,14 @@ void AGameHUD::SetupHUDForRacingMode() {
 
 void AGameHUD::SetupHUDForTimeTrialMode() {
 	TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AGameHUD::UpdateTimer() {
+	TimeTrialHUDWidget->IncreaseTime();
+}
+
+void AGameHUD::ShowFinishScreen() {
+	FinishedRaceScreenWidget->SetVisibility(ESlateVisibility::Visible);
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
 }

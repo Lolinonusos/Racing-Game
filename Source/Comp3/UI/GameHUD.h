@@ -12,6 +12,7 @@
 #include "FocusedLevelSelectHUD.h"
 #include "TimeTrialHUD.h"
 #include "FixedPlayerHUD.h"
+#include "FinishedRaceScreen.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "../Game-Logic/RacingGameInstance.h"
@@ -35,6 +36,10 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 
+	FTimerHandle TimeTrialTimerHandle;
+
+	URacingGameInstance* HUDInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> PauseWidgetClass;
 
@@ -52,6 +57,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> FixedPlayerHUDWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> FinishedRaceScreenWidgetClass;
 
 	UFUNCTION(BlueprintCallable)
 		void UpdateSliderPercentage();
@@ -89,6 +97,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void SetupHUDForTimeTrialMode();
 
+	UFUNCTION(BlueprintCallable)
+		void UpdateTimer();
+
+	UFUNCTION(BlueprintCallable)
+		void ShowFinishScreen();
+
 private:
 	UPauseScreen* PauseWidget;
 	UOptionsMenu* OptionsWidget;
@@ -96,4 +110,5 @@ private:
 	UFocusedLevelSelectHUD* FocusedLevelSelectWidget;
 	UTimeTrialHUD* TimeTrialHUDWidget;
 	UFixedPlayerHUD* FixedPlayerHUDWidget;
+	UFinishedRaceScreen* FinishedRaceScreenWidget;
 };

@@ -18,7 +18,11 @@ public:
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
-		class UTextBlock* TimerText;
+		class UTextBlock* MinutesText;
+	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
+		class UTextBlock* SecondsText;
+	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
+		class UTextBlock* MilliSecondsText;
 
 	
 
@@ -26,4 +30,8 @@ public:
 	int MilliSeconds{};
 	int Seconds{};
 	int Minutes{};
+
+	FString MinutesOutput = "";
+	FString SecondsOutput;
+	FString MilliSecondsOutput;
 };
