@@ -32,7 +32,9 @@ void ULevelSelectWidget::WidMoveCameraRight() {
 
 void ULevelSelectWidget::WidSelectLevel() {
 	if (LevelSelectPtr->Levels[LevelSelectPtr->RotationNumber].bCanFocus) {
-		LevelSelectPtr->SelectLevel();
-		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->FocusOnPlanet();
+		if (!LevelSelectPtr->bIsLeavingFocus) {
+			LevelSelectPtr->SelectLevel();
+			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->FocusOnPlanet();
+		}
 	}
 }

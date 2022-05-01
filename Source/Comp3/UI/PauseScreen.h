@@ -15,6 +15,8 @@ class COMP3_API UPauseScreen : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	virtual bool Initialize();
+
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Pause Screen", meta = (BindWidget))
@@ -27,4 +29,13 @@ public:
 		class UButton* RestartButton;
 	UPROPERTY(BlueprintReadWrite, Category = "Pause Screen", meta = (BindWidget))
 		class UButton* MenuButton;
+
+	UFUNCTION()
+		void ClickResumeBtn();
+	UFUNCTION()
+		void ClickOptionsBtn();
+	UFUNCTION()
+		void ClickRestartBtn();
+	UFUNCTION()
+		void ClickMenuBtn();
 };

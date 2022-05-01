@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "../Vehicle/Car.h"
 #include "Kismet/GamePlayStatics.h"
 #include "OptionsMenu.generated.h"
 
@@ -17,9 +16,9 @@ class COMP3_API UOptionsMenu : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	virtual bool Initialize();
 
-	//ACar* PlayerPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Options Menu", meta = (BindWidget))
 	class UTextBlock* AudioPercentText;
@@ -30,4 +29,6 @@ public:
 
 	UFUNCTION()
 		void UpdateSliderPercentage();
+	UFUNCTION()
+		void ClickReturnBtn();
 };
