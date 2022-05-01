@@ -32,7 +32,6 @@ public:
 	FString MinutesOutput = "";
 	FString SecondsOutput;
 	FString MilliSecondsOutput;
-	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	// Progressbaren er full når spilleren har mer enn 1 minutt igjen
 	UPROPERTY()
