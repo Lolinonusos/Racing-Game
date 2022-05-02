@@ -19,11 +19,11 @@ public:
 	
 
 	UPROPERTY(BlueprintReadWrite, Category = "MainMenu", meta = (BindWidget))
-		class UButton* StarGameButton;
+		class UButton* MainMenuStartGameButton;
 	UPROPERTY(BlueprintReadWrite, Category = "MainMenu", meta = (BindWidget))
-		class UButton* OptionsButton;
+		class UButton* MainMenuOptionsButton;
 	UPROPERTY(BlueprintReadWrite, Category = "MainMenu", meta = (BindWidget))
-		class UButton* ExitButton;
+		class UButton* MainMenuExitButton;
 
 	UFUNCTION()
 	void ClickStartGame();

@@ -13,6 +13,7 @@
 #include "TimeTrialHUD.h"
 #include "FixedPlayerHUD.h"
 #include "FinishedRaceScreen.h"
+#include "MainMenuScreen.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "../Game-Logic/RacingGameInstance.h"
@@ -61,6 +62,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> FinishedRaceScreenWidgetClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> MainMenuWidgetClass;
+
 	UFUNCTION(BlueprintCallable)
 		void UpdateSliderPercentage();
 
@@ -103,6 +107,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void ShowFinishScreen();
 
+	UFUNCTION(BlueprintCallable)
+		void ShowMainMenu();
+
 private:
 	UPauseScreen* PauseWidget;
 	UOptionsMenu* OptionsWidget;
@@ -111,4 +118,5 @@ private:
 	UTimeTrialHUD* TimeTrialHUDWidget;
 	UFixedPlayerHUD* FixedPlayerHUDWidget;
 	UFinishedRaceScreen* FinishedRaceScreenWidget;
+	UMainMenuScreen* MainMenuWidget;
 };

@@ -79,12 +79,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 		TArray<FString> SpecialWeaponsInventory;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-		TSubclassOf<UUserWidget> ScreenWidget;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
-		TSubclassOf<UUserWidget> MainWidgetClass;
-	UPROPERTY(BlueprintReadWrite, Category = "UI")
-		UUserWidget* MainWidget = nullptr;
 
 	int GetAmmo();
 	int GetBoost();
@@ -108,9 +102,6 @@ public:
 
 	float GetTotalHealth();
 	float GetCurrentHealth();
-
-	UPROPERTY(EditAnywhere) TSubclassOf<UUserWidget> PauseMenu;
-		UUserWidget* PauseMenuInstance;
 
 	float RespawnTime = 0;
 	FTransform RespawnTransform;
