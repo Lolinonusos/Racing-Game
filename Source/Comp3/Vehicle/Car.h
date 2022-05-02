@@ -119,6 +119,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 		void PauseGame();
+
+	FTimerHandle RespawnTimer;
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
 	class UCameraComponent* Camera;

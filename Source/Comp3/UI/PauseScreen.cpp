@@ -32,6 +32,7 @@ void UPauseScreen::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 }
 
 void UPauseScreen::ClickResumeBtn() {
+	UE_LOG(LogTemp, Warning, TEXT("RESUMING"))
 	ACar* PauseCarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	PauseCarPtr->bGameIsPaused = true;
 	PauseCarPtr->PauseGame();

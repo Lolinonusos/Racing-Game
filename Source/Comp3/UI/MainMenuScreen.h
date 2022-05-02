@@ -28,7 +28,7 @@ public:
 	UFUNCTION()
 	void ClickStartGame();
 	UFUNCTION()
-		void ClickOptions();
+	void ClickOptions();
 	UFUNCTION()
-		void ClickExit();
+	void ClickExit();
 };

@@ -200,6 +200,21 @@ void ACar::Tick(float DeltaTime)
 
 		AddMovementInput(FVector(Forward), (-DriveSpeed/2));
 	}
+
+	if (CurrentHealth <= 0)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), VehicleDeath, GetTransform(), true);
+
+		CurrentHealth = MaxHealth;
+
+
+		SetActorTickEnabled(false);
+		SetActorHiddenInGame(true);
+		SetActorEnableCollision(false);
+		// Call Respawn() after 2 seconds 
+		GetWorldTimerManager().SetTimer(RespawnTimer, this, &ACar::Respawn, 1.f, false, 2.f);
+
+	}
 	
 }
 
@@ -285,21 +300,6 @@ void ACar::Turn(float AxisValue)
 			//VehicleMesh->AddTorqueInRadians(TurnSpeed * VehicleMesh->GetMass());
 	
 		}
-	}
-
-	if (CurrentHealth <= 0)
-	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), VehicleDeath, GetTransform(), true);
-		
-		CurrentHealth = MaxHealth;
-		FTimerHandle RespawnTimer;
-		
-		SetActorTickEnabled(false);
-		SetActorHiddenInGame(true);
-		SetActorEnableCollision(false);
-		// Call Respawn() after 2 seconds 
-		GetWorldTimerManager().SetTimer(RespawnTimer, this, &ACar::Respawn, 1.f, false, 2.f);
-
 	}
 }
 
@@ -477,17 +477,18 @@ void ACar::KillTest()
 
 void ACar::Respawn()
 {
+	CurrentHealth = MaxHealth;
 	SetActorTransform(RespawnTransform);
 
 	SetActorTickEnabled(true);
 	SetActorHiddenInGame(false);
 	SetActorEnableCollision(true);
 
-	CurrentHealth = MaxHealth;
+	
 	
 	//Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen();
 
-
+	GetWorldTimerManager().ClearTimer(RespawnTimer);
 	// SetActorLocation(RespawnPosition);
 	// SetActorRotation(RespawnRotation);
 }
@@ -521,6 +522,7 @@ float ACar::GetCurrentHealth()
 }
 
 void ACar::PauseGame() {
+	UE_LOG(LogTemp, Warning, TEXT("ENTERED PAUSE FUNCTION"))
 	AGameHUD* HUDPtr = Cast<AGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
 	if (HUDPtr) {
 		if (bGameIsPaused == false) {
