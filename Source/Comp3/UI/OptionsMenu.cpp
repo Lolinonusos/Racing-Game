@@ -9,8 +9,10 @@
 
 bool UOptionsMenu::Initialize() {
 	Super::Initialize();
-
-	ReturnButton->OnClicked.AddDynamic(this, &UOptionsMenu::ClickReturnBtn);
+	
+	if (ReturnButton) {
+		ReturnButton->OnClicked.AddDynamic(this, &UOptionsMenu::ClickReturnBtn);
+	}
 
 	return true;
 }

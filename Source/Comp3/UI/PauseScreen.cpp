@@ -11,11 +11,19 @@
 bool UPauseScreen::Initialize() {
 	Super::Initialize();
 
-	ResumeButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickResumeBtn);
-	OptionsButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickOptionsBtn);
-	RestartButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickRestartBtn);
-	MenuButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickMenuBtn);
-	
+	if (ResumeButton) {
+		ResumeButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickResumeBtn);
+	}
+	if (OptionsButton) {
+		OptionsButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickOptionsBtn);
+	}
+	if (RestartButton) {
+		RestartButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickRestartBtn);
+	}
+	if (MenuButton) {
+		MenuButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickMenuBtn);
+	}
+
 	return true;
 }
 

@@ -10,10 +10,18 @@
 bool UFocusedLevelSelectHUD::Initialize() {
 	Super::Initialize();
 
-	RacingModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickRacingModeBtn);
-	TimeTrialModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickTimeTrialModeBtn);
-	BackButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickBackButton);
-	PlayButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickPlayButton);
+	if (RacingModeButton) {
+		RacingModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickRacingModeBtn);
+	}
+	if (TimeTrialModeButton) {
+		TimeTrialModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickTimeTrialModeBtn);
+	}
+	if (BackButton) {
+		BackButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickBackButton);
+	}
+	if (PlayButton) {
+		PlayButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickPlayButton);
+	}
 
 	return true;
 }

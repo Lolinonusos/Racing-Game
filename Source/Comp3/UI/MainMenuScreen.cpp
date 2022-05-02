@@ -8,10 +8,16 @@
 bool UMainMenuScreen::Initialize() {
 	Super::Initialize();
 
-	StarGameButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickStartGame);
-	OptionsButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickOptions);
-	ExitButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickExit);
-
+	if (StarGameButton) {
+		StarGameButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickStartGame);
+	}
+	if (OptionsButton) {
+		OptionsButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickOptions);
+	}
+	if (ExitButton) {
+		ExitButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickExit);
+	}
+	
 	return true;
 }
 

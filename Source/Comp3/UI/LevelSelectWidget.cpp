@@ -9,9 +9,15 @@
 bool ULevelSelectWidget::Initialize() {
 	Super::Initialize();
 
-	MoveLeft->OnClicked.AddDynamic(this, &ULevelSelectWidget::WidMoveCameraLeft);
-	MoveRight->OnClicked.AddDynamic(this, &ULevelSelectWidget::WidMoveCameraRight);
-	SelectStage->OnClicked.AddDynamic(this, &ULevelSelectWidget::WidSelectLevel);
+	if (MoveLeft) {
+		MoveLeft->OnClicked.AddDynamic(this, &ULevelSelectWidget::WidMoveCameraLeft);
+	}
+	if (MoveRight) {
+		MoveRight->OnClicked.AddDynamic(this, &ULevelSelectWidget::WidMoveCameraRight);
+	}
+	if (SelectStage) {
+		SelectStage->OnClicked.AddDynamic(this, &ULevelSelectWidget::WidSelectLevel);
+	}
 
 	return true;
 }
