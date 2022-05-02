@@ -79,6 +79,14 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
+	if (ControlsScreenWidgetClass) {
+		ControlsScreenWidget = CreateWidget<UControlsScreen>(GetWorld(), ControlsScreenWidgetClass);
+		if (ControlsScreenWidget) {
+			ControlsScreenWidget->AddToViewport();
+			ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
 			SetupHUDForRacingMode();
@@ -177,4 +185,26 @@ void AGameHUD::ShowFinishScreen() {
 void AGameHUD::ShowMainMenu() {
 	MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+}
+
+void AGameHUD::ShowControls() {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+		MainMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+		PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void AGameHUD::HideControls() {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+	else {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+		PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	}
 }

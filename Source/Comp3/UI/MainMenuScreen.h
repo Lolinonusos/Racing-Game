@@ -24,6 +24,8 @@ public:
 		class UButton* MainMenuOptionsButton;
 	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
 		class UButton* MainMenuExitButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
+		class UButton* MainMenuControlsButton;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Main Menu")
 		USoundBase* MainMenuClickSound;
@@ -35,4 +37,6 @@ public:
 	void ClickOptions();
 	UFUNCTION()
 	void ClickExit();
+	UFUNCTION()
+	void ClickControlsButton();
 };

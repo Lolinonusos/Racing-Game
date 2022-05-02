@@ -17,6 +17,9 @@ bool UMainMenuScreen::Initialize() {
 	if (MainMenuExitButton) {
 		MainMenuExitButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickExit);
 	}
+	if (MainMenuControlsButton) {
+		MainMenuControlsButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickControlsButton);
+	}
 	
 	return true;
 }
@@ -35,4 +38,8 @@ void UMainMenuScreen::ClickOptions() {
 void UMainMenuScreen::ClickExit() {
 	PlaySound(MainMenuClickSound);
 	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
+}
+
+void UMainMenuScreen::ClickControlsButton() {
+	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowControls();
 }

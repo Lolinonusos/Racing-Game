@@ -14,6 +14,7 @@
 #include "FixedPlayerHUD.h"
 #include "FinishedRaceScreen.h"
 #include "MainMenuScreen.h"
+#include "ControlsScreen.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "../Game-Logic/RacingGameInstance.h"
@@ -65,6 +66,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> MainMenuWidgetClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> ControlsScreenWidgetClass;
+
 	UFUNCTION(BlueprintCallable)
 		void UpdateSliderPercentage();
 
@@ -110,6 +114,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void ShowMainMenu();
 
+	UFUNCTION(BlueprintCallable)
+		void ShowControls();
+
+	UFUNCTION(BlueprintCallable)
+		void HideControls();
+
 private:
 	UPauseScreen* PauseWidget;
 	UOptionsMenu* OptionsWidget;
@@ -119,4 +129,5 @@ private:
 	UFixedPlayerHUD* FixedPlayerHUDWidget;
 	UFinishedRaceScreen* FinishedRaceScreenWidget;
 	UMainMenuScreen* MainMenuWidget;
+	UControlsScreen* ControlsScreenWidget;
 };

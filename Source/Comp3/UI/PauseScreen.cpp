@@ -23,6 +23,9 @@ bool UPauseScreen::Initialize() {
 	if (MenuButton) {
 		MenuButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickMenuBtn);
 	}
+	if (PauseMenuControlsButton) {
+		PauseMenuControlsButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickControlsBtn);
+	}
 
 	return true;
 }
@@ -53,4 +56,8 @@ void UPauseScreen::ClickMenuBtn() {
 	PlaySound(ClickingSound);
 	
 	UGameplayStatics::OpenLevel(GetWorld(), "LVL_MainMenu");
+}
+
+void UPauseScreen::ClickControlsBtn() {
+	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowControls();
 }
