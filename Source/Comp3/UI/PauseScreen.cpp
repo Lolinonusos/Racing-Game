@@ -32,6 +32,7 @@ void UPauseScreen::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 }
 
 void UPauseScreen::ClickResumeBtn() {
+	PlaySound(ClickingSound);
 	UE_LOG(LogTemp, Warning, TEXT("RESUMING"))
 	ACar* PauseCarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	PauseCarPtr->bGameIsPaused = true;
@@ -39,13 +40,17 @@ void UPauseScreen::ClickResumeBtn() {
 }
 
 void UPauseScreen::ClickOptionsBtn() {
+	PlaySound(ClickingSound);
 	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->OpenOptionsMenu();
 }
 
 void UPauseScreen::ClickRestartBtn() {
+	PlaySound(ClickingSound);
 	UGameplayStatics::OpenLevel(GetWorld(), "Test");
 }
 
 void UPauseScreen::ClickMenuBtn() {
+	PlaySound(ClickingSound);
+	
 	UGameplayStatics::OpenLevel(GetWorld(), "LVL_MainMenu");
 }

@@ -29,15 +29,21 @@ void ULevelSelectWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 }
 
 void ULevelSelectWidget::WidMoveCameraLeft() {
+	PlaySound(LevelSelectClickSound);
 	LevelSelectPtr->MoveCameraLeft();
 }
 
 void ULevelSelectWidget::WidMoveCameraRight() {
-	LevelSelectPtr->MoveCameraRight();
+	UE_LOG(LogTemp, Warning, TEXT("The boolean value is %s"), (LevelSelectPtr->bPausedControls ? TEXT("true") : TEXT("false")));
+	if (LevelSelectPtr->bPausedControls == false) {
+		PlaySound(LevelSelectClickSound);
+		LevelSelectPtr->MoveCameraRight();
+	}
 }
 
 void ULevelSelectWidget::WidSelectLevel() {
 	if (LevelSelectPtr->Levels[LevelSelectPtr->RotationNumber].bCanFocus) {
+		PlaySound(LevelSelectClickSound);
 		if (!LevelSelectPtr->bIsLeavingFocus) {
 			LevelSelectPtr->SelectLevel();
 			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->FocusOnPlanet();

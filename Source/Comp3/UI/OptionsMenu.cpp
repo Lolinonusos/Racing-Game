@@ -29,6 +29,7 @@ void UOptionsMenu::UpdateSliderPercentage() {
 }
 
 void UOptionsMenu::ClickReturnBtn() {
+	PlaySound(ReturnButtonSound);
 	AGameHUD* OptionsHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
 		OptionsHUDPtr->CloseOptionsMenuFromMain();

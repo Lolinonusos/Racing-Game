@@ -30,6 +30,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Pause Screen", meta = (BindWidget))
 		class UButton* MenuButton;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Pause Screen")
+		USoundBase* ClickingSound;
+
 	UFUNCTION()
 		void ClickResumeBtn();
 	UFUNCTION()

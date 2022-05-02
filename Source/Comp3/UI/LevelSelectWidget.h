@@ -36,6 +36,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI", meta = (BindWidget))
 	class UButton* SelectStage;
 
+	UPROPERTY(EditDefaultsOnly, Category = "LevelSelectUI")
+		USoundBase* LevelSelectClickSound;
+
 	UFUNCTION()
 	void WidMoveCameraLeft();
 	UFUNCTION()

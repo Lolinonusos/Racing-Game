@@ -165,7 +165,7 @@ void ALevelSelect::MoveCameraLeft() {
 }
 
 void ALevelSelect::MoveCameraRight() {
-	if (!bPausedControls) {
+	//if (!bPausedControls) {
 		if (Levels.IsValidIndex((RotationNumber + 1))) {
 			RotationNumber++;
 		}
@@ -176,7 +176,7 @@ void ALevelSelect::MoveCameraRight() {
 		//UE_LOG(LogTemp, Warning, TEXT("Level Name: %s"), *Levels[RotationNumber].PlanetName);
 		bMovingRight = true;
 		bStartingToLerp = true;
-	}
+	//}
 }
 
 void ALevelSelect::SelectLevel() {
