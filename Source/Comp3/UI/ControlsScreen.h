@@ -19,7 +19,11 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
 		class UButton* ControlsReturnButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
+		class UTextBlock* ControlsReturnButtonText;
 	
 	UFUNCTION()
 		void ClickedControlsReturnBtn();
+	UFUNCTION()
+		void ChangeButtonText(FString NewText);
 };

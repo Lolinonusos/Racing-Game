@@ -3,6 +3,7 @@
 
 #include "ControlsScreen.h"
 #include "Components/Button.h"
+#include "Components/Textblock.h"
 #include "GameHUD.h"
 
 bool UControlsScreen::Initialize() {
@@ -17,4 +18,8 @@ bool UControlsScreen::Initialize() {
 
 void UControlsScreen::ClickedControlsReturnBtn() {
 	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->HideControls();
+}
+
+void UControlsScreen::ChangeButtonText(FString NewText) {
+	ControlsReturnButtonText->SetText(FText::FromString(NewText));
 }

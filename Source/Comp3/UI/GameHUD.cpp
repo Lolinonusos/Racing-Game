@@ -190,10 +190,12 @@ void AGameHUD::ShowMainMenu() {
 void AGameHUD::ShowControls() {
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
 		ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+		ControlsScreenWidget->ChangeButtonText("Return to Main Menu");
 		MainMenuWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 	else {
 		ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+		ControlsScreenWidget->ChangeButtonText("Return to Pause Menu");
 		PauseWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 }
