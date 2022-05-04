@@ -166,11 +166,11 @@ FString AGameHUD::GetGameModeSelected() {
 }
 
 void AGameHUD::SetupHUDForRacingMode() {
-	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void AGameHUD::SetupHUDForTimeTrialMode() {
-	TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	TimeTrialHUDWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void AGameHUD::UpdateTimer() {

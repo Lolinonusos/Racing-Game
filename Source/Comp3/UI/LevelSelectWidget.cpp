@@ -29,8 +29,10 @@ void ULevelSelectWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 }
 
 void ULevelSelectWidget::WidMoveCameraLeft() {
-	PlaySound(LevelSelectClickSound);
-	LevelSelectPtr->MoveCameraLeft();
+	if (LevelSelectPtr->bPausedControls == false) {
+		PlaySound(LevelSelectClickSound);
+		LevelSelectPtr->MoveCameraLeft();
+	}
 }
 
 void ULevelSelectWidget::WidMoveCameraRight() {
