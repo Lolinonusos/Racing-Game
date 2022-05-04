@@ -20,6 +20,7 @@ ALevelSelect::ALevelSelect()
 	Level1.FocusedCameraLocation = GetActorLocation();
 	Level1.FocusedCameraLocation.X = Level1.IdealCameraLocation.X + 50;
 	Level1.FocusedCameraLocation.Y = Level1.IdealCameraLocation.Y + 100;
+	Level1.FocusedCameraLocation.Z = Level1.IdealCameraLocation.Z - 50;
 	Level1.bCanFocus = true;
 
 	FPlanet Level2;
@@ -29,6 +30,7 @@ ALevelSelect::ALevelSelect()
 	Level2.FocusedCameraLocation = GetActorLocation();
 	Level2.FocusedCameraLocation.X = Level2.IdealCameraLocation.X + 100;
 	Level2.FocusedCameraLocation.Y = Level2.IdealCameraLocation.Y - 50;
+	Level2.FocusedCameraLocation.Z = Level2.IdealCameraLocation.Z - 50;
 	Level2.bCanFocus = false;
 
 	FPlanet Level3;
@@ -38,6 +40,7 @@ ALevelSelect::ALevelSelect()
 	Level3.FocusedCameraLocation = GetActorLocation();
 	Level3.FocusedCameraLocation.X = Level3.IdealCameraLocation.X - 50;
 	Level3.FocusedCameraLocation.Y = Level3.IdealCameraLocation.Y - 100;
+	Level3.FocusedCameraLocation.Z = Level3.IdealCameraLocation.Z - 50;
 	Level3.bCanFocus = false;
 	
 	
@@ -48,6 +51,7 @@ ALevelSelect::ALevelSelect()
 	Level4.FocusedCameraLocation = GetActorLocation();
 	Level4.FocusedCameraLocation.X = Level4.IdealCameraLocation.X - 100;
 	Level4.FocusedCameraLocation.Y = Level4.IdealCameraLocation.Y + 50;
+	Level4.FocusedCameraLocation.Z = Level4.IdealCameraLocation.Z - 50;
 	Level4.bCanFocus = false;
 
 	Levels.Add(Level1);

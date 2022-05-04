@@ -149,6 +149,7 @@ void AGameHUD::ClosePauseMenu() {
 void AGameHUD::FocusOnPlanet() {
 	LevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);
 	FocusedLevelSelectWidget->SetVisibility(ESlateVisibility::Visible);
+	FocusedLevelSelectWidget->ChangeGameModeDescription();
 }
 
 void AGameHUD::LeaveFocusOnPlanet() {
