@@ -18,12 +18,18 @@ public:
 	virtual bool Initialize();
 	
 
-	UPROPERTY(BlueprintReadWrite, Category = "MainMenu", meta = (BindWidget))
-		class UButton* StarGameButton;
-	UPROPERTY(BlueprintReadWrite, Category = "MainMenu", meta = (BindWidget))
-		class UButton* OptionsButton;
-	UPROPERTY(BlueprintReadWrite, Category = "MainMenu", meta = (BindWidget))
-		class UButton* ExitButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
+		class UButton* MainMenuStartGameButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
+		class UButton* MainMenuOptionsButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
+		class UButton* MainMenuExitButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Main Menu", meta = (BindWidget))
+		class UButton* MainMenuControlsButton;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Main Menu")
+		USoundBase* MainMenuClickSound;
+
 
 	UFUNCTION()
 	void ClickStartGame();
@@ -31,4 +37,6 @@ public:
 	void ClickOptions();
 	UFUNCTION()
 	void ClickExit();
+	UFUNCTION()
+	void ClickControlsButton();
 };

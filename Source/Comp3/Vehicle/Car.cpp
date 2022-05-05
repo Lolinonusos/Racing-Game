@@ -154,7 +154,39 @@ void ACar::Tick(float DeltaTime)
 	CurrentRollRotation = FMath::Clamp(CurrentRollRotation, -30.f, 30.f);
 	
 	CollisionBox->SetRelativeRotation(FRotator(CurrentPitchRotation, CurrentYawRotation, CurrentRollRotation));
-	
+
+
+	// Slow down when driving on offroad
+	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * - 150);
+	FCollisionObjectQueryParams CollisionObjectQueryParams;
+	// Uses offroad collision channel
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_GameTraceChannel1);
+	FHitResult HitResult;
+	// Hit something
+	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("I am offroad :)"));
+		PawnMovementComponent->MaxSpeed = 1500.f;
+		// if (bDriving)
+		// {
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OffRoadParticles, GetTransform(), true);
+
+		// 	FRotator OffRoadShake;
+		//
+		// 	OffRoadShake.Roll = 10.f * (FMath::Sin(DeltaTime));
+		//
+		// 	VehicleMesh->SetRelativeRotation(OffRoadShake);
+		// }
+		// else
+		// {
+		// 	VehicleMesh->SetRelativeRotation(FRotator(GetActorForwardVector().Rotation()));
+		// }
+	}
+	else
+	{
+		PawnMovementComponent->MaxSpeed = 2500.f;
+	}
+		
 	// Movement
 	FVector Forward = VehicleMesh->GetForwardVector();
 	Forward.Z = 0;

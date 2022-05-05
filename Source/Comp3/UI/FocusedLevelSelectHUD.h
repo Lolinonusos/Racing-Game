@@ -34,6 +34,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
 	class UTextBlock* PlayButtonText;
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
+	class UTextBlock* DescriptionNameText;
+	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
+	class UTextBlock* DescriptionText;
+	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
 	class UButton* RacingModeButton;
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
 	class UButton* TimeTrialModeButton;
@@ -50,4 +54,6 @@ public:
 		void ClickBackButton();
 	UFUNCTION()
 		void ClickPlayButton();
+	UFUNCTION()
+		void ChangeGameModeDescription();
 };

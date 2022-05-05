@@ -43,12 +43,14 @@ void UFocusedLevelSelectHUD::NativeTick(const FGeometry& MyGeometry, float InDel
 void UFocusedLevelSelectHUD::ClickRacingModeBtn() {
 	URacingGameInstance* InstancePtr1 = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	InstancePtr1->ChosenGameModeToPlay = "Racing";
+	ChangeGameModeDescription();
 	bGameModeSelected = true;
 }
 
 void UFocusedLevelSelectHUD::ClickTimeTrialModeBtn() {
 	URacingGameInstance* InstancePtr2 = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	InstancePtr2->ChosenGameModeToPlay = "Time";
+	ChangeGameModeDescription();
 	bGameModeSelected = true;
 }
 
@@ -64,5 +66,20 @@ void UFocusedLevelSelectHUD::ClickPlayButton() {
 		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "The Big Cheesus") {
 			UGameplayStatics::OpenLevel(GetWorld(), "Test");
 		}
+	}
+}
+
+void UFocusedLevelSelectHUD::ChangeGameModeDescription() {
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Racing") {
+		DescriptionNameText->SetText(FText::FromString("Racing Mode"));
+		DescriptionText->SetText(FText::FromString("Be the first to reach the finish line!\nShoot down your foes to gain points!"));
+	}
+	else  if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
+		DescriptionNameText->SetText(FText::FromString("Time Trial Mode"));
+		DescriptionText->SetText(FText::FromString("Drive for as long as possible against time!\nGo through checkpoints and collect tokens to get\nmore time!"));
+	}
+	else {
+		DescriptionNameText->SetText(FText::FromString("Select a gamemode"));
+		DescriptionText->SetText(FText::FromString("Select a gamemode to view more information."));
 	}
 }

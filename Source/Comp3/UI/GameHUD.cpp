@@ -71,12 +71,34 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
-	if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
-		SetupHUDForRacingMode();
+	if (MainMenuWidgetClass) {
+		MainMenuWidget = CreateWidget<UMainMenuScreen>(GetWorld(), MainMenuWidgetClass);
+		if (MainMenuWidget) {
+			MainMenuWidget->AddToViewport();
+			MainMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
 	}
-	if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
-		SetupHUDForTimeTrialMode();
-		GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 4.f);
+
+	if (ControlsScreenWidgetClass) {
+		ControlsScreenWidget = CreateWidget<UControlsScreen>(GetWorld(), ControlsScreenWidgetClass);
+		if (ControlsScreenWidget) {
+			ControlsScreenWidget->AddToViewport();
+			ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test") {
+		if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
+			SetupHUDForRacingMode();
+		}
+		if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
+			SetupHUDForTimeTrialMode();
+			GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 4.f);
+		}
+	}
+	
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
+		ShowMainMenu();
 	}
 }
 
@@ -108,10 +130,12 @@ void AGameHUD::CloseOptionsMenu() {
 
 void AGameHUD::OpenOptionsMenuFromMain() {
 	OptionsWidget->SetVisibility(ESlateVisibility::Visible);
+	MainMenuWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AGameHUD::CloseOptionsMenuFromMain() {
 	OptionsWidget->SetVisibility(ESlateVisibility::Hidden);
+	MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
 }
 
 void AGameHUD::OpenPauseMenu() {
@@ -125,6 +149,7 @@ void AGameHUD::ClosePauseMenu() {
 void AGameHUD::FocusOnPlanet() {
 	LevelSelectWidget->SetVisibility(ESlateVisibility::Hidden);
 	FocusedLevelSelectWidget->SetVisibility(ESlateVisibility::Visible);
+	FocusedLevelSelectWidget->ChangeGameModeDescription();
 }
 
 void AGameHUD::LeaveFocusOnPlanet() {
@@ -141,11 +166,11 @@ FString AGameHUD::GetGameModeSelected() {
 }
 
 void AGameHUD::SetupHUDForRacingMode() {
-	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void AGameHUD::SetupHUDForTimeTrialMode() {
-	TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	TimeTrialHUDWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void AGameHUD::UpdateTimer() {
@@ -156,4 +181,33 @@ void AGameHUD::ShowFinishScreen() {
 	FinishedRaceScreenWidget->SetVisibility(ESlateVisibility::Visible);
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+}
+
+void AGameHUD::ShowMainMenu() {
+	MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+}
+
+void AGameHUD::ShowControls() {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+		ControlsScreenWidget->ChangeButtonText("Return to Main Menu");
+		MainMenuWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+		ControlsScreenWidget->ChangeButtonText("Return to Pause Menu");
+		PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void AGameHUD::HideControls() {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+		MainMenuWidget->SetVisibility(ESlateVisibility::Visible);
+	}
+	else {
+		ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
+		PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	}
 }

@@ -31,4 +31,7 @@ public:
 		void UpdateSliderPercentage();
 	UFUNCTION()
 		void ClickReturnBtn();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Options Menu")
+		USoundBase* ReturnButtonSound;
 };

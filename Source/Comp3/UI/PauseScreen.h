@@ -29,6 +29,11 @@ public:
 		class UButton* RestartButton;
 	UPROPERTY(BlueprintReadWrite, Category = "Pause Screen", meta = (BindWidget))
 		class UButton* MenuButton;
+	UPROPERTY(BlueprintReadWrite, Category = "Pause Screen", meta = (BindWidget))
+		class UButton* PauseMenuControlsButton;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Pause Screen")
+		USoundBase* ClickingSound;
 
 	UFUNCTION()
 		void ClickResumeBtn();
@@ -38,4 +43,6 @@ public:
 		void ClickRestartBtn();
 	UFUNCTION()
 		void ClickMenuBtn();
+	UFUNCTION()
+		void ClickControlsBtn();
 };
