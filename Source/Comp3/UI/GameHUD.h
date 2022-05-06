@@ -99,26 +99,32 @@ public:
 	UFUNCTION(BlueprintCallable)
 		FString GetGameModeSelected();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 		void SetupHUDForRacingMode();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 		void SetupHUDForTimeTrialMode();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 		void UpdateTimer();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 		void ShowFinishScreen();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 		void ShowMainMenu();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 		void ShowControls();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 		void HideControls();
+
+	UFUNCTION()
+		int GetTimeTrialScore();
+
+	UFUNCTION()
+		void FinishTimeTrialMode();
 
 private:
 	UPauseScreen* PauseWidget;

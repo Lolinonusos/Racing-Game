@@ -28,9 +28,15 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
 		class UButton* MainMenuButton;
 
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
+		class UTextBlock* TimeTrialText;
+
 	UFUNCTION()
 		void FinishClickRestartBtn();
 
 	UFUNCTION()
 		void FinishClickMainMenuBtn();
+
+	UFUNCTION()
+		void CalculateTimeTrialScore();
 };

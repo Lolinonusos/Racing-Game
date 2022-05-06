@@ -15,6 +15,7 @@ class COMP3_API UTimeTrialHUD : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
@@ -24,10 +25,15 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
 		class UTextBlock* MilliSecondsText;
 
-	void IncreaseTime();
+	void DecreaseTime();
+	void UpdateTimer();
+	void AddTime(int Increase);
 	int MilliSeconds{};
 	int Seconds{};
-	int Minutes{};
+	int Minutes = 1;
+	bool bTimerIsFinished = false;
+	int Score{};
+
 
 	FString MinutesOutput = "";
 	FString SecondsOutput;

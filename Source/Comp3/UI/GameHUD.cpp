@@ -174,7 +174,8 @@ void AGameHUD::SetupHUDForTimeTrialMode() {
 }
 
 void AGameHUD::UpdateTimer() {
-	TimeTrialHUDWidget->IncreaseTime();
+	TimeTrialHUDWidget->UpdateTimer();
+	TimeTrialHUDWidget->DecreaseTime();
 }
 
 void AGameHUD::ShowFinishScreen() {
@@ -210,4 +211,15 @@ void AGameHUD::HideControls() {
 		ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
 		PauseWidget->SetVisibility(ESlateVisibility::Visible);
 	}
+}
+
+int AGameHUD::GetTimeTrialScore() {
+	return TimeTrialHUDWidget->Score;
+}
+
+void AGameHUD::FinishTimeTrialMode() {
+	GetWorld()->GetTimerManager().ClearTimer(TimeTrialTimerHandle);
+	FinishedRaceScreenWidget->CalculateTimeTrialScore();
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+	ShowFinishScreen();
 }
