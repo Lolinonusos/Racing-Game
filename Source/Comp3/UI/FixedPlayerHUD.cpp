@@ -45,7 +45,7 @@ void UFixedPlayerHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		}
 		else if (ObtainedSpecial == "Shotgun") {
 			SpecialOutput.Append(ObtainedSpecial);
-			if (FixedCarPtr->ShotgunUses == 2) {
+			if (FixedCarPtr->CurrentWeapon.WeaponUses == 2) {
 				SpecialOutput.Append(" x2");
 			}
 		}

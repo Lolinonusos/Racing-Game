@@ -23,7 +23,7 @@
 // Pickups
 #include "../Objects/Powerups/SpeedBoost.h"
 #include "../Objects/Powerups/AmmoRefill.h"
-#include "../Objects/Powerups/ItemPickups.h"
+
 
 // Objects
 #include "../UI/HUDClass.h"
@@ -123,7 +123,8 @@ ACar::ACar()
 void ACar::BeginPlay()
 {
 	Super::BeginPlay();
-	SpecialWeaponsInventory.Add("Shotgun");
+	CurrentWeapon.WeaponName = "Shotgun";
+	CurrentWeapon.WeaponUses = 2;
 	CollisionBox = this->FindComponentByClass<UBoxComponent>();
 
 	if (CollisionBox) {
@@ -411,46 +412,44 @@ void ACar::Shooting()
 
 void ACar::SpecialShooting() 
 {
+	UWorld* tempWorld = GetWorld();
 	if (bTimerIsFinished) {
-		if (SpecialWeaponsInventory[0] == "Shotgun" && bBoosting == false) {
-			
-			UWorld* tempWorld = GetWorld();
-			if (tempWorld)
-			{
-				if (bBackCamera) {
-					// Shooting backwards
-					FVector Location = GetActorLocation();
-					FVector FwdVector = GetActorForwardVector();
-					FwdVector *= -200;
-					Location += FwdVector;
-					FRotator ShotgunRotation = GetActorRotation();
-					ShotgunRotation.Yaw += 180;
-					FRotator x(0, 2.5, 0);
-					for (int i = 0; i < 5; i++) {
-						tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
+		if (!bBoosting) {
+			if (CurrentWeapon.WeaponName == "Shotgun") {
+
+				if (tempWorld)
+				{
+					if (bBackCamera) {
+						// Shooting backwards
+						FVector Location = GetActorLocation();
+						FVector FwdVector = GetActorForwardVector();
+						FwdVector *= -200;
+						Location += FwdVector;
+						FRotator ShotgunRotation = GetActorRotation();
+						ShotgunRotation.Yaw += 180;
+						FRotator x(0, 2.5, 0);
+						for (int i = 0; i < 5; i++) {
+							tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
+						}
+					}
+					else {
+						FVector Location = GetActorLocation();
+						FVector FwdVector = GetActorForwardVector();
+						FwdVector *= 200;
+						Location += FwdVector;
+						FRotator x(0, 2.5, 0);
+						for (int i = 0; i < 5; i++) {
+							tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
+						}
+					}
+					CurrentWeapon.WeaponUses--;
+					if (CurrentWeapon.WeaponUses == 0) {
+						CurrentWeapon.WeaponName = "";
 					}
 				}
-				else {
-					FVector Location = GetActorLocation();
-					FVector FwdVector = GetActorForwardVector();
-					FwdVector *= 200;
-					Location += FwdVector;
-					FRotator x(0, 2.5, 0);
-					for (int i = 0; i < 5; i++) {
-						tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
-					}
-				}
-				ShotgunUses--;
-				if (ShotgunUses == 0) {
-					SpecialWeaponsInventory[0] = "";
-				}	
 			}
 		}
-		else {
-
-		}
-	}
-	
+	}	
 }
 
 void ACar::ChangeCamera()
@@ -484,12 +483,10 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		AmmoTotal += 30;
 	}
 	else if (OtherActor->IsA(AItemPickups::StaticClass())) {
-		FString ChosenItem = "";
-		if (SpecialWeaponsInventory[0] == "") {
-			ChosenItem = Cast<AItemPickups>(OtherActor)->UniqueItems[0];
-			SpecialWeaponsInventory[0] = ChosenItem;
-			if (ChosenItem == "Shotgun") {
-				ShotgunUses = 2;
+		if (CurrentWeapon.WeaponName == "") {
+			FWeapon BufferWeapon = Cast<AItemPickups>(OtherActor)->UniqueItems[0];
+			if (BufferWeapon.WeaponName == "Shotgun") {
+				CurrentWeapon = BufferWeapon;
 			}
 		}
 		
@@ -539,7 +536,7 @@ int ACar::GetTotalBoost() {
 
 FString ACar::GetSpecial()
 {
-	FString a = SpecialWeaponsInventory[0];
+	FString a = CurrentWeapon.WeaponName;
 	return a;
 }
 

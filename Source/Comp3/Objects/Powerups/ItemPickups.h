@@ -9,6 +9,15 @@
 /**
  * 
  */
+
+USTRUCT()
+struct FWeapon {
+	GENERATED_BODY()
+public:
+	FString WeaponName;
+	int WeaponUses;
+};
+
 UCLASS()
 class COMP3_API AItemPickups : public APickups
 {
@@ -16,8 +25,8 @@ class COMP3_API AItemPickups : public APickups
 		
 public:
 	AItemPickups();
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickups")
-		TArray<FString> UniqueItems;
+	UPROPERTY(EditAnywhere, Category = "Pickups")
+		TArray<FWeapon> UniqueItems;
 	
 	virtual void Tick(float DeltaTime) override;
 };

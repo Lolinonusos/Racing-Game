@@ -4,7 +4,13 @@
 #include "ItemPickups.h"
 
 AItemPickups::AItemPickups() {
-	UniqueItems.Add("Shotgun");
+	FWeapon Shotgun;
+	Shotgun.WeaponName = "Shotgun";
+	Shotgun.WeaponUses = 2;
+
+
+
+	UniqueItems.Add(Shotgun);
 }
 
 void AItemPickups::Tick(float DeltaTime) {

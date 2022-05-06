@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "../Objects/Powerups/ItemPickups.h"
 
 //#include <UObject/ConstructorHelpers.h>
 
@@ -76,9 +77,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float BoostPower = 10000.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-		TArray<FString> SpecialWeaponsInventory;
-
+	UPROPERTY()
+		FWeapon CurrentWeapon;
 
 	int GetAmmo();
 	int GetBoost();
@@ -88,8 +88,6 @@ public:
 	bool bTimerIsFinished = false;
 	UPROPERTY(BlueprintReadWrite)
 	bool bGameIsPaused = false;
-
-	int ShotgunUses = 2;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float MaxHealth = 10;
