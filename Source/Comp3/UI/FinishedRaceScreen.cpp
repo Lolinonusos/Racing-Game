@@ -4,6 +4,7 @@
 #include "FinishedRaceScreen.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "GameHUD.h"
 #include "Kismet/GameplayStatics.h"
 
 bool UFinishedRaceScreen::Initialize() {
@@ -33,4 +34,16 @@ void UFinishedRaceScreen::FinishClickRestartBtn() {
 void UFinishedRaceScreen::FinishClickMainMenuBtn() {
 	UGameplayStatics::OpenLevel(GetWorld(), "LVL_MainMenu");
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
+}
+
+void UFinishedRaceScreen::CalculateTimeTrialScore() {
+	int FinalScore;
+	int SecondScore = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetTimeTrialScore();
+	SecondScore *= 5;
+	
+	FinalScore = SecondScore;
+
+	FString TimeTrialOutput = "Your Score: ";
+	TimeTrialOutput.Append(FString::FromInt(FinalScore));
+	TimeTrialText->SetText(FText::FromString(TimeTrialOutput));
 }
