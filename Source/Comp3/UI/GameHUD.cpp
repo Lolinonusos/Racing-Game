@@ -223,3 +223,7 @@ void AGameHUD::FinishTimeTrialMode() {
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 	ShowFinishScreen();
 }
+
+void AGameHUD::IncreaseTime() {
+	TimeTrialHUDWidget->AddTime(10);
+}

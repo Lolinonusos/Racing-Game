@@ -29,6 +29,7 @@
 #include "../UI/HUDClass.h"
 #include "../UI/GameHUD.h"
 #include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
+#include "../Game-Logic/RacingGameInstance.h"
 
 // Timer
 #include "TimerManager.h"
@@ -138,7 +139,9 @@ void ACar::BeginPlay()
 	
 	/*MainWidget->AddToViewport(); 
 	MainWidget->SetVisibility(ESlateVisibility::Visible);*/
-	
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
+		SetActorRotation(FRotator(0, 180, 0));
+	}
 }
 
 // Called every frame

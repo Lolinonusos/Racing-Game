@@ -126,6 +126,9 @@ public:
 	UFUNCTION()
 		void FinishTimeTrialMode();
 
+	UFUNCTION()
+	 void IncreaseTime();
+
 private:
 	UPauseScreen* PauseWidget;
 	UOptionsMenu* OptionsWidget;
