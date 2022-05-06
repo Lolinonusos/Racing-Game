@@ -97,6 +97,8 @@ public:
 	bool bIsInOptions = false;
 	UPROPERTY(BlueprintReadWrite)
 	bool bReadyToLeavePause = false;
+	UPROPERTY()
+	FVector BulletSpawnLocation = FVector::ZeroVector;
 
 	float GetTotalHealth();
 	float GetCurrentHealth();
@@ -105,6 +107,7 @@ public:
 	FTransform RespawnTransform;
 	void KillTest();
 	void Respawn();
+	void GetProjectilePlacement(bool bIsLookingBack);
 	
 	UFUNCTION(BlueprintCallable)
 		void PauseGame();

@@ -378,6 +378,7 @@ void ACar::StopBoosting()
 
 void ACar::Shooting()
 {
+	FRotator Rotation = GetActorRotation();
 	if (bTimerIsFinished) {
 		if (AmmoTotal > 0 && bBoosting == false) {
 			UWorld* World = GetWorld();
@@ -385,23 +386,18 @@ void ACar::Shooting()
 			{
 				if (bBackCamera) {
 					// Shooting backwards
-					FVector Location = GetActorLocation();
-					FVector FwdVector = GetActorForwardVector();
-					FwdVector *= -200;
-					Location += FwdVector;
-					FRotator Rotation = GetActorRotation();
+					GetProjectilePlacement(true);
 					Rotation.Yaw += 180;
+					Rotation.Pitch += 3;
 
-					World->SpawnActor<AActor>(ActorToSpawn, Location, Rotation);
+					World->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, Rotation);
 					AmmoTotal--;
 				}
 				else {
 					// Shooting forwards
-					FVector Location = GetActorLocation();
-					FVector FwdVector = GetActorForwardVector();
-					FwdVector *= 200;
-					Location += FwdVector;
-					World->SpawnActor<AActor>(ActorToSpawn, Location, GetActorRotation());
+					GetProjectilePlacement(false);
+					Rotation.Pitch += 3;
+					World->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, Rotation);
 					AmmoTotal--;
 				}
 			}
@@ -416,32 +412,26 @@ void ACar::SpecialShooting()
 	if (bTimerIsFinished) {
 		if (!bBoosting) {
 			if (CurrentWeapon.WeaponName == "Shotgun") {
+				FRotator ShotgunRotation = GetActorRotation();
 
 				if (tempWorld)
 				{
 					if (bBackCamera) {
 						// Shooting backwards
-						FVector Location = GetActorLocation();
-						FVector FwdVector = GetActorForwardVector();
-						FwdVector *= -200;
-						Location += FwdVector;
-						FRotator ShotgunRotation = GetActorRotation();
+						GetProjectilePlacement(true);
 						ShotgunRotation.Yaw += 180;
-						FRotator x(0, 2.5, 0);
-						for (int i = 0; i < 5; i++) {
-							tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (ShotgunRotation - 2 * x) + x * i);
-						}
+						ShotgunRotation.Pitch += 3;
 					}
 					else {
-						FVector Location = GetActorLocation();
-						FVector FwdVector = GetActorForwardVector();
-						FwdVector *= 200;
-						Location += FwdVector;
-						FRotator x(0, 2.5, 0);
-						for (int i = 0; i < 5; i++) {
-							tempWorld->SpawnActor<AActor>(ActorToSpawn, Location, (GetActorRotation() - 2 * x) + x * i);
-						}
+						GetProjectilePlacement(false);
+						ShotgunRotation.Pitch += 3;
 					}
+
+					FRotator x(0, 2.5, 0);
+					for (int i = 0; i < 5; i++) {
+						tempWorld->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, (ShotgunRotation - 2 * x) + x * i);
+					}
+
 					CurrentWeapon.WeaponUses--;
 					if (CurrentWeapon.WeaponUses == 0) {
 						CurrentWeapon.WeaponName = "";
@@ -454,7 +444,6 @@ void ACar::SpecialShooting()
 
 void ACar::ChangeCamera()
 {
-	UE_LOG(LogTemp, Warning, TEXT("ENTERED"))
 	if (!bBackCamera) {
 		Camera->Deactivate();
 		BackCamera->Activate();
@@ -465,7 +454,6 @@ void ACar::ChangeCamera()
 		BackCamera->Deactivate();
 	}
 	bBackCamera = !bBackCamera;
-	
 }
 
 void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
@@ -520,6 +508,20 @@ void ACar::Respawn()
 	GetWorldTimerManager().ClearTimer(RespawnTimer);
 	// SetActorLocation(RespawnPosition);
 	// SetActorRotation(RespawnRotation);
+}
+
+void ACar::GetProjectilePlacement(bool bIsLookingBack) {
+	BulletSpawnLocation = GetActorLocation();
+	FVector FwdVector = GetActorForwardVector();
+
+	if (bIsLookingBack) {
+		FwdVector *= -200;
+	}
+	else {
+		FwdVector *= 200;
+	}
+
+	BulletSpawnLocation += FwdVector;
 }
 
 int ACar::GetAmmo() {
