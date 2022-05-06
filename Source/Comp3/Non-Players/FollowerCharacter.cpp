@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Non-Players/FollowerCharacter.h"
+#include "FollowerCharacter.h"
 
 // Sets default values
 AFollowerCharacter::AFollowerCharacter()
