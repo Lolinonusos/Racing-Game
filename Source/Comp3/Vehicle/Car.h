@@ -77,8 +77,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	float BoostPower = 10000.f;
 
+
 	UPROPERTY()
 		FWeapon CurrentWeapon;
+
 
 	int GetAmmo();
 	int GetBoost();
