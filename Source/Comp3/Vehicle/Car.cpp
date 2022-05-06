@@ -388,18 +388,14 @@ void ACar::Shooting()
 					// Shooting backwards
 					GetProjectilePlacement(true);
 					Rotation.Yaw += 180;
-					Rotation.Pitch += 3;
-
-					World->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, Rotation);
-					AmmoTotal--;
 				}
 				else {
 					// Shooting forwards
 					GetProjectilePlacement(false);
-					Rotation.Pitch += 3;
-					World->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, Rotation);
-					AmmoTotal--;
 				}
+				Rotation.Pitch += 3;
+				World->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, Rotation);
+				AmmoTotal--;
 			}
 		}
 	}
