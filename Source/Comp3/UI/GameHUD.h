@@ -100,7 +100,7 @@ public:
 		FString GetGameModeSelected();
 
 	UFUNCTION()
-		void SetupHUDForRacingMode();
+		void SetupHUDForShooterMode();
 
 	UFUNCTION()
 		void SetupHUDForTimeTrialMode();

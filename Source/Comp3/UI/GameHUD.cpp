@@ -88,8 +88,8 @@ void AGameHUD::BeginPlay() {
 	}
 
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test") {
-		if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
-			SetupHUDForRacingMode();
+		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
+			SetupHUDForShooterMode();
 		}
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
 			SetupHUDForTimeTrialMode();
@@ -165,7 +165,7 @@ FString AGameHUD::GetGameModeSelected() {
 	return "";
 }
 
-void AGameHUD::SetupHUDForRacingMode() {
+void AGameHUD::SetupHUDForShooterMode() {
 	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 

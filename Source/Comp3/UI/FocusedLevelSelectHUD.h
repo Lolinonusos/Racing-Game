@@ -26,7 +26,7 @@ public:
 	bool bGameModeSelected = false;
 	UPROPERTY(BlueprintReadWrite)
 	FString SelectedGameMode = "";
-	// "Racing" equals regular racing mode
+	// "Shooter" equals regular shooter mode
 	// "Time" equals time trial mode
 
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
@@ -38,7 +38,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
 	class UTextBlock* DescriptionText;
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
-	class UButton* RacingModeButton;
+	class UButton* ShooterModeButton;
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
 	class UButton* TimeTrialModeButton;
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
@@ -47,7 +47,7 @@ public:
 	class UButton* BackButton;
 
 	UFUNCTION()
-		void ClickRacingModeBtn();
+		void ClickShooterModeBtn();
 	UFUNCTION()
 		void ClickTimeTrialModeBtn();
 	UFUNCTION()

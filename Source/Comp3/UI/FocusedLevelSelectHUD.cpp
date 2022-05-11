@@ -10,8 +10,8 @@
 bool UFocusedLevelSelectHUD::Initialize() {
 	Super::Initialize();
 
-	if (RacingModeButton) {
-		RacingModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickRacingModeBtn);
+	if (ShooterModeButton) {
+		ShooterModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickShooterModeBtn);
 	}
 	if (TimeTrialModeButton) {
 		TimeTrialModeButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickTimeTrialModeBtn);
@@ -40,9 +40,9 @@ void UFocusedLevelSelectHUD::NativeTick(const FGeometry& MyGeometry, float InDel
 	}
 }
 
-void UFocusedLevelSelectHUD::ClickRacingModeBtn() {
+void UFocusedLevelSelectHUD::ClickShooterModeBtn() {
 	URacingGameInstance* InstancePtr1 = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	InstancePtr1->ChosenGameModeToPlay = "Racing";
+	InstancePtr1->ChosenGameModeToPlay = "Shooter";
 	ChangeGameModeDescription();
 	bGameModeSelected = true;
 }
@@ -70,8 +70,8 @@ void UFocusedLevelSelectHUD::ClickPlayButton() {
 }
 
 void UFocusedLevelSelectHUD::ChangeGameModeDescription() {
-	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Racing") {
-		DescriptionNameText->SetText(FText::FromString("Racing Mode"));
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Shooter") {
+		DescriptionNameText->SetText(FText::FromString("Shooter Mode"));
 		DescriptionText->SetText(FText::FromString("Be the first to reach the finish line!\nShoot down your foes to gain points!"));
 	}
 	else  if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
