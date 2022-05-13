@@ -22,6 +22,7 @@ public:
 	ACar* PlayerShipPtr2 = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	AComp3GameModeBase* GameModePtr2 = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
+	virtual bool Initialize() override;
 	void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))

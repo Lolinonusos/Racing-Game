@@ -5,6 +5,19 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 #include "Math/Color.h"
+#include "../Game-Logic/RacingGameInstance.h"
+#include "Kismet/GameplayStatics.h"
+
+bool UHUDClass::Initialize() {
+	Super::Initialize();
+
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay != "Shooter")
+	{
+		HealthBar->SetVisibility(ESlateVisibility::Hidden);
+	}
+	
+	return true;
+}
 
 void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);
@@ -23,6 +36,9 @@ void UHUDClass::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 
 		
 		BoostBar->SetPercent(BoostBarPercent);
-		HealthBar->SetPercent(HealthPercentage);
+		if (HealthBar->Visibility != ESlateVisibility::Hidden)
+		{
+			HealthBar->SetPercent(HealthPercentage);
+		}
 	}
 }
