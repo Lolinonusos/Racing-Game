@@ -30,6 +30,8 @@ void ATimeTrialPickup::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	if (OtherActor->IsA(ACar::StaticClass())) {
 		AGameHUD* PickupHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 		PickupHUDPtr->IncreaseTime();
+		PickupHUDPtr->IncreasePickupCount();
+		
 		Super::DeleteSelf();
 	}
 }

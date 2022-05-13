@@ -184,7 +184,8 @@ private:
 	void StopBoosting();
 	bool bBoosting = false;
 	bool bBackCamera = false;
-	
+
+	bool bIsInTimeTrialMode = false;
 	
 	float RefillTimer;
 	

@@ -39,6 +39,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	FTimerHandle TimeTrialTimerHandle;
+	FTimerHandle SecondsSurvivedHandle;
 
 	URacingGameInstance* HUDInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
@@ -124,10 +125,18 @@ public:
 		int GetTimeTrialScore();
 
 	UFUNCTION()
+		int GetPickupScore();
+	
+	UFUNCTION()
 		void FinishTimeTrialMode();
 
 	UFUNCTION()
-	 void IncreaseTime();
+		void IncreaseTime();
+
+	UFUNCTION()
+		void IncreasePickupCount();
+	UFUNCTION()
+		void IncreaseSurvivedSeconds();
 
 private:
 	UPauseScreen* PauseWidget;

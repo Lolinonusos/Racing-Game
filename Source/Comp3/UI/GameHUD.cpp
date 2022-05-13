@@ -94,6 +94,7 @@ void AGameHUD::BeginPlay() {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
 			SetupHUDForTimeTrialMode();
 			GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 4.f);
+			GetWorld()->GetTimerManager().SetTimer(SecondsSurvivedHandle, this, &AGameHUD::IncreaseSurvivedSeconds, 1.f, true, 4.f);
 		}
 	}
 	
@@ -217,8 +218,13 @@ int AGameHUD::GetTimeTrialScore() {
 	return TimeTrialHUDWidget->Score;
 }
 
+int AGameHUD::GetPickupScore() {
+	return TimeTrialHUDWidget->PickupsCollected;
+}
+
 void AGameHUD::FinishTimeTrialMode() {
 	GetWorld()->GetTimerManager().ClearTimer(TimeTrialTimerHandle);
+	GetWorld()->GetTimerManager().ClearTimer((SecondsSurvivedHandle));
 	FinishedRaceScreenWidget->CalculateTimeTrialScore();
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 	ShowFinishScreen();
@@ -226,4 +232,13 @@ void AGameHUD::FinishTimeTrialMode() {
 
 void AGameHUD::IncreaseTime() {
 	TimeTrialHUDWidget->AddTime(10);
+}
+
+void AGameHUD::IncreasePickupCount() {
+	TimeTrialHUDWidget->PickupsCollected++;
+	UE_LOG(LogTemp, Warning, TEXT("PICKUPS COLLECTED: %d"),TimeTrialHUDWidget->PickupsCollected)
+}
+
+void AGameHUD::IncreaseSurvivedSeconds() {
+	TimeTrialHUDWidget->IncreaseTimeScore();
 }

@@ -37,11 +37,16 @@ void UFinishedRaceScreen::FinishClickMainMenuBtn() {
 }
 
 void UFinishedRaceScreen::CalculateTimeTrialScore() {
-	int FinalScore;
 	int SecondScore = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetTimeTrialScore();
 	SecondScore *= 5;
-	
-	FinalScore = SecondScore;
+
+	int PickupsScore = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetPickupScore();
+	PickupsScore *= 50;
+
+	int CheckpointsScore = 0;
+	CheckpointsScore *= 200;
+
+	int FinalScore = SecondScore + PickupsScore + CheckpointsScore;
 
 	FString TimeTrialOutput = "Your Score: ";
 	TimeTrialOutput.Append(FString::FromInt(FinalScore));

@@ -141,6 +141,7 @@ void ACar::BeginPlay()
 	MainWidget->SetVisibility(ESlateVisibility::Visible);*/
 	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
 		SetActorRotation(FRotator(0, 180, 0));
+		bIsInTimeTrialMode = true;
 	}
 }
 
@@ -382,7 +383,7 @@ void ACar::StopBoosting()
 void ACar::Shooting()
 {
 	FRotator Rotation = GetActorRotation();
-	if (bTimerIsFinished) {
+	if (bTimerIsFinished && (bIsInTimeTrialMode == false)) {
 		if (AmmoTotal > 0 && bBoosting == false) {
 			UWorld* World = GetWorld();
 			if (World)
@@ -408,7 +409,7 @@ void ACar::Shooting()
 void ACar::SpecialShooting() 
 {
 	UWorld* tempWorld = GetWorld();
-	if (bTimerIsFinished) {
+	if (bTimerIsFinished && (bIsInTimeTrialMode == false)) {
 		if (!bBoosting) {
 			if (CurrentWeapon.WeaponName == "Shotgun") {
 				FRotator ShotgunRotation = GetActorRotation();

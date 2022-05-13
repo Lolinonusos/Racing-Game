@@ -24,16 +24,21 @@ public:
 		class UTextBlock* SecondsText;
 	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
 		class UTextBlock* MilliSecondsText;
+	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
+	class UTextBlock* SecondsScore;
 
 	void DecreaseTime();
 	void UpdateTimer();
 	void AddTime(int Increase);
+	void IncreaseTimeScore();
 	int MilliSeconds{};
 	int Seconds{};
 	int Minutes = 1;
 	bool bTimerIsFinished = false;
 	int Score{};
-
+	int PickupsCollected{};
+	int CheckpointsReached{0};
+	int SecondsSurvived{0};
 
 	FString MinutesOutput = "";
 	FString SecondsOutput;

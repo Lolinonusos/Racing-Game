@@ -92,3 +92,10 @@ void UTimeTrialHUD::AddTime(int Increase) {
 		Seconds += Increase;
 	}
 }
+
+void UTimeTrialHUD::IncreaseTimeScore() {
+	SecondsSurvived++;
+	FString SecondsScoreOutput = "Seconds Survived: ";
+	SecondsScoreOutput.Append(FString::FromInt(SecondsSurvived));
+	SecondsScore->SetText(FText::FromString(SecondsScoreOutput));
+}
