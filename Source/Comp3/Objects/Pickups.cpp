@@ -49,3 +49,7 @@ void APickups::Levitate(float Time) {
 	RunningTime += Time;
 }
 
+void APickups::Respawn() {
+	
+}
+

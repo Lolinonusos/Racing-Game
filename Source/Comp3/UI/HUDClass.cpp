@@ -11,9 +11,14 @@
 bool UHUDClass::Initialize() {
 	Super::Initialize();
 
-	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay != "Shooter")
+	URacingGameInstance* InstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	
+	if (InstancePtr)
 	{
-		HealthBar->SetVisibility(ESlateVisibility::Hidden);
+		if (InstancePtr->ChosenGameModeToPlay != "Shooter")
+		{
+			HealthBar->SetVisibility(ESlateVisibility::Hidden);
+		}
 	}
 	
 	return true;

@@ -61,4 +61,7 @@ public:
 
 	UFUNCTION()
 		void Levitate(float Time);
+
+	UFUNCTION()
+		void Respawn();
 };
