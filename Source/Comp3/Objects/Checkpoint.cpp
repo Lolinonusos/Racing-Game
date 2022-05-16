@@ -20,7 +20,12 @@ ACheckpoint::ACheckpoint()
 void ACheckpoint::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
+		if (CheckpointBox)
+		{
+			CheckpointBox->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnOverlap);
+		}
 }
 
 // Called every frame
@@ -28,16 +33,21 @@ void ACheckpoint::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (CheckpointBox) {
-		CheckpointBox->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnOverlap);
-	}
 	
 }
 
+// Reset collision values
 void ACheckpoint::TurnOnCollision()
 {
-	//CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	if(!bIsGoal)
+	{
+		SetActorEnableCollision(true);
+	}
+	else
+	{
+		SetActorEnableCollision(false);
 
+	}
 }
 
 void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -53,15 +63,22 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		CurrentCheckpointPosition = GetActorLocation();
 		UE_LOG(LogTemp, Warning, TEXT("Current checkpoint position is %f, %f, %f"), CurrentCheckpointPosition.X, CurrentCheckpointPosition.Y, CurrentCheckpointPosition.Z);
 
-		// 
-		CarPtr->RespawnTransform = GetActorTransform();
+		// Respawn coordinates
+		CarPtr->RespawnLocation = GetActorLocation();
+		CarPtr->RespawnRotation = GetActorRotation();
+		
+		if (GameModePtr->CheckPointsReached == (GameModePtr->TotalCheckPoints - 1) && bIsGoal)
+		{
+		 	CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			UE_LOG(LogTemp, Warning, TEXT("Now only goal should be active"));
+		}
 		
 		// Re-enables collision when all checkpoints are reached
 		if (GameModePtr->LapCleared())
 		{
 			CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			TurnOnCollision();
 		}
-
 	}
 }
 

@@ -25,6 +25,7 @@ AComp3GameModeBase::AComp3GameModeBase() {
 
 void AComp3GameModeBase::SetTotalCheckPoints(int Increase) {
 	TotalCheckPoints += Increase;
+	
 }
 
 bool AComp3GameModeBase::LapCleared()

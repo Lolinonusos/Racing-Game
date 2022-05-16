@@ -8,7 +8,7 @@
 #include "GameFramework/PlayerInput.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/BoxComponent.h"
-#include "DrawDebugHelpers.h"
+
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -495,8 +495,10 @@ void ACar::KillTest()
 void ACar::Respawn()
 {
 	CurrentHealth = MaxHealth;
-	SetActorTransform(RespawnTransform);
-
+	//SetActorTransform(RespawnTransform);
+	SetActorLocation(RespawnLocation);
+	SetActorRotation(RespawnRotation);
+	
 	SetActorTickEnabled(true);
 	SetActorHiddenInGame(false);
 	SetActorEnableCollision(true);

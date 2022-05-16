@@ -26,9 +26,9 @@ void AFollowerCharacter::Tick(float DeltaTime)
 }
 
 // Called to bind functionality to input
-void AFollowerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
+// void AFollowerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+// {
+// 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+//
+// }
 

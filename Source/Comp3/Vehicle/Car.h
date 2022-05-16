@@ -106,7 +106,8 @@ public:
 	float GetCurrentHealth();
 
 	float RespawnTime = 0;
-	FTransform RespawnTransform;
+	FVector RespawnLocation;
+	FRotator RespawnRotation;
 	void KillTest();
 	void Respawn();
 	void GetProjectilePlacement(bool bIsLookingBack);
