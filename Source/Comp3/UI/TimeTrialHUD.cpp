@@ -5,7 +5,7 @@
 #include "Components/TextBlock.h"
 #include "GameHUD.h"
 
-
+// THIS DOCUMENT WAS WRITTEN BY JOACHIM
 
 void UTimeTrialHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);

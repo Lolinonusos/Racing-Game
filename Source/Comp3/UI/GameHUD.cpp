@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+// THIS DOCUMENT WAS WRITTEN BY JOACHIM
 
 #include "GameHUD.h"
 

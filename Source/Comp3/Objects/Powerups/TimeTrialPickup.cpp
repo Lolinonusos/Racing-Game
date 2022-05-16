@@ -6,6 +6,8 @@
 #include "../../Vehicle/Car.h"
 #include "Components/BoxComponent.h"
 
+// THIS DOCUMENT WAS WRITTEN BY JOACHIM
+
 void ATimeTrialPickup::BeginPlay() {
 	Super::BeginPlay();
 
@@ -17,12 +19,8 @@ void ATimeTrialPickup::BeginPlay() {
 
 void ATimeTrialPickup::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-	FVector NewLocation = GetActorLocation();
 
-	NewLocation.Z = NewLocation.Z + (0.25f) * FMath::Sin(B * RunningTime - C) + D;
-
-	SetActorLocation(NewLocation);
-	RunningTime += DeltaTime;
+	Super::Levitate(DeltaTime);
 }
 
 void ATimeTrialPickup::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

@@ -7,6 +7,7 @@
 #include "Powerups.h"
 #include "Pickups.generated.h"
 
+// DOCUMENT WRITTEN BY JOACHIM
 
 UCLASS()
 class COMP3_API APickups : public AActor
@@ -57,4 +58,7 @@ public:
 		float D;
 
 	float RunningTime;
+
+	UFUNCTION()
+		void Levitate(float Time);
 };

@@ -9,6 +9,8 @@
 /**
  * 
  */
+// THIS DOCUMENT WAS WRITTEN BY JOACHIM
+
 UCLASS()
 class COMP3_API UTimeTrialHUD : public UUserWidget
 {

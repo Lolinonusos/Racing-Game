@@ -7,6 +7,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Math/UnrealMathVectorCommon.h"
 
+// THIS DOCUMENT WAS WRITTEN BY JOACHIM
+
 // Sets default values
 ALevelSelect::ALevelSelect()
 {

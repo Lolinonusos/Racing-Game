@@ -9,6 +9,8 @@
 /**
  * 
  */
+// DOCUMENT WRITTEN BY JOACHIM
+
 UCLASS()
 class COMP3_API AHealthRefill : public APickups
 {

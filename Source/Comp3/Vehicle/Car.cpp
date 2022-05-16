@@ -379,7 +379,7 @@ void ACar::StopBoosting()
 	RefillTimer = 0.f;
 	bBoosting = false;
 }
-
+// Function written by Joachim
 void ACar::Shooting()
 {
 	FRotator Rotation = GetActorRotation();
@@ -405,7 +405,7 @@ void ACar::Shooting()
 	}
 	
 }
-
+// Function written by Joachim
 void ACar::SpecialShooting() 
 {
 	UWorld* tempWorld = GetWorld();
@@ -441,7 +441,7 @@ void ACar::SpecialShooting()
 		}
 	}	
 }
-
+// Function written by Joachim
 void ACar::ChangeCamera()
 {
 	if (!bBackCamera) {
@@ -552,6 +552,7 @@ float ACar::GetCurrentHealth()
 	return CurrentHealth;
 }
 
+// Function written by Joachim
 void ACar::PauseGame() {
 	UE_LOG(LogTemp, Warning, TEXT("ENTERED PAUSE FUNCTION"))
 	AGameHUD* HUDPtr = Cast<AGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());

@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "LevelSelect.generated.h"
 
+// THIS DOCUMENT WAS WRITTEN BY JOACHIM
+
 USTRUCT(BlueprintType)
 struct FPlanet {
 	GENERATED_BODY()

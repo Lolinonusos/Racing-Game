@@ -4,6 +4,9 @@
 #include "Pickups.h"
 #include "Components/BoxComponent.h"
 
+
+// DOCUMENT WRITTEN BY JOACHIM
+
 // Sets default values
 APickups::APickups()
 {
@@ -28,10 +31,21 @@ void APickups::BeginPlay()
 void APickups::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void APickups::DeleteSelf() {
 	UE_LOG(LogTemp, Warning, TEXT("HIT BOX"));
 	this->Destroy();
 }
+
+
+// Function written by Linus
+void APickups::Levitate(float Time) {
+	FVector NewLocation = GetActorLocation();
+
+	NewLocation.Z = NewLocation.Z + (0.25f) * FMath::Sin(B * RunningTime - C) + D;
+
+	SetActorLocation(NewLocation);
+	RunningTime += Time;
+}
+

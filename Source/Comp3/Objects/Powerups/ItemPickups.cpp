@@ -3,6 +3,8 @@
 
 #include "ItemPickups.h"
 
+// DOCUMENT WRITTEN BY JOACHIM
+
 AItemPickups::AItemPickups() {
 	FWeapon Shotgun;
 	Shotgun.WeaponName = "Shotgun";
@@ -16,10 +18,5 @@ AItemPickups::AItemPickups() {
 void AItemPickups::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
-	FVector NewLocation = GetActorLocation();
-
-	NewLocation.Z = NewLocation.Z + (0.25f) * FMath::Sin(B * RunningTime - C) + D;
-
-	SetActorLocation(NewLocation);
-	RunningTime += DeltaTime;
+	Super::Levitate(DeltaTime);
 }

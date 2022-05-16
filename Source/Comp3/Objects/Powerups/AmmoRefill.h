@@ -6,6 +6,7 @@
 #include "../Pickups.h"
 #include "AmmoRefill.generated.h"
 
+// DOCUMENT WRITTEN BY JOACHIM
 
 UCLASS()
 class COMP3_API AAmmoRefill : public APickups

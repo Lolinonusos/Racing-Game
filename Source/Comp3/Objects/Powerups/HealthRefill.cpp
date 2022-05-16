@@ -3,14 +3,12 @@
 
 #include "HealthRefill.h"
 
+// DOCUMENT WRITTEN BY JOACHIM
 
 void AHealthRefill::Tick(float DeltaTime) {
 	FVector NewLocation = GetActorLocation();
 
-	NewLocation.Z = NewLocation.Z + (0.25f) * FMath::Sin(B * RunningTime - C) + D;
-
-	SetActorLocation(NewLocation);
-	RunningTime += DeltaTime;
+	Super::Levitate(DeltaTime);
 }
 
 float AHealthRefill::GetHealthRegen() {

@@ -7,6 +7,8 @@
 #include "GameHUD.h"
 #include "Kismet/GameplayStatics.h"
 
+// THIS DOCUMENT WAS WRITTEN BY JOACHIM
+
 bool UFinishedRaceScreen::Initialize() {
 	Super::Initialize();
 

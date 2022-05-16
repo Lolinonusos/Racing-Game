@@ -3,15 +3,12 @@
 
 #include "AmmoRefill.h"
 
+// DOCUMENT WRITTEN BY JOACHIM
+
 void AAmmoRefill::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
-	FVector NewLocation = GetActorLocation();
-
-	NewLocation.Z = NewLocation.Z + (0.25f) * FMath::Sin(B * RunningTime - C) + D;
-
-	SetActorLocation(NewLocation);
-	RunningTime += DeltaTime;
+	Super::Levitate(DeltaTime);
 }
 
 int AAmmoRefill::GetAmmoRegen() {
