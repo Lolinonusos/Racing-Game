@@ -38,3 +38,7 @@ void UOptionsMenu::ClickReturnBtn() {
 		OptionsHUDPtr->CloseOptionsMenu();
 	}
 }
+
+float UOptionsMenu::GetVolume() {
+	return AudioSlider->GetValue();
+}

@@ -88,7 +88,7 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
-	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test") {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			SetupHUDForShooterMode();
 		}
@@ -142,10 +142,17 @@ void AGameHUD::CloseOptionsMenuFromMain() {
 
 void AGameHUD::OpenPauseMenu() {
 	PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	TimeTrialHUDWidget->SetVisibility((ESlateVisibility::Hidden));
+	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AGameHUD::ClosePauseMenu() {
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
+		FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	} else {
+		TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Visible);	
+	}
 }
 
 void AGameHUD::FocusOnPlanet() {
@@ -242,4 +249,9 @@ void AGameHUD::IncreasePickupCount() {
 
 void AGameHUD::IncreaseSurvivedSeconds() {
 	TimeTrialHUDWidget->IncreaseTimeScore();
+}
+
+float AGameHUD::GetVolumeMultiplier() {
+	AudioMultiplier = OptionsWidget->GetVolume();
+	return AudioMultiplier;
 }

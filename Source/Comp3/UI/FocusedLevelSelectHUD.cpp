@@ -66,6 +66,9 @@ void UFocusedLevelSelectHUD::ClickPlayButton() {
 		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "The Big Cheesus") {
 			UGameplayStatics::OpenLevel(GetWorld(), "Test");
 		}
+		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "Play Test") {
+			UGameplayStatics::OpenLevel(GetWorld(), "FeatureDisplay");
+		}
 	}
 }
 

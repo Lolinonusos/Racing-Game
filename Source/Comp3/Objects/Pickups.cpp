@@ -33,9 +33,12 @@ void APickups::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+// Function written by Joachim
 void APickups::DeleteSelf() {
 	UE_LOG(LogTemp, Warning, TEXT("HIT BOX"));
-	this->Destroy();
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+	GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &APickups::Respawn, 1.f, true, 0.f);
 }
 
 
@@ -49,7 +52,14 @@ void APickups::Levitate(float Time) {
 	RunningTime += Time;
 }
 
+// Function written by Joachim
 void APickups::Respawn() {
-	
+	TimeUntilRespawn += 1.f;
+	if (TimeUntilRespawn >= RespawnTime) {
+		GetWorld()->GetTimerManager().ClearTimer(RespawnTimerHandle);
+		TimeUntilRespawn = 0;
+		SetActorHiddenInGame(false);
+		SetActorEnableCollision(true);
+	}
 }
 

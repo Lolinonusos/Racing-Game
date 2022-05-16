@@ -26,14 +26,14 @@ ALevelSelect::ALevelSelect()
 	Level1.bCanFocus = true;
 
 	FPlanet Level2;
-	Level2.PlanetName = "NOT YET IMPLEMENTED";
+	Level2.PlanetName = "Play test";
 	Level2.IdealCameraRotation = FRotator(0, -90, 0);
 	Level2.IdealCameraLocation = FVector(400, 500, 0);
 	Level2.FocusedCameraLocation = GetActorLocation();
 	Level2.FocusedCameraLocation.X = Level2.IdealCameraLocation.X + 100;
 	Level2.FocusedCameraLocation.Y = Level2.IdealCameraLocation.Y - 50;
 	Level2.FocusedCameraLocation.Z = Level2.IdealCameraLocation.Z - 50;
-	Level2.bCanFocus = false;
+	Level2.bCanFocus = true;
 
 	FPlanet Level3;
 	Level3.PlanetName = "NOT YET IMPLEMENTED";
