@@ -4,11 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 #include "MainMenuScreen.generated.h"
+
 
 /**
  * 
  */
+//class AGameHUD;
 UCLASS()
 class COMP3_API UMainMenuScreen : public UUserWidget
 {
@@ -30,6 +33,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Main Menu")
 		USoundBase* MainMenuClickSound;
 
+	//UPROPERTY()
+	//AGameHUD* MainMenuHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
 
 	UFUNCTION()
 	void ClickStartGame();

@@ -34,4 +34,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Options Menu")
 		USoundBase* ReturnButtonSound;
+
+	UFUNCTION()
+		float GetVolume();
 };

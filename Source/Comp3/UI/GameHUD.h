@@ -71,7 +71,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> ControlsScreenWidgetClass;
-
+		
+	UPROPERTY()
+		float AudioMultiplier{};
+	
 	UFUNCTION(BlueprintCallable)
 		void UpdateSliderPercentage();
 
@@ -139,6 +142,9 @@ public:
 		void IncreasePickupCount();
 	UFUNCTION()
 		void IncreaseSurvivedSeconds();
+
+	UFUNCTION()
+		float GetVolumeMultiplier();
 
 private:
 	UPauseScreen* PauseWidget;

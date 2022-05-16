@@ -88,7 +88,7 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
-	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test") {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			SetupHUDForShooterMode();
 		}
@@ -249,4 +249,9 @@ void AGameHUD::IncreasePickupCount() {
 
 void AGameHUD::IncreaseSurvivedSeconds() {
 	TimeTrialHUDWidget->IncreaseTimeScore();
+}
+
+float AGameHUD::GetVolumeMultiplier() {
+	AudioMultiplier = OptionsWidget->GetVolume();
+	return AudioMultiplier;
 }
