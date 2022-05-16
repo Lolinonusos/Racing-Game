@@ -22,13 +22,18 @@ bool UFocusedLevelSelectHUD::Initialize() {
 	if (PlayButton) {
 		PlayButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickPlayButton);
 	}
-
+	if (!FocusedLevelSelectHUDPtr) {
+		FocusedLevelSelectHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	}
+	if (!FocusedLevelSelectInstancePtr) {
+		FocusedLevelSelectInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
+	
 	return true;
 }
 
 void UFocusedLevelSelectHUD::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	//UE_LOG(LogTemp, Warning, TEXT("HELOOOOO"));
 	
 	FocusedLevelName->SetText(FText::FromString(FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName));
 	
@@ -45,6 +50,7 @@ void UFocusedLevelSelectHUD::ClickShooterModeBtn() {
 	InstancePtr1->ChosenGameModeToPlay = "Shooter";
 	ChangeGameModeDescription();
 	bGameModeSelected = true;
+	UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }
 
 void UFocusedLevelSelectHUD::ClickTimeTrialModeBtn() {
@@ -52,12 +58,14 @@ void UFocusedLevelSelectHUD::ClickTimeTrialModeBtn() {
 	InstancePtr2->ChosenGameModeToPlay = "Time";
 	ChangeGameModeDescription();
 	bGameModeSelected = true;
+	UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }
 
 void UFocusedLevelSelectHUD::ClickBackButton() {
 	if (!FocusedLevelSelectPtr->bIsEnteringFocus) {
 		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->LeaveFocusOnPlanet();
 		FocusedLevelSelectPtr->bIsLeavingFocus = true;
+		UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	}
 }
 
@@ -69,6 +77,7 @@ void UFocusedLevelSelectHUD::ClickPlayButton() {
 		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "Play Test") {
 			UGameplayStatics::OpenLevel(GetWorld(), "FeatureDisplay");
 		}
+		UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	}
 }
 

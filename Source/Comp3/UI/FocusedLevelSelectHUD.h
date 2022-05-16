@@ -11,6 +11,8 @@
 /**
  * 
  */
+class AGameHUD;
+class URacingGameInstance;
 UCLASS()
 class COMP3_API UFocusedLevelSelectHUD : public UUserWidget
 {
@@ -45,6 +47,12 @@ public:
 	class UButton* PlayButton;
 	UPROPERTY(BlueprintReadWrite, Category = "LevelSelectUI | Focused", meta = (BindWidget))
 	class UButton* BackButton;
+	UPROPERTY()
+	AGameHUD* FocusedLevelSelectHUDPtr;
+	UPROPERTY()
+	URacingGameInstance* FocusedLevelSelectInstancePtr;
+	UPROPERTY(EditDefaultsOnly)
+	USoundBase* FocusedClickSelectSound;
 
 	UFUNCTION()
 		void ClickShooterModeBtn();

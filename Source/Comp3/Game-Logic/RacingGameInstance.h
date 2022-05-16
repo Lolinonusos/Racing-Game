@@ -9,6 +9,7 @@
 /**
  * 
  */
+class AGameHUD;
 UCLASS()
 class COMP3_API URacingGameInstance : public UGameInstance
 {
@@ -20,4 +21,13 @@ public:
 	virtual void StartGameInstance() override;
 
 	FString ChosenGameModeToPlay = "";
+	float GameVolume = 1.f;
+
+	UPROPERTY()
+	AGameHUD* InstanceHUDPtr;
+
+	UFUNCTION()
+	void SetGameAudio(float NewValue);
+	UFUNCTION()
+	float GetGameAudio();
 };

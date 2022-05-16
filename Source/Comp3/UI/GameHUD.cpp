@@ -252,6 +252,12 @@ void AGameHUD::IncreaseSurvivedSeconds() {
 }
 
 float AGameHUD::GetVolumeMultiplier() {
-	AudioMultiplier = OptionsWidget->GetVolume();
-	return AudioMultiplier;
+	if (OptionsWidget) {
+		AudioMultiplier = OptionsWidget->GetVolume();
+		Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->SetGameAudio(AudioMultiplier);
+		return AudioMultiplier;
+	}
+	else {
+		 return 1.f;
+	}
 }

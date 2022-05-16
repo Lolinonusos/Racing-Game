@@ -26,4 +26,7 @@ public:
 		void ClickedControlsReturnBtn();
 	UFUNCTION()
 		void ChangeButtonText(FString NewText);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Main Menu")
+	USoundBase* ControlsToMenuReturnSound;
 };

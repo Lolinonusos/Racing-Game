@@ -26,6 +26,10 @@ bool UPauseScreen::Initialize() {
 	if (PauseMenuControlsButton) {
 		PauseMenuControlsButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickControlsBtn);
 	}
+	if (!PauseMenuInstancePtr) {
+		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
+	
 
 	return true;
 }
@@ -35,7 +39,7 @@ void UPauseScreen::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 }
 
 void UPauseScreen::ClickResumeBtn() {
-	PlaySound(ClickingSound);
+	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	UE_LOG(LogTemp, Warning, TEXT("RESUMING"))
 	ACar* PauseCarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	PauseCarPtr->bGameIsPaused = true;
@@ -43,21 +47,22 @@ void UPauseScreen::ClickResumeBtn() {
 }
 
 void UPauseScreen::ClickOptionsBtn() {
-	PlaySound(ClickingSound);
+	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->OpenOptionsMenu();
 }
 
 void UPauseScreen::ClickRestartBtn() {
-	PlaySound(ClickingSound);
+	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	UGameplayStatics::OpenLevel(GetWorld(), "Test");
 }
 
 void UPauseScreen::ClickMenuBtn() {
-	PlaySound(ClickingSound);
+	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	
 	UGameplayStatics::OpenLevel(GetWorld(), "LVL_MainMenu");
 }
 
 void UPauseScreen::ClickControlsBtn() {
+	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowControls();
 }

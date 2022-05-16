@@ -11,7 +11,8 @@
 /**
  * 
  */
-//class AGameHUD;
+class AGameHUD;
+class URacingGameInstance;
 UCLASS()
 class COMP3_API UMainMenuScreen : public UUserWidget
 {
@@ -33,8 +34,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Main Menu")
 		USoundBase* MainMenuClickSound;
 
-	//UPROPERTY()
-	//AGameHUD* MainMenuHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	UPROPERTY()
+	AGameHUD* MainMenuHUDPtr;
+	UPROPERTY()
+	URacingGameInstance* MainMenuInstancePtr;
 
 	UFUNCTION()
 	void ClickStartGame();

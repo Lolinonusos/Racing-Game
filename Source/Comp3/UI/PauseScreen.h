@@ -9,6 +9,8 @@
 /**
  * 
  */
+class URacingGameInstance;
+
 UCLASS()
 class COMP3_API UPauseScreen : public UUserWidget
 {
@@ -34,6 +36,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Pause Screen")
 		USoundBase* ClickingSound;
+
+	UPROPERTY()
+	URacingGameInstance* PauseMenuInstancePtr;
 
 	UFUNCTION()
 		void ClickResumeBtn();

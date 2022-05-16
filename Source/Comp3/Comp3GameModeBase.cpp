@@ -16,6 +16,7 @@ void AComp3GameModeBase::BeginPlay() {
 		else if (GMBInstancePtr->ChosenGameModeToPlay == "Time") {
 			UE_LOG(LogTemp, Warning, TEXT("ENTERED TIME TRIAL MODE"))
 		}
+		UE_LOG(LogTemp, Warning, TEXT("Audio: %f"), GMBInstancePtr->GetGameAudio());
 	}
 }
 

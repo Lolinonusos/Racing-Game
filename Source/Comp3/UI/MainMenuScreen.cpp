@@ -20,26 +20,32 @@ bool UMainMenuScreen::Initialize() {
 	if (MainMenuControlsButton) {
 		MainMenuControlsButton->OnClicked.AddDynamic(this, &UMainMenuScreen::ClickControlsButton);
 	}
+	if (!MainMenuHUDPtr) {
+		MainMenuHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0 )->GetHUD());
+	}
+	if (!MainMenuInstancePtr) {
+		MainMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
 	
 	return true;
 }
 
 void UMainMenuScreen::ClickStartGame() {
-	//UGameplayStatics::PlaySound2D(GetWorld(), MainMenuClickSound, MainMenuHUDPtr->GetVolumeMultiplier(), 1, 0, nullptr, nullptr, true);
-	//PlaySound(MainMenuClickSound);
 	UGameplayStatics::OpenLevel(GetWorld(), "LVL_LevelSelect");
+	UGameplayStatics::PlaySound2D(GetWorld(), MainMenuClickSound, MainMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }
 
 void UMainMenuScreen::ClickOptions() {
-	//UGameplayStatics::PlaySound2D(GetWorld(), MainMenuClickSound, 1, 1, 0, nullptr, nullptr, true);
-	//MainMenuHUDPtr->OpenOptionsMenuFromMain();
+	MainMenuHUDPtr->OpenOptionsMenuFromMain();
+	UGameplayStatics::PlaySound2D(GetWorld(), MainMenuClickSound, MainMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }
 
 void UMainMenuScreen::ClickExit() {
-	//PlaySound(MainMenuClickSound);
 	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(GetWorld(), 0), EQuitPreference::Quit, false);
+	UGameplayStatics::PlaySound2D(GetWorld(), MainMenuClickSound, MainMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }
 
 void UMainMenuScreen::ClickControlsButton() {
-	//MainMenuHUDPtr->ShowControls();
+	MainMenuHUDPtr->ShowControls();
+	UGameplayStatics::PlaySound2D(GetWorld(), MainMenuClickSound, MainMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }

@@ -11,6 +11,8 @@
 /**
  * 
  */
+class AGameHUD;
+class URacingGameInstance;
 UCLASS()
 class COMP3_API ULevelSelectWidget : public UUserWidget
 {
@@ -37,7 +39,7 @@ public:
 	class UButton* SelectStage;
 
 	UPROPERTY(EditDefaultsOnly, Category = "LevelSelectUI")
-		USoundBase* LevelSelectClickSound;
+	USoundBase* LevelSelectClickSound;
 
 	UFUNCTION()
 	void WidMoveCameraLeft();
@@ -45,4 +47,9 @@ public:
 	void WidMoveCameraRight();
 	UFUNCTION()
 	void WidSelectLevel();
+
+	UPROPERTY()
+	AGameHUD* LevelSelectHUDPtr;
+	UPROPERTY()
+	URacingGameInstance* LevelSelectInstancePtr;
 };

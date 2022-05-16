@@ -14,6 +14,8 @@ bool UOptionsMenu::Initialize() {
 		ReturnButton->OnClicked.AddDynamic(this, &UOptionsMenu::ClickReturnBtn);
 	}
 
+	AudioSlider->SetValue(Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio());
+
 	return true;
 }
 
@@ -26,19 +28,25 @@ void UOptionsMenu::UpdateSliderPercentage() {
 	FString OutputAudioPercentage = FString::FromInt(AudioPercentage);
 	OutputAudioPercentage.Append("%");
 	AudioPercentText->SetText(FText::FromString(OutputAudioPercentage));
+	GetVolume();
 }
 
 void UOptionsMenu::ClickReturnBtn() {
-	PlaySound(ReturnButtonSound);
 	AGameHUD* OptionsHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
+	URacingGameInstance* OptionsInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "LVL_MainMenu") {
+		OptionsHUDPtr->GetVolumeMultiplier();
 		OptionsHUDPtr->CloseOptionsMenuFromMain();
+		UGameplayStatics::PlaySound2D(GetWorld(), ReturnButtonSound, OptionsInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	}
 	else {
+		OptionsHUDPtr->GetVolumeMultiplier();
 		OptionsHUDPtr->CloseOptionsMenu();
+		UGameplayStatics::PlaySound2D(GetWorld(), ReturnButtonSound, OptionsInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	}
 }
 
 float UOptionsMenu::GetVolume() {
-	return AudioSlider->GetValue();
+	Volume = AudioSlider->GetValue();
+	return  Volume;
 }

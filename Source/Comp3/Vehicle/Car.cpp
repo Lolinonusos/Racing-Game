@@ -132,7 +132,6 @@ void ACar::BeginPlay()
 		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACar::OnOverlap);
 	}
 	
-	RespawnTransform = GetActorTransform();
 	/*if (ScreenWidget) {
 		MainWidget = CreateWidget<UUserWidget>(AActor::GetWorld(), ScreenWidget);
 	}*/
