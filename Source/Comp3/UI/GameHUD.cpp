@@ -142,10 +142,17 @@ void AGameHUD::CloseOptionsMenuFromMain() {
 
 void AGameHUD::OpenPauseMenu() {
 	PauseWidget->SetVisibility(ESlateVisibility::Visible);
+	TimeTrialHUDWidget->SetVisibility((ESlateVisibility::Hidden));
+	FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void AGameHUD::ClosePauseMenu() {
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
+	if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
+		FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	} else {
+		TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Visible);	
+	}
 }
 
 void AGameHUD::FocusOnPlanet() {

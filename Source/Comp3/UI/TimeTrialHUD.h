@@ -35,7 +35,7 @@ public:
 	void IncreaseTimeScore();
 	int MilliSeconds{};
 	int Seconds{};
-	int Minutes = 1;
+	int Minutes = 5;
 	bool bTimerIsFinished = false;
 	int Score{};
 	int PickupsCollected{};

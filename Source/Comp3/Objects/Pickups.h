@@ -64,4 +64,12 @@ public:
 
 	UFUNCTION()
 		void Respawn();
+
+	UPROPERTY()
+	float RespawnTime = 10.f;
+	UPROPERTY()
+	FTimerHandle RespawnTimerHandle;
+	UPROPERTY()
+	float TimeUntilRespawn{};
+	
 };
