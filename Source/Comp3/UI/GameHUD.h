@@ -146,6 +146,9 @@ public:
 	UFUNCTION()
 		float GetVolumeMultiplier();
 
+	UFUNCTION()
+		int GetScoreTimeTrial();
+	
 private:
 	UPauseScreen* PauseWidget;
 	UOptionsMenu* OptionsWidget;

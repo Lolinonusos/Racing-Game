@@ -21,11 +21,18 @@ void ACheckpoint::BeginPlay()
 {
 	Super::BeginPlay();
 
+	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	GameModePtr->SetTotalCheckPoints(1);
+
+	if(bIsGoal)
+	{
+		SetActorEnableCollision(false);
+	}
 	
-		if (CheckpointBox)
-		{
-			CheckpointBox->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnOverlap);
-		}
+	if (CheckpointBox)
+	{
+		CheckpointBox->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnOverlap);
+	}
 }
 
 // Called every frame
@@ -46,7 +53,6 @@ void ACheckpoint::TurnOnCollision()
 	else
 	{
 		SetActorEnableCollision(false);
-
 	}
 }
 

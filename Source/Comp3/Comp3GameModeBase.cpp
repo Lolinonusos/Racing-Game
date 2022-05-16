@@ -11,9 +11,11 @@ void AComp3GameModeBase::BeginPlay() {
 	URacingGameInstance* GMBInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	if (GMBInstancePtr) {
 		if (GMBInstancePtr->ChosenGameModeToPlay == "Racing") {
+			TotalLaps = 3;
 			UE_LOG(LogTemp, Warning, TEXT("ENTERED RACNIG MODE"))
 		}
 		else if (GMBInstancePtr->ChosenGameModeToPlay == "Time") {
+			TotalLaps = 99;
 			UE_LOG(LogTemp, Warning, TEXT("ENTERED TIME TRIAL MODE"))
 		}
 	}
@@ -28,6 +30,7 @@ void AComp3GameModeBase::SetTotalCheckPoints(int Increase) {
 	
 }
 
+// If true counts a lap and resets checkpoint collision
 bool AComp3GameModeBase::LapCleared()
 {
 	if (CheckPointsReached >= TotalCheckPoints)

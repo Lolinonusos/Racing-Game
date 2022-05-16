@@ -17,10 +17,14 @@ public:
 	AComp3GameModeBase();
 	virtual void BeginPlay() override;
 
+	// Used in Shooter
 	int TotalCheckPoints = 0;
 	int CheckPointsReached = 0;
 
-	int TotalLaps = 3;
+	// Used in Time Trial
+	int CheckpointScoreMultiplier = 0;
+	
+	int TotalLaps = 0;
 	int LapsCleared = 0;
 
 	void SetTotalCheckPoints(int Increase);
