@@ -131,13 +131,12 @@ void ACar::BeginPlay()
 	if (CollisionBox) {
 		CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ACar::OnOverlap);
 	}
+
+	// First SpawnPoint
+    RespawnLocation = GetActorLocation();
+	RespawnRotation = GetActorRotation();
+
 	
-	/*if (ScreenWidget) {
-		MainWidget = CreateWidget<UUserWidget>(AActor::GetWorld(), ScreenWidget);
-	}*/
-	
-	/*MainWidget->AddToViewport(); 
-	MainWidget->SetVisibility(ESlateVisibility::Visible);*/
 	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
 		SetActorRotation(FRotator(0, 180, 0));
 		bIsInTimeTrialMode = true;
@@ -171,8 +170,8 @@ void ACar::Tick(float DeltaTime)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("I am offroad :)"));
 		PawnMovementComponent->MaxSpeed = 1500.f;
-		// if (bDriving)
-		// {
+		if (bDriving || bBraking)
+		{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OffRoadParticles, GetTransform(), true);
 
 		// 	FRotator OffRoadShake;
@@ -184,7 +183,7 @@ void ACar::Tick(float DeltaTime)
 		// else
 		// {
 		// 	VehicleMesh->SetRelativeRotation(FRotator(GetActorForwardVector().Rotation()));
-		// }
+		}
 	}
 	else
 	{

@@ -38,7 +38,7 @@ void UFinishedRaceScreen::FinishClickMainMenuBtn() {
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 }
 
-void UFinishedRaceScreen::CalculateTimeTrialScore() {
+int UFinishedRaceScreen::CalculateTimeTrialScore() {
 	int SecondScore = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetTimeTrialScore();
 	SecondScore *= 5;
 
@@ -46,10 +46,20 @@ void UFinishedRaceScreen::CalculateTimeTrialScore() {
 	PickupsScore *= 50;
 
 	int CheckpointsScore = 0;
-	CheckpointsScore *= 200;
+	
+	// Linus worked here
+	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	
+	CheckpointsScore = (200 * GameModePtr->CheckpointScoreMultiplier);
+	FinalScore = SecondScore + PickupsScore + CheckpointsScore;
 
-	int FinalScore = SecondScore + PickupsScore + CheckpointsScore;
+	return FinalScore;
+	
+}
 
+void UFinishedRaceScreen::OutPutFinalScore()
+{
+	// Back to Joachim
 	FString TimeTrialOutput = "Your Score: ";
 	TimeTrialOutput.Append(FString::FromInt(FinalScore));
 	TimeTrialText->SetText(FText::FromString(TimeTrialOutput));

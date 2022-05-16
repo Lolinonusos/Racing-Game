@@ -37,6 +37,14 @@ public:
 	UFUNCTION()
 		void FinishClickMainMenuBtn();
 
+	// int SecondScore;
+	// int PickupsScore;
+
+	int FinalScore;
+	
 	UFUNCTION()
-		void CalculateTimeTrialScore();
+		int CalculateTimeTrialScore();
+
+	UFUNCTION()
+		void OutPutFinalScore();
 };

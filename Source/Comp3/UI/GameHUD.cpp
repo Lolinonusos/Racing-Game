@@ -95,7 +95,7 @@ void AGameHUD::BeginPlay() {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
 			SetupHUDForTimeTrialMode();
 			GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 4.f);
-			GetWorld()->GetTimerManager().SetTimer(SecondsSurvivedHandle, this, &AGameHUD::IncreaseSurvivedSeconds, 1.f, true, 4.f);
+			GetWorld()->GetTimerManager().SetTimer(SecondsSurvivedHandle, this, &AGameHUD::IncreaseSurvivedSeconds, 0.01f, true, 4.f);
 		}
 	}
 	
@@ -260,4 +260,10 @@ float AGameHUD::GetVolumeMultiplier() {
 	else {
 		 return 1.f;
 	}
+}
+
+// Linus mode
+int AGameHUD::GetScoreTimeTrial()
+{
+	return FinishedRaceScreenWidget->CalculateTimeTrialScore();
 }
