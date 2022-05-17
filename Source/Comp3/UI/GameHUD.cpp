@@ -88,6 +88,17 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
+	if (CountdownWidgetClass) {
+		CountdownWidget = CreateWidget<UCountdownWidget>(GetWorld(), CountdownWidgetClass);
+		if (CountdownWidget) {
+			CountdownWidget->AddToViewport();
+			CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
+			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+				StartCountdown();
+			}
+		}
+	}
+
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			SetupHUDForShooterMode();
@@ -148,7 +159,7 @@ void AGameHUD::OpenPauseMenu() {
 
 void AGameHUD::ClosePauseMenu() {
 	PauseWidget->SetVisibility(ESlateVisibility::Hidden);
-	if (HUDInstancePtr->ChosenGameModeToPlay == "Racing") {
+	if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 		FixedPlayerHUDWidget->SetVisibility(ESlateVisibility::Visible);
 	} else {
 		TimeTrialHUDWidget->SetVisibility(ESlateVisibility::Visible);	
@@ -266,4 +277,22 @@ float AGameHUD::GetVolumeMultiplier() {
 int AGameHUD::GetScoreTimeTrial()
 {
 	return FinishedRaceScreenWidget->CalculateTimeTrialScore();
+}
+
+// Joachim's function
+void AGameHUD::StartCountdown() {
+	CountdownWidget->SetVisibility(ESlateVisibility::Visible);
+	GetWorld()->GetTimerManager().SetTimer(CountdownWidTimerHandle, this, &AGameHUD::IncreaseWidTimer, 1, true, 1.f);
+}
+
+void AGameHUD::IncreaseWidTimer() {
+	CountdownWidget->ChangeColorAndTime();
+	if (CountdownWidget->TimerSeconds >= 5) {
+		GetWorld()->GetTimerManager().ClearTimer(CountdownWidTimerHandle);
+		CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+	if (CountdownWidget->TimerSeconds == 4)
+	{
+		Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0))->bTimerIsFinished = true;
+	}
 }

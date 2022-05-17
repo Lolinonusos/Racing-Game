@@ -24,7 +24,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, Category = "BulletVariables")
-		float TravelSpeed = 6000.f;
+		float TravelSpeed = 9000.f;
 
 	UPROPERTY(EditAnywhere, Category = "BulletVariables")
 		float SecondsLived;

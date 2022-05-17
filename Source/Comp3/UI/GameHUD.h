@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
 
-#include "Components/WidgetComponent.h"
 #include "PauseScreen.h"
 #include "OptionsMenu.h"
 #include "LevelSelectWidget.h"
@@ -15,6 +14,7 @@
 #include "FinishedRaceScreen.h"
 #include "MainMenuScreen.h"
 #include "ControlsScreen.h"
+#include "CountdownWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "../Game-Logic/RacingGameInstance.h"
@@ -42,6 +42,7 @@ public:
 
 	FTimerHandle TimeTrialTimerHandle;
 	FTimerHandle SecondsSurvivedHandle;
+	FTimerHandle CountdownWidTimerHandle;
 
 	URacingGameInstance* HUDInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
@@ -71,6 +72,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> ControlsScreenWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+		TSubclassOf<UUserWidget> CountdownWidgetClass;
 		
 	UPROPERTY()
 		float AudioMultiplier{};
@@ -148,6 +152,12 @@ public:
 
 	UFUNCTION()
 		int GetScoreTimeTrial();
+
+	UFUNCTION()
+		void StartCountdown();
+
+	UFUNCTION()
+		void IncreaseWidTimer();
 	
 private:
 	UPauseScreen* PauseWidget;
@@ -159,4 +169,5 @@ private:
 	UFinishedRaceScreen* FinishedRaceScreenWidget;
 	UMainMenuScreen* MainMenuWidget;
 	UControlsScreen* ControlsScreenWidget;
+	UCountdownWidget* CountdownWidget;
 };
