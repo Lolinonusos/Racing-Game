@@ -17,6 +17,12 @@ public:
 	ASpeedBoost();
 
 	float InitialLocation;
-
+	float BoostRegen = 5;
 	
+	UFUNCTION()
+	int ReturnBoost();
+
+	virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep,
+			const FHitResult& SweepResult) override;
 };

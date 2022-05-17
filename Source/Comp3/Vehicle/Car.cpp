@@ -20,15 +20,8 @@
 #include "Math/Vector.h"
 #include "Math/Rotator.h"
 
-// Pickups
-#include "../Objects/Powerups/SpeedBoost.h"
-#include "../Objects/Powerups/AmmoRefill.h"
-
-
 // Objects
-#include "../UI/HUDClass.h"
 #include "../UI/GameHUD.h"
-#include "Physics/ImmediatePhysics/ImmediatePhysicsShared/ImmediatePhysicsCore.h"
 #include "../Game-Logic/RacingGameInstance.h"
 
 // Timer
@@ -455,20 +448,7 @@ void ACar::ChangeCamera()
 }
 
 void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	if (OtherActor->IsA(ASpeedBoost::StaticClass())) {
-		Cast<ASpeedBoost>(OtherActor)->Super::DeleteSelf();
-		if ((BoostAmount + 1) > MaxBoostAmount) {
-			BoostAmount = 5;
-		}
-		else {
-			BoostAmount++;
-		}
-	}
-	else if (OtherActor->IsA(AAmmoRefill::StaticClass())) {
-		Cast<AAmmoRefill>(OtherActor)->Super::DeleteSelf();
-		AmmoTotal += 30;
-	}
-	else if (OtherActor->IsA(AItemPickups::StaticClass())) {
+	if (OtherActor->IsA(AItemPickups::StaticClass())) {
 		if (CurrentWeapon.WeaponName == "") {
 			FWeapon BufferWeapon = Cast<AItemPickups>(OtherActor)->UniqueItems[0];
 			if (BufferWeapon.WeaponName == "Shotgun") {
@@ -477,11 +457,8 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 		}
 		
 		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
-	}
-
-	else if (OtherActor->IsA(AFollower::StaticClass())) {
+	} else if (OtherActor->IsA(AFollower::StaticClass())) {
 		CurrentHealth--;
-
 	}
 }
 

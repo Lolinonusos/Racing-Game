@@ -3,6 +3,7 @@
 
 #include "Pickups.h"
 #include "Components/BoxComponent.h"
+#include "../Vehicle/Car.h"
 
 
 // DOCUMENT WRITTEN BY JOACHIM
@@ -24,7 +25,10 @@ APickups::APickups()
 void APickups::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (PickUpBoxCollision) {
+		PickUpBoxCollision->OnComponentBeginOverlap.AddDynamic(this, &APickups::OnOverlap);
+	}
 }
 
 // Called every frame
@@ -61,5 +65,10 @@ void APickups::Respawn() {
 		SetActorHiddenInGame(false);
 		SetActorEnableCollision(true);
 	}
+}
+
+void APickups::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	
 }
 

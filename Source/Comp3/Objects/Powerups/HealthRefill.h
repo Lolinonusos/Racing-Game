@@ -21,4 +21,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	float HealthRegen = 5;
 	float GetHealthRegen();
+
+	
+	virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
+		UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
+			const FHitResult &SweepResult);
 };

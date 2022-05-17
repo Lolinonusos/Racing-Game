@@ -2,6 +2,7 @@
 
 
 #include "AmmoRefill.h"
+#include "../../Vehicle/Car.h"
 
 // DOCUMENT WRITTEN BY JOACHIM
 
@@ -13,4 +14,15 @@ void AAmmoRefill::Tick(float DeltaTime) {
 
 int AAmmoRefill::GetAmmoRegen() {
 	return AmmoRegen;
+}
+
+void AAmmoRefill::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+		Super::OnOverlap(OverlappedComponent, OtherActor, OtherComponent, OtherBodyIndex, bFromSweep, SweepResult);
+
+	if (OtherActor->IsA(ACar::StaticClass()))
+	{
+		GetAmmoRegen();
+		Super::DeleteSelf();
+	}
 }
