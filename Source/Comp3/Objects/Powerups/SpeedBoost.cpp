@@ -20,6 +20,7 @@ void ASpeedBoost::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
+		UE_LOG(LogTemp, Warning, TEXT("COLLIDED WITH SPEED BOOST"))
 		ACar* SpeedCarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 		SpeedCarPtr->BoostAmount = ReturnBoost();
 		if (SpeedCarPtr->BoostAmount + ReturnBoost() > SpeedCarPtr->MaxBoostAmount)
