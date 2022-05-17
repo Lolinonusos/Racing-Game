@@ -32,7 +32,7 @@ AFollowerCharacter::AFollowerCharacter()
 	
 	PlayerCheck = CreateDefaultSubobject<USphereComponent>(TEXT("PlayerCheck"));
 	PlayerCheck->SetupAttachment(GetRootComponent());
-	PlayerCheck->InitSphereRadius(2000.f);
+	PlayerCheck->InitSphereRadius(5000.f);
 	
 	GetCharacterMovement()->MaxAcceleration = 2000.f;
 }
