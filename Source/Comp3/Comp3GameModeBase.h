@@ -21,6 +21,8 @@ public:
 	int TotalCheckPoints = 0;
 	int CheckPointsReached = 0;
 
+	int EnemiesAlive = 0;
+	
 	// Used in Time Trial
 	int CheckpointScoreMultiplier = 0;
 	

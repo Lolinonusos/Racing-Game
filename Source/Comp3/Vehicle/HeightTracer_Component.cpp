@@ -56,18 +56,20 @@ void UHeightTracer_Component::TickComponent(float DeltaTime, ELevelTick TickType
 float UHeightTracer_Component::GetDistance()
 {
 	FVector EndLocation = GetComponentLocation() + (GetUpVector() * - MaxDistance);
-	FCollisionObjectQueryParams CollisionObjectQueryParams;
+
 	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
 	
 	// Hit something
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetComponentLocation(), EndLocation, CollisionObjectQueryParams))
 	{
+		//DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
+
 		// Vector between the component and what it hit
-		DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
 		return (HitResult.Location - GetComponentLocation()).Size();
 		//bInAir = false;
 	}
-	DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+	//DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+
 	//bInAir = true;
 	return 0.f;
 	// return MaxDistance +1;

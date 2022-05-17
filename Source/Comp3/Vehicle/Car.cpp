@@ -110,7 +110,6 @@ ACar::ACar()
 	PawnMovementComponent->MaxSpeed = 2500.f;
 	PawnMovementComponent->Deceleration = 1500.f;
 	
-	
 }
 
 // Called when the game starts or when spawned
@@ -210,7 +209,6 @@ void ACar::Tick(float DeltaTime)
 			}
 		}
 	}
-	
 	//UE_LOG(LogTemp, Warning, TEXT("Current BoostFuel: %f"), BoostAmount);
 	
 	if (bDriving)
@@ -229,6 +227,9 @@ void ACar::Tick(float DeltaTime)
 		AddMovementInput(FVector(Forward), (-DriveSpeed/2));
 	}
 
+	// Gravity
+	
+	
 	if (CurrentHealth <= 0)
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), VehicleDeath, GetTransform(), true);

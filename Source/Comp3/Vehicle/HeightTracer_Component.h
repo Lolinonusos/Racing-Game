@@ -35,6 +35,8 @@ public:
 	float AirTime;
 	
 	FHitResult HitResult;
+	FCollisionObjectQueryParams CollisionObjectQueryParams;
+	
 	float GetDistance();
 
 
