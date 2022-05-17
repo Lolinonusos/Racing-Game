@@ -228,7 +228,14 @@ void ACar::Tick(float DeltaTime)
 	}
 
 	// Gravity
-	
+	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
+	{
+		CollisionBox->SetLinearDamping(2.f);
+	}
+	else
+	{
+		CollisionBox->SetLinearDamping(0.01);
+	}
 	
 	if (CurrentHealth <= 0)
 	{
