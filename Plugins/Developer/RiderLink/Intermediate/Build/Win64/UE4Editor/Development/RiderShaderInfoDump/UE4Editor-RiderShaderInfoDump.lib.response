@@ -6,6 +6,6 @@
 /NAME:"UE4Editor-RiderShaderInfoDump.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"C:\Users\linus\Desktop\Unreal projects\CarTest\Comp3\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
-"C:\Users\linus\Desktop\Unreal projects\CarTest\Comp3\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderShaderInfoDump\Default.rc2.res"
-/OUT:"C:\Users\linus\Desktop\Unreal projects\CarTest\Comp3\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderShaderInfoDump\UE4Editor-RiderShaderInfoDump.lib"
+"D:\Github Clones\Comp3\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderShaderInfoDump\RiderShaderInfoDump.cpp.obj"
+"D:\Github Clones\Comp3\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderShaderInfoDump\Default.rc2.res"
+/OUT:"D:\Github Clones\Comp3\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UE4Editor\Development\RiderShaderInfoDump\UE4Editor-RiderShaderInfoDump.lib"
