@@ -227,6 +227,7 @@ void ACar::Tick(float DeltaTime)
 		AddMovementInput(FVector(Forward), (-DriveSpeed/2));
 	}
 
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
 	// Gravity
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
 	{
