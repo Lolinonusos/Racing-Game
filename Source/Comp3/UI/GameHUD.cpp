@@ -93,13 +93,13 @@ void AGameHUD::BeginPlay() {
 		if (CountdownWidget) {
 			CountdownWidget->AddToViewport();
 			CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
-			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
 				StartCountdown();
 			}
 		}
 	}
 
-	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "Test" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			SetupHUDForShooterMode();
 		}
