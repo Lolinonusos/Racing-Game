@@ -25,6 +25,7 @@
 #include "../Game-Logic/RacingGameInstance.h"
 
 // Timer
+#include "DrawDebugHelpers.h"
 #include "TimerManager.h"
 
 // Sets default values
@@ -231,11 +232,13 @@ void ACar::Tick(float DeltaTime)
 	// Gravity
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
 	{
+		DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
 		CollisionBox->SetLinearDamping(2.f);
 	}
 	else
 	{
-		CollisionBox->SetLinearDamping(0.01);
+		DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+		CollisionBox->SetLinearDamping(0.0001);
 	}
 	
 	if (CurrentHealth <= 0)
