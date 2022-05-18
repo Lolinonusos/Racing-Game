@@ -537,19 +537,22 @@ float ACar::GetCurrentHealth()
 // Function written by Joachim
 void ACar::PauseGame() {
 	UE_LOG(LogTemp, Warning, TEXT("ENTERED PAUSE FUNCTION"))
-	AGameHUD* HUDPtr = Cast<AGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
-	if (HUDPtr) {
-		if (bGameIsPaused == false) {
-			HUDPtr->OpenPauseMenu();
-			bReadyToLeavePause = true;
-			UGameplayStatics::SetGamePaused(GetWorld(), true);
-			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
-		}
-		else {			
-			HUDPtr->ClosePauseMenu();
-			bGameIsPaused = false;
-			UGameplayStatics::SetGamePaused(GetWorld(), false);
-			UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;	
+	if (bTimerIsFinished) {
+		AGameHUD* HUDPtr = Cast<AGameHUD>(GetWorld()->GetFirstPlayerController()->GetHUD());
+		if (HUDPtr) {
+			if (bGameIsPaused == false) {
+				HUDPtr->OpenPauseMenu();
+				bReadyToLeavePause = true;
+				UGameplayStatics::SetGamePaused(GetWorld(), true);
+				UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+			}
+			else {			
+				HUDPtr->ClosePauseMenu();
+				bGameIsPaused = false;
+				UGameplayStatics::SetGamePaused(GetWorld(), false);
+				UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;	
+			}
 		}
 	}
+	
 }

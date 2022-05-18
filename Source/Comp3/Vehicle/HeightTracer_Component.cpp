@@ -48,6 +48,7 @@ float UHeightTracer_Component::GetDistance()
 	FVector EndLocation = GetComponentLocation() + (GetUpVector() * - MaxDistance);
 
 	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_EngineTraceChannel1);
 	
 	// Hit something
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetComponentLocation(), EndLocation, CollisionObjectQueryParams))

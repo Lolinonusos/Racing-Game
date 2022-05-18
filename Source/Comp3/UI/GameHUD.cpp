@@ -116,8 +116,8 @@ void AGameHUD::BeginPlay() {
 		}
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
 			SetupHUDForTimeTrialMode();
-			GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 4.f);
-			GetWorld()->GetTimerManager().SetTimer(SecondsSurvivedHandle, this, &AGameHUD::IncreaseSurvivedSeconds, 0.01f, true, 4.f);
+			GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 5.f);
+			GetWorld()->GetTimerManager().SetTimer(SecondsSurvivedHandle, this, &AGameHUD::IncreaseSurvivedSeconds, 0.01f, true, 5.f);
 		}
 	}
 	
@@ -313,9 +313,6 @@ void AGameHUD::IncreaseWidTimer() {
 	if (CountdownWidget->TimerSeconds >= 5) {
 		GetWorld()->GetTimerManager().ClearTimer(CountdownWidTimerHandle);
 		CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
-	}
-	if (CountdownWidget->TimerSeconds == 4)
-	{
 		Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0))->bTimerIsFinished = true;
 	}
 }
