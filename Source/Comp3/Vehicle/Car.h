@@ -153,6 +153,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
 	class USoundBase* ReloadSound;
 
+	UPROPERTY(EditAnywhere, Category = "VehicleSounds")
+	class USoundBase* ShootWithNoAmmo;
+
 	
 
 	void StartDriving();

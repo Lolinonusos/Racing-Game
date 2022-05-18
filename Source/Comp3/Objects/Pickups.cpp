@@ -3,7 +3,8 @@
 
 #include "Pickups.h"
 #include "Components/BoxComponent.h"
-#include "../Vehicle/Car.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Game-Logic/RacingGameInstance.h"
 
 
 // DOCUMENT WRITTEN BY JOACHIM
@@ -40,6 +41,8 @@ void APickups::Tick(float DeltaTime)
 // Function written by Joachim
 void APickups::DeleteSelf() {
 	UE_LOG(LogTemp, Warning, TEXT("HIT BOX - THIS IS FROM PICKUPS"));
+	UGameplayStatics::PlaySound2D(GetWorld(), PickupSound, Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
+		
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 	GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &APickups::Respawn, 1.f, true, 0.f);

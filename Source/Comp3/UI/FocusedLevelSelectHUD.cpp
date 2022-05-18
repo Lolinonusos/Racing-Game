@@ -22,12 +22,6 @@ bool UFocusedLevelSelectHUD::Initialize() {
 	if (PlayButton) {
 		PlayButton->OnClicked.AddDynamic(this, &UFocusedLevelSelectHUD::ClickPlayButton);
 	}
-	if (!FocusedLevelSelectHUDPtr) {
-		FocusedLevelSelectHUDPtr = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD());
-	}
-	if (!FocusedLevelSelectInstancePtr) {
-		FocusedLevelSelectInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	}
 	
 	return true;
 }
@@ -46,16 +40,20 @@ void UFocusedLevelSelectHUD::NativeTick(const FGeometry& MyGeometry, float InDel
 }
 
 void UFocusedLevelSelectHUD::ClickShooterModeBtn() {
-	URacingGameInstance* InstancePtr1 = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	InstancePtr1->ChosenGameModeToPlay = "Shooter";
+	if (!FocusedLevelSelectInstancePtr) {
+		FocusedLevelSelectInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
+	FocusedLevelSelectInstancePtr->ChosenGameModeToPlay = "Shooter";
 	ChangeGameModeDescription();
 	bGameModeSelected = true;
 	UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }
 
 void UFocusedLevelSelectHUD::ClickTimeTrialModeBtn() {
-	URacingGameInstance* InstancePtr2 = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	InstancePtr2->ChosenGameModeToPlay = "Time";
+	if (!FocusedLevelSelectInstancePtr) {
+		FocusedLevelSelectInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
+	FocusedLevelSelectInstancePtr->ChosenGameModeToPlay = "Time";
 	ChangeGameModeDescription();
 	bGameModeSelected = true;
 	UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
@@ -65,6 +63,9 @@ void UFocusedLevelSelectHUD::ClickBackButton() {
 	if (!FocusedLevelSelectPtr->bIsEnteringFocus) {
 		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->LeaveFocusOnPlanet();
 		FocusedLevelSelectPtr->bIsLeavingFocus = true;
+		if (!FocusedLevelSelectInstancePtr) {
+			FocusedLevelSelectInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+		}
 		UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	}
 }
@@ -76,6 +77,9 @@ void UFocusedLevelSelectHUD::ClickPlayButton() {
 		}
 		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "Play Test") {
 			UGameplayStatics::OpenLevel(GetWorld(), "FeatureDisplay");
+		}
+		if (!FocusedLevelSelectInstancePtr) {
+			FocusedLevelSelectInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		}
 		UGameplayStatics::PlaySound2D(GetWorld(), FocusedClickSelectSound, FocusedLevelSelectInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	}

@@ -11,14 +11,15 @@ bool UCountdownWidget::Initialize() {
 	Light2->SetBrushFromTexture(BlackLight, true);
 	Light3->SetBrushFromTexture(BlackLight, true);
 
-	if (!CountdownInstancePtr) {
-		CountdownInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	}
+	
 		
 	return true;
 }
 
 void UCountdownWidget::ChangeColorAndTime() {
+	if (!CountdownInstancePtr) {
+		CountdownInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
 	TimerSeconds++;
 	switch (TimerSeconds) {
 	case 1:
@@ -27,17 +28,14 @@ void UCountdownWidget::ChangeColorAndTime() {
 		break;
 	case 2:
 		Light2->SetBrushFromTexture(YellowLight, true);
-		UGameplayStatics::PlaySound2D(GetWorld(), NextSecond, CountdownInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 		break;
 	case 3:
 		Light3->SetBrushFromTexture(GreenLight, true);
-		UGameplayStatics::PlaySound2D(GetWorld(), NextSecond, CountdownInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 		break;
 	case 4:
 		Light2->SetBrushFromTexture(GreenLight, true);
 		Light1->SetBrushFromTexture(GreenLight, true);
 		Light3->SetBrushFromTexture(GreenLight, true);
-		UGameplayStatics::PlaySound2D(GetWorld(), FinishedTimer, CountdownInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 		break;
 	default:
 		break;

@@ -32,8 +32,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	USoundBase* NextSecond;
-	UPROPERTY(EditDefaultsOnly)
-	USoundBase* FinishedTimer;
+	
 	
 	UPROPERTY(EditDefaultsOnly)
 	UTexture2D* YellowLight;

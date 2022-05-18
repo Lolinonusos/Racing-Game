@@ -11,8 +11,7 @@
 /**
  * 
  */
-class AGameHUD;
-class URacingGameInstance;
+
 UCLASS()
 class COMP3_API ULevelSelectWidget : public UUserWidget
 {
@@ -49,7 +48,7 @@ public:
 	void WidSelectLevel();
 
 	UPROPERTY()
-	AGameHUD* LevelSelectHUDPtr;
+	class AGameHUD* LevelSelectHUDPtr;
 	UPROPERTY()
-	URacingGameInstance* LevelSelectInstancePtr;
+	class URacingGameInstance* LevelSelectInstancePtr;
 };
