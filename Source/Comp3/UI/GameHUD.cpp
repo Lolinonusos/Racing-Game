@@ -99,14 +99,25 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
+	if (TimerBoostWidgetClass) {
+		TimerBoostWidget = CreateWidget<UTimerBoostWidget>(GetWorld(), TimerBoostWidgetClass);
+		if (TimerBoostWidget) {
+			TimerBoostWidget->AddToViewport();
+			TimerBoostWidget->SetVisibility(ESlateVisibility::Hidden);
+			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+				StartCountdown();
+			}
+		}
+	}
+
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			SetupHUDForShooterMode();
 		}
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Time") {
 			SetupHUDForTimeTrialMode();
-			GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 4.f);
-			GetWorld()->GetTimerManager().SetTimer(SecondsSurvivedHandle, this, &AGameHUD::IncreaseSurvivedSeconds, 0.01f, true, 4.f);
+			GetWorld()->GetTimerManager().SetTimer(TimeTrialTimerHandle, this, &AGameHUD::UpdateTimer, 0.01f, true, 5.f);
+			GetWorld()->GetTimerManager().SetTimer(SecondsSurvivedHandle, this, &AGameHUD::IncreaseSurvivedSeconds, 0.01f, true, 5.f);
 		}
 	}
 	
@@ -251,7 +262,7 @@ void AGameHUD::FinishTimeTrialMode() {
 
 void AGameHUD::IncreaseTime(FString Origin) {
 	if (Origin == "Pickups") {
-		TimeTrialHUDWidget->AddTime(3);
+		TimeTrialHUDWidget->AddTime(TimerBoostWidget->TimeIncrease);
 	} else if (Origin == "Checkpoint") {
 		UE_LOG(LogTemp, Warning, TEXT("HELLO WORLD"))
 		TimeTrialHUDWidget->AddTime(10);
@@ -302,9 +313,6 @@ void AGameHUD::IncreaseWidTimer() {
 	if (CountdownWidget->TimerSeconds >= 5) {
 		GetWorld()->GetTimerManager().ClearTimer(CountdownWidTimerHandle);
 		CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
-	}
-	if (CountdownWidget->TimerSeconds == 4)
-	{
 		Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0))->bTimerIsFinished = true;
 	}
 }

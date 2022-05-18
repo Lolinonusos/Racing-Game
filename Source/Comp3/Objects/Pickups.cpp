@@ -39,7 +39,7 @@ void APickups::Tick(float DeltaTime)
 
 // Function written by Joachim
 void APickups::DeleteSelf() {
-	UE_LOG(LogTemp, Warning, TEXT("HIT BOX"));
+	UE_LOG(LogTemp, Warning, TEXT("HIT BOX - THIS IS FROM PICKUPS"));
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 	GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &APickups::Respawn, 1.f, true, 0.f);

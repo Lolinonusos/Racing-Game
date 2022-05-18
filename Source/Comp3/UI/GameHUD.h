@@ -15,6 +15,7 @@
 #include "MainMenuScreen.h"
 #include "ControlsScreen.h"
 #include "CountdownWidget.h"
+#include "TimerBoostWidget.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "../Game-Logic/RacingGameInstance.h"
@@ -75,6 +76,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> CountdownWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UUserWidget> TimerBoostWidgetClass;
 
 	UPROPERTY()
 		float AudioMultiplier{};
@@ -174,4 +178,5 @@ private:
 	UMainMenuScreen* MainMenuWidget;
 	UControlsScreen* ControlsScreenWidget;
 	UCountdownWidget* CountdownWidget;
+	UTimerBoostWidget* TimerBoostWidget;
 };
