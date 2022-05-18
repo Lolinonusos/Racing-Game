@@ -32,7 +32,6 @@ AFollowerCharacter::AFollowerCharacter()
 	
 	PlayerCheck = CreateDefaultSubobject<USphereComponent>(TEXT("PlayerCheck"));
 	PlayerCheck->SetupAttachment(GetRootComponent());
-	// PlayerCheck->InitSphereRadius(5000.f);
 	
 	GetCharacterMovement()->MaxAcceleration = 2000.f;
 }
@@ -48,11 +47,12 @@ void AFollowerCharacter::BeginPlay()
 	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	GameModePtr->EnemiesAlive += 1;
 	
-	//if (PlayerCheck)
-	//{
+	PlayerCheck->InitSphereRadius(5000.f);
+	if (PlayerCheck)
+	{
 		PlayerCheck->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
 		PlayerCheck->OnComponentEndOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlapEnd);
-	//}
+	}
 
 	// GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
 
@@ -145,20 +145,20 @@ void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
 		//ACar* Player = Cast<ACar>(OtherActor);
-		AIController->MoveToActor(OtherActor, -1);
-		bIsNearPlayer = true;
+		AIController->MoveToActor(OtherActor);
+		//bIsNearPlayer = true;
 		// Needs navmesh to function
-		UE_LOG(LogTemp, Warning, TEXT("Enemy sensed player"));
+		//UE_LOG(LogTemp, Warning, TEXT("Enemy sensed player"));
 		//GetWorldTimerManager().SetTimer(ShootTimer, this, &AFollowerCharacter::Shoot, 3.f, true, 3.f);
 	}
 
-	if (OtherActor->IsA(ABullet::StaticClass()))
-	{
-	 	Cast<ABullet>(OtherActor)->Destroy(); // Destroy the bullet
-	 	ImHit(); // -1 health for this
-		UE_LOG(LogTemp, Warning, TEXT("Am hurt"));
-
-	}
+	// if (OtherActor->IsA(ABullet::StaticClass()))
+	// {
+	//  	Cast<ABullet>(OtherActor)->Destroy(); // Destroy the bullet
+	//  	ImHit(); // -1 health for this
+	// 	UE_LOG(LogTemp, Warning, TEXT("Am hurt"));
+	//
+	// }
 }
 
 void AFollowerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
