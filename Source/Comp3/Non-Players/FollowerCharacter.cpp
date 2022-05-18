@@ -35,6 +35,7 @@ AFollowerCharacter::AFollowerCharacter()
 	PlayerCheck->InitSphereRadius(5000.f);
 	
 	GetCharacterMovement()->MaxAcceleration = 2000.f;
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	
 }
 
