@@ -65,7 +65,7 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	{
 		AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GameModePtr->CheckPointsReached += 1;
-		//CheckpointBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		SetActorEnableCollision(false);
 
 		ACar* CarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 		CurrentCheckpointPosition = GetActorLocation();

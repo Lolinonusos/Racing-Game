@@ -34,6 +34,9 @@ public:
 
 	bool bPlayerIsNearby = false;
 	FTimerHandle SpawnTimer;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> SpawnAI;
 	
 	UFUNCTION()
 void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

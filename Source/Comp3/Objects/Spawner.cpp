@@ -3,6 +3,7 @@
 
 #include "Spawner.h"
 
+#include "Comp3/Comp3GameModeBase.h"
 #include "Comp3/Non-Players/Follower.h"
 #include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
@@ -33,6 +34,12 @@ void ASpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (GameModePtr->EnemiesAlive >= 10)
+	{
+		GetWorldTimerManager().ClearTimer(SpawnTimer);
+		UE_LOG(LogTemp, Warning, TEXT("10 bois in this world!"));
+	}
 }
 
 void ASpawner::SpawnActor()
@@ -48,11 +55,14 @@ void ASpawner::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other
 {
 	bPlayerIsNearby = true;
 	GetWorldTimerManager().SetTimer(SpawnTimer, this, &ASpawner::SpawnActor, 1.f, true, 5.f);
+	UE_LOG(LogTemp, Warning, TEXT("Time to get the bois"));
 }
 
 void ASpawner::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
 	bPlayerIsNearby = false;
+	GetWorldTimerManager().ClearTimer(SpawnTimer);
+	UE_LOG(LogTemp, Warning, TEXT("We'll get'em next time!"));
 }
 

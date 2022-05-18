@@ -16,7 +16,7 @@ class COMP3_API AComp3GameModeBase : public AGameModeBase
 public:
 	AComp3GameModeBase();
 	virtual void BeginPlay() override;
-
+	
 	// Used in Shooter
 	int TotalCheckPoints = 0;
 	int CheckPointsReached = 0;
