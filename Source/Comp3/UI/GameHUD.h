@@ -75,7 +75,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 		TSubclassOf<UUserWidget> CountdownWidgetClass;
-		
+
 	UPROPERTY()
 		float AudioMultiplier{};
 	
@@ -158,6 +158,7 @@ public:
 
 	UFUNCTION()
 		void IncreaseWidTimer();
+
 	
 private:
 	UPauseScreen* PauseWidget;

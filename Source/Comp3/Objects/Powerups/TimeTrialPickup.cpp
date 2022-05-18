@@ -8,13 +8,17 @@
 
 // THIS DOCUMENT WAS WRITTEN BY JOACHIM
 
+ATimeTrialPickup::ATimeTrialPickup() {
+
+}
+
 void ATimeTrialPickup::BeginPlay() {
 	Super::BeginPlay();
 
-	if (PickUpBoxCollision)
-	{
+	if (PickUpBoxCollision) {
 		PickUpBoxCollision->OnComponentBeginOverlap.AddDynamic(this, &ATimeTrialPickup::OnOverlap);
 	}
+	
 }
 
 void ATimeTrialPickup::Tick(float DeltaTime) {

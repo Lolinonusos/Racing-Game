@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "../Pickups.h"
+#include "Components/WidgetComponent.h"
 #include "TimeTrialPickup.generated.h"
 
 /**
@@ -18,10 +19,10 @@ class COMP3_API ATimeTrialPickup : public APickups
 	GENERATED_BODY()
 
 public:
+	ATimeTrialPickup();
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	UPROPERTY()
-	int TimeIncrease = 5;
+
 	
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 

@@ -6,6 +6,8 @@
 #include "../Pickups.h"
 #include "SpeedBoost.generated.h"
 
+class UUserWidget;
+
 UCLASS()
 class COMP3_API ASpeedBoost : public APickups
 {
@@ -18,6 +20,8 @@ public:
 
 	float InitialLocation;
 	float BoostRegen = 5;
+
+	
 	
 	UFUNCTION()
 	int ReturnBoost();
