@@ -27,7 +27,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
 		class UTextBlock* MilliSecondsText;
 	UPROPERTY(BlueprintReadWrite, Category = "UI | TimeTrial", meta = (BindWidget))
-	class UTextBlock* SecondsScore;
+		class UTextBlock* SecondsScore;
 
 	void DecreaseTime();
 	void UpdateTimer();
@@ -36,7 +36,7 @@ public:
 	int MilliSeconds{};
 	int Seconds{};
 	// %
-	int Minutes = 1;
+	int Minutes = 5;
 	bool bTimerIsFinished = false;
 	int Score{};
 	int PickupsCollected{};

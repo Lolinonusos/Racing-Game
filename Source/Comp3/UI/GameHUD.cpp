@@ -249,8 +249,14 @@ void AGameHUD::FinishTimeTrialMode() {
 	ShowFinishScreen();
 }
 
-void AGameHUD::IncreaseTime() {
-	TimeTrialHUDWidget->AddTime(10);
+void AGameHUD::IncreaseTime(FString Origin) {
+	if (Origin == "Pickups") {
+		TimeTrialHUDWidget->AddTime(3);
+	} else if (Origin == "Checkpoint") {
+		UE_LOG(LogTemp, Warning, TEXT("HELLO WORLD"))
+		TimeTrialHUDWidget->AddTime(10);
+	}
+	
 }
 
 void AGameHUD::IncreasePickupCount() {
@@ -277,6 +283,12 @@ float AGameHUD::GetVolumeMultiplier() {
 int AGameHUD::GetScoreTimeTrial()
 {
 	return FinishedRaceScreenWidget->CalculateTimeTrialScore();
+}
+
+// End of Linus mode
+
+int AGameHUD::GetCheckpointScore() {
+	return TimeTrialHUDWidget->CheckpointsReached; 
 }
 
 // Joachim's function

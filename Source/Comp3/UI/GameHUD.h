@@ -140,7 +140,7 @@ public:
 		void FinishTimeTrialMode();
 
 	UFUNCTION()
-		void IncreaseTime();
+		void IncreaseTime(FString Origin);
 
 	UFUNCTION()
 		void IncreasePickupCount();
@@ -152,6 +152,9 @@ public:
 
 	UFUNCTION()
 		int GetScoreTimeTrial();
+
+	UFUNCTION()
+		int GetCheckpointScore();
 
 	UFUNCTION()
 		void StartCountdown();

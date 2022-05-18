@@ -3,6 +3,8 @@
 
 #include "Checkpoint.h"
 #include "Comp3/Comp3GameModeBase.h"
+#include "Comp3/Game-Logic/RacingGameInstance.h"
+#include "Comp3/UI/GameHUD.h"
 #include "Comp3/Vehicle/Car.h"
 #include "Components/BoxComponent.h"
 
@@ -72,6 +74,11 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		// Respawn coordinates
 		CarPtr->RespawnLocation = GetActorLocation();
 		CarPtr->RespawnRotation = GetActorRotation();
+
+		// If Sentence by Joachim
+		if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
+			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->IncreaseTime("Checkpoint");
+		}
 		
 		if (GameModePtr->CheckPointsReached == (GameModePtr->TotalCheckPoints - 1) && bIsGoal)
 		{
