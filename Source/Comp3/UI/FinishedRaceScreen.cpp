@@ -45,12 +45,10 @@ int UFinishedRaceScreen::CalculateTimeTrialScore() {
 	int PickupsScore = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetPickupScore();
 	PickupsScore *= 50;
 
-	int CheckpointsScore = 0;
+	int CheckpointsScore = Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetCheckpointScore();
+	CheckpointsScore *= 200;
 	
 	// Linus worked here
-	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	
-	CheckpointsScore = (200 * GameModePtr->CheckpointScoreMultiplier);
 	FinalScore = SecondScore + PickupsScore + CheckpointsScore;
 
 	return FinalScore;
