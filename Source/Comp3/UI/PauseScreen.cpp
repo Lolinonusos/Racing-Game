@@ -2,7 +2,6 @@
 
 
 #include "PauseScreen.h"
-#include "Components/TextBlock.h"
 #include "../Vehicle/Car.h"
 #include "GameHUD.h"
 #include "Kismet/GameplayStatics.h"
@@ -26,10 +25,6 @@ bool UPauseScreen::Initialize() {
 	if (PauseMenuControlsButton) {
 		PauseMenuControlsButton->OnClicked.AddDynamic(this, &UPauseScreen::ClickControlsBtn);
 	}
-	if (!PauseMenuInstancePtr) {
-		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	}
-	
 
 	return true;
 }
@@ -39,6 +34,9 @@ void UPauseScreen::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 }
 
 void UPauseScreen::ClickResumeBtn() {
+	if (!PauseMenuInstancePtr) {
+		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
 	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	UE_LOG(LogTemp, Warning, TEXT("RESUMING"))
 	ACar* PauseCarPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
@@ -47,22 +45,34 @@ void UPauseScreen::ClickResumeBtn() {
 }
 
 void UPauseScreen::ClickOptionsBtn() {
+	if (!PauseMenuInstancePtr) {
+		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
 	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->OpenOptionsMenu();
 }
 
 void UPauseScreen::ClickRestartBtn() {
+	if (!PauseMenuInstancePtr) {
+		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
 	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
-	UGameplayStatics::OpenLevel(GetWorld(), "Test");
+	UGameplayStatics::OpenLevel(GetWorld(), "TheBigCheesus");
 }
 
 void UPauseScreen::ClickMenuBtn() {
+	if (!PauseMenuInstancePtr) {
+		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
 	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	
 	UGameplayStatics::OpenLevel(GetWorld(), "LVL_MainMenu");
 }
 
 void UPauseScreen::ClickControlsBtn() {
+	if (!PauseMenuInstancePtr) {
+		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	}
 	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowControls();
 }

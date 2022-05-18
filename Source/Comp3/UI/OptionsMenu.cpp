@@ -14,8 +14,6 @@ bool UOptionsMenu::Initialize() {
 		ReturnButton->OnClicked.AddDynamic(this, &UOptionsMenu::ClickReturnBtn);
 	}
 
-	AudioSlider->SetValue(Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio());
-
 	return true;
 }
 
@@ -24,6 +22,7 @@ void UOptionsMenu::NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {
 }
 
 void UOptionsMenu::UpdateSliderPercentage() {
+	AudioSlider->SetValue(Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio());
 	int AudioPercentage = AudioSlider->GetValue() * 100;
 	FString OutputAudioPercentage = FString::FromInt(AudioPercentage);
 	OutputAudioPercentage.Append("%");
@@ -47,6 +46,7 @@ void UOptionsMenu::ClickReturnBtn() {
 }
 
 float UOptionsMenu::GetVolume() {
+	AudioSlider->SetValue(Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio());
 	Volume = AudioSlider->GetValue();
 	return  Volume;
 }

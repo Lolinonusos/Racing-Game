@@ -384,22 +384,27 @@ void ACar::Shooting()
 {
 	FRotator Rotation = GetActorRotation();
 	if (bTimerIsFinished && (bIsInTimeTrialMode == false)) {
-		if (AmmoTotal > 0 && bBoosting == false) {
-			UWorld* World = GetWorld();
-			if (World)
-			{
-				if (bBackCamera) {
-					// Shooting backwards
-					GetProjectilePlacement(true);
-					Rotation.Yaw += 180;
+		if (!bBoosting) {
+			if (AmmoTotal > 0) {
+				UGameplayStatics::PlaySound2D(GetWorld(), ShootingSound, Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
+				UWorld* World = GetWorld();
+				if (World)
+				{
+					if (bBackCamera) {
+						// Shooting backwards
+						GetProjectilePlacement(true);
+						Rotation.Yaw += 180;
+					}
+					else {
+						// Shooting forwards
+						GetProjectilePlacement(false);
+					}
+					Rotation.Pitch += 3;
+					World->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, Rotation);
+					AmmoTotal--;
 				}
-				else {
-					// Shooting forwards
-					GetProjectilePlacement(false);
-				}
-				Rotation.Pitch += 3;
-				World->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, Rotation);
-				AmmoTotal--;
+			} else {
+				UGameplayStatics::PlaySound2D(GetWorld(), ShootWithNoAmmo, Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 			}
 		}
 	}
