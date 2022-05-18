@@ -25,7 +25,22 @@ public:
 
 	UFUNCTION()
 	void SpawnActor();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawner")
+	class USphereComponent* PlayerSenseSphere;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawner")
 	class UBoxComponent* SpawnPoint;
+
+	bool bPlayerIsNearby = false;
+	FTimerHandle SpawnTimer;
+	
+	UFUNCTION()
+void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex,
+	bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+				UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
 };

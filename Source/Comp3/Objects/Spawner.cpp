@@ -5,6 +5,7 @@
 
 #include "Comp3/Non-Players/Follower.h"
 #include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 ASpawner::ASpawner()
@@ -14,7 +15,10 @@ ASpawner::ASpawner()
 
 	SpawnPoint = CreateDefaultSubobject<UBoxComponent>(TEXT("SpawnPoint"));
 	SetRootComponent(SpawnPoint);
-	
+
+	PlayerSenseSphere = CreateDefaultSubobject<USphereComponent>(TEXT("PlayerSenseSphere"));
+	PlayerSenseSphere->SetupAttachment(GetRootComponent());
+	PlayerSenseSphere->InitSphereRadius(15000.f);
 }
 
 // Called when the game starts or when spawned
@@ -37,5 +41,18 @@ void ASpawner::SpawnActor()
 	FRotator SpawnRotation = GetActorRotation();
 
 	GetWorld()->SpawnActor<AFollower>(SpawnLocation, SpawnRotation);
+}
+
+void ASpawner::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	bPlayerIsNearby = true;
+	GetWorldTimerManager().SetTimer(SpawnTimer, this, &ASpawner::SpawnActor, 1.f, true, 5.f);
+}
+
+void ASpawner::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
+{
+	bPlayerIsNearby = false;
 }
 

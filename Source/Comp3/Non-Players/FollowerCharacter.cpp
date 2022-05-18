@@ -55,7 +55,12 @@ void AFollowerCharacter::BeginPlay()
 	}
 
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
-	
+
+	ACar* Player = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	if(Player)
+	{
+		AIController->MoveToActor(Player, -1);
+	}
 }
 
 // Called every frame
@@ -63,11 +68,20 @@ void AFollowerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (DespawnTimer <= 0.f)
+	{
+		Despawn();
+	}
+
+	if (GetPlayerDistance() >= 10000.f)
+	{
+		GetCharacterMovement()->MaxFlySpeed = 8000.f;
+		
+		DespawnTimer -= 0.01f;
+	}
 	if (GetPlayerDistance() >= 5000.f)
 	{
-		
 		GetCharacterMovement()->MaxFlySpeed = 5000.f;
-		DespawnTimer -= 0.01f;
 	}
 	else
 	{
@@ -75,10 +89,6 @@ void AFollowerCharacter::Tick(float DeltaTime)
 		DespawnTimer = 7.f;
 	}
 	
-	if (DespawnTimer <= 0.f)
-	{
-		Despawn();
-	}
 }
 
 float AFollowerCharacter::GetPlayerDistance()
@@ -127,6 +137,7 @@ void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	//ACar* Player = Cast<ACar>(OtherActor);
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
+		bIsNearPlayer = true;
 		// Needs navmesh to function
 		AIController->MoveToActor(OtherActor, -1);
 		UE_LOG(LogTemp, Warning, TEXT("Player checked"));
@@ -143,5 +154,6 @@ void AFollowerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, 
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
 	
+	bIsNearPlayer = false;
 }
 
