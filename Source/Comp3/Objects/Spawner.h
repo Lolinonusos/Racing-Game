@@ -34,7 +34,7 @@ public:
 
 	bool bPlayerIsNearby = false;
 	FTimerHandle SpawnTimer;
-
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> SpawnAI;
 	

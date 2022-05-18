@@ -32,7 +32,7 @@ AFollowerCharacter::AFollowerCharacter()
 	
 	PlayerCheck = CreateDefaultSubobject<USphereComponent>(TEXT("PlayerCheck"));
 	PlayerCheck->SetupAttachment(GetRootComponent());
-	PlayerCheck->InitSphereRadius(5000.f);
+	// PlayerCheck->InitSphereRadius(5000.f);
 	
 	GetCharacterMovement()->MaxAcceleration = 2000.f;
 }
@@ -48,19 +48,19 @@ void AFollowerCharacter::BeginPlay()
 	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	GameModePtr->EnemiesAlive += 1;
 	
-	if (PlayerCheck)
-	{
+	//if (PlayerCheck)
+	//{
 		PlayerCheck->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
 		PlayerCheck->OnComponentEndOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlapEnd);
-	}
+	//}
 
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
+	// GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
 
-	ACar* Player = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	if(Player)
-	{
-		AIController->MoveToActor(Player, -1);
-	}
+	// ACar* Player = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	// if(Player)
+	// {
+	// 	AIController->MoveToActor(Player, -1);
+	// }
 }
 
 // Called every frame
@@ -73,21 +73,23 @@ void AFollowerCharacter::Tick(float DeltaTime)
 		Despawn();
 	}
 
-	if (GetPlayerDistance() >= 10000.f)
-	{
-		GetCharacterMovement()->MaxFlySpeed = 8000.f;
-		
-		DespawnTimer -= 0.01f;
-	}
-	if (GetPlayerDistance() >= 5000.f)
-	{
-		GetCharacterMovement()->MaxFlySpeed = 5000.f;
-	}
-	else
-	{
-		GetCharacterMovement()->MaxFlySpeed = 2000.f;
-		DespawnTimer = 7.f;
-	}
+	GetPlayerDistance();
+	//UE_LOG(LogTemp, Warning, TEXT("Distance from player %f"), GetPlayerDistance());
+	// if (GetPlayerDistance() >= 10000.f)
+	// {
+	// 	GetCharacterMovement()->MaxFlySpeed = 8000.f;
+	// 	
+	// 	DespawnTimer -= 0.01f;
+	// }
+	// if (GetPlayerDistance() >= 5000.f)
+	// {
+	// 	GetCharacterMovement()->MaxFlySpeed = 5000.f;
+	// }
+	// else
+	// {
+	// 	GetCharacterMovement()->MaxFlySpeed = 2000.f;
+	// 	DespawnTimer = 7.f;
+	// }
 	
 }
 
@@ -97,10 +99,9 @@ float AFollowerCharacter::GetPlayerDistance()
 	FVector EndLocation = PlayerPtr->GetActorLocation();
 	CollisionObjectQueryParams.AddObjectTypesToQuery(ECC_GameTraceChannel2);
 	
-	if(GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
+	if(GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
 	{
-		DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 0.1f, 0, 5.f);
-		UE_LOG(LogTemp, Warning, TEXT("Distance from player %f"), (HitResult.Location - GetActorLocation()).Size());
+		DrawDebugLine(GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 0.1f, 0, 5.f);
 
 		return(HitResult.Location - GetActorLocation()).Size();
 	}
@@ -133,27 +134,30 @@ void AFollowerCharacter::Despawn()
 	SetActorHiddenInGame(true);
 	SetActorEnableCollision(false);
 	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	UE_LOG(LogTemp, Warning, TEXT("Am dead"));
 	GameModePtr->EnemiesAlive -= 1;
 	this->Destroy();
 }
 
 void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                   UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//ACar* Player = Cast<ACar>(OtherActor);
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
+		//ACar* Player = Cast<ACar>(OtherActor);
+		AIController->MoveToActor(OtherActor, -1);
 		bIsNearPlayer = true;
 		// Needs navmesh to function
-		AIController->MoveToActor(OtherActor, -1);
-		UE_LOG(LogTemp, Warning, TEXT("Player checked"));
-		GetWorldTimerManager().SetTimer(ShootTimer, this, &AFollowerCharacter::Shoot, 3.f, true, 3.f);
+		UE_LOG(LogTemp, Warning, TEXT("Enemy sensed player"));
+		//GetWorldTimerManager().SetTimer(ShootTimer, this, &AFollowerCharacter::Shoot, 3.f, true, 3.f);
 	}
 
 	if (OtherActor->IsA(ABullet::StaticClass()))
 	{
 	 	Cast<ABullet>(OtherActor)->Destroy(); // Destroy the bullet
 	 	ImHit(); // -1 health for this
+		UE_LOG(LogTemp, Warning, TEXT("Am hurt"));
+
 	}
 }
 

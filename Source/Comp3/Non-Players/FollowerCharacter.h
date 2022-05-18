@@ -53,6 +53,7 @@ public:
 	TSubclassOf<AActor> SpawnBullet;
 
 	FTimerHandle ShootTimer;
+	
 	void Shoot();
 
 	void ImHit();
@@ -65,8 +66,8 @@ public:
 		bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-		void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-				UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
 };
 
 

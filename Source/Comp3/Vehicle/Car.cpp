@@ -154,12 +154,12 @@ void ACar::Tick(float DeltaTime)
 
 	// Slow down when driving on offroad
 	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * - 150);
-	FCollisionObjectQueryParams CollisionObjectQueryParams;
+	FCollisionObjectQueryParams CollisionObjectQueryParamsOffroad;
 	// Uses offroad collision channel
-	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_GameTraceChannel1);
+	CollisionObjectQueryParamsOffroad.AddObjectTypesToQuery(ECollisionChannel::ECC_GameTraceChannel1);
 	FHitResult HitResult;
 	// Hit something
-	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
+	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParamsOffroad))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("I am offroad :)"));
 		PawnMovementComponent->MaxSpeed = 1500.f;
@@ -228,8 +228,12 @@ void ACar::Tick(float DeltaTime)
 		AddMovementInput(FVector(Forward), (-DriveSpeed/2));
 	}
 
-	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
 	// Gravity
+	FCollisionObjectQueryParams CollisionObjectQueryParams;
+
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_EngineTraceChannel1);
+	
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
 	{
 		DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);

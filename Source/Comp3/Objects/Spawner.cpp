@@ -4,9 +4,10 @@
 #include "Spawner.h"
 
 #include "Comp3/Comp3GameModeBase.h"
-#include "Comp3/Non-Players/Follower.h"
+#include "Comp3/Non-Players/FollowerCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/GamePlayStatics.h"
 
 // Sets default values
 ASpawner::ASpawner()
@@ -19,14 +20,20 @@ ASpawner::ASpawner()
 
 	PlayerSenseSphere = CreateDefaultSubobject<USphereComponent>(TEXT("PlayerSenseSphere"));
 	PlayerSenseSphere->SetupAttachment(GetRootComponent());
-	PlayerSenseSphere->InitSphereRadius(15000.f);
+	PlayerSenseSphere->InitSphereRadius(7500.f);
 }
 
 // Called when the game starts or when spawned
 void ASpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (PlayerSenseSphere)
+	{
+		PlayerSenseSphere->OnComponentBeginOverlap.AddDynamic(this, &ASpawner::OnOverlap);
+		PlayerSenseSphere->OnComponentEndOverlap.AddDynamic(this, &ASpawner::OnOverlapEnd);
+
+	}
 }
 
 // Called every frame
@@ -44,16 +51,16 @@ void ASpawner::Tick(float DeltaTime)
 
 void ASpawner::SpawnActor()
 {
-	FVector SpawnLocation = GetActorLocation();
-	FRotator SpawnRotation = GetActorRotation();
-
-	GetWorld()->SpawnActor<AFollower>(SpawnLocation, SpawnRotation);
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->SpawnActor<AFollowerCharacter>(SpawnAI, GetActorLocation(), GetActorRotation());
+	}
 }
 
 void ASpawner::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	bPlayerIsNearby = true;
 	GetWorldTimerManager().SetTimer(SpawnTimer, this, &ASpawner::SpawnActor, 1.f, true, 5.f);
 	UE_LOG(LogTemp, Warning, TEXT("Time to get the bois"));
 }
@@ -61,7 +68,6 @@ void ASpawner::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other
 void ASpawner::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
-	bPlayerIsNearby = false;
 	GetWorldTimerManager().ClearTimer(SpawnTimer);
 	UE_LOG(LogTemp, Warning, TEXT("We'll get'em next time!"));
 }
