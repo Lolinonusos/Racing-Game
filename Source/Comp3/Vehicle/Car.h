@@ -59,12 +59,6 @@ public:
 	float TurnSpeed = 500.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float TurnHelp;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
-	float HoverHeight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")
 	int AmmoTotal = 10;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "VehicleVariables")

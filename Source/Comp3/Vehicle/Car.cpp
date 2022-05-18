@@ -246,16 +246,13 @@ void ACar::Tick(float DeltaTime)
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), VehicleDeath, GetTransform(), true);
 
 		CurrentHealth = MaxHealth;
-
-
+		
 		SetActorTickEnabled(false);
 		SetActorHiddenInGame(true);
 		SetActorEnableCollision(false);
 		// Call Respawn() after 2 seconds 
 		GetWorldTimerManager().SetTimer(RespawnTimer, this, &ACar::Respawn, 1.f, false, 2.f);
-
 	}
-	
 }
 
 // Called to bind functionality to input
@@ -326,9 +323,9 @@ void ACar::Turn(float AxisValue)
 	if (bTimerIsFinished) {
 		// Gir smooth
 		CurrentTurnSpeed = FMath::FInterpTo(CurrentTurnSpeed, AxisValue, GetWorld()->GetDeltaSeconds(), 1.f);
-		//FMath::Clamp(TargetTurnSpeed, -200.f, 200.f);
 		CollisionBox->AddRelativeRotation(FRotator(0.f, 5.f, 0.f) * CurrentTurnSpeed);
 
+		//FMath::Clamp(TargetTurnSpeed, -200.f, 200.f);
 		//float TargetTurnSpeed = AxisValue * TurnSpeed;
 		//FVector Turning = FVector (0.f, 0.f, 100.f);
 		//VehicleMesh->AddTorqueInRadians(Turning * TargetTurnSpeed * VehicleMesh->GetMass());

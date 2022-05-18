@@ -41,16 +41,6 @@ void UHeightTracer_Component::TickComponent(float DeltaTime, ELevelTick TickType
 	FVector Location = (RootComponentVariable->GetCenterOfMass() + Rotation.RotateVector(GetRelativeLocation()));
 
 	RootComponentVariable->AddForceAtLocation(Force, Location);
-	//
-	// if (bInAir)
-	// {
-	// 	AirTime += DeltaTime;
-	// 	if (AirTime > 3.f)
-	// 	{
-	// 		RootComponentVariable->SetRelativeRotation()
-	// 	}
-	// }
-	
 }
 
 float UHeightTracer_Component::GetDistance()
@@ -69,8 +59,6 @@ float UHeightTracer_Component::GetDistance()
 		//bInAir = false;
 	}
 	//DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
-
-	//bInAir = true;
+	
 	return 0.f;
-	// return MaxDistance +1;
 }

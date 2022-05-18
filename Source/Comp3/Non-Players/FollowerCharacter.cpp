@@ -109,6 +109,12 @@ float AFollowerCharacter::GetPlayerDistance()
 
 void AFollowerCharacter::Shoot()
 {
+	FRotator EnemyRotation = GetActorRotation();
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		//World->SpawnActor<AActor>();
+	}
 }
 
 void AFollowerCharacter::ImHit()
@@ -141,6 +147,7 @@ void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 		// Needs navmesh to function
 		AIController->MoveToActor(OtherActor, -1);
 		UE_LOG(LogTemp, Warning, TEXT("Player checked"));
+		GetWorldTimerManager().SetTimer(ShootTimer, this, &AFollowerCharacter::Shoot, 3.f, true, 3.f);
 	}
 
 	if (OtherActor->IsA(ABullet::StaticClass()))

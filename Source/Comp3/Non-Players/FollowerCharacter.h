@@ -49,6 +49,10 @@ public:
 	FCollisionObjectQueryParams CollisionObjectQueryParams;
 	float GetPlayerDistance();
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> SpawnBullet;
+
+	FTimerHandle ShootTimer;
 	void Shoot();
 
 	void ImHit();
