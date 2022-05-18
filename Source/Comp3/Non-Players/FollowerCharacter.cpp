@@ -32,24 +32,31 @@ AFollowerCharacter::AFollowerCharacter()
 	
 	PlayerCheck = CreateDefaultSubobject<USphereComponent>(TEXT("PlayerCheck"));
 	PlayerCheck->SetupAttachment(GetRootComponent());
+	PlayerCheck->InitSphereRadius(5000.f);
 	
 	GetCharacterMovement()->MaxAcceleration = 2000.f;
+	
 }
 
 // Called when the game starts or when spawned
 void AFollowerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	AIController = Cast<AAIController>(GetController());
+	
+	if (!AIController)
+	{
+		AIController = Cast<AAIController>(GetController());
+	} 
+	
 
 	// Count enemies that exist
 	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	GameModePtr->EnemiesAlive += 1;
 	
-	PlayerCheck->InitSphereRadius(5000.f);
+	
 	if (PlayerCheck)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Entered the player check"))
 		PlayerCheck->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
 		PlayerCheck->OnComponentEndOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlapEnd);
 	}
@@ -71,6 +78,14 @@ void AFollowerCharacter::Tick(float DeltaTime)
 	if (DespawnTimer <= 0.f)
 	{
 		Despawn();
+	}
+
+	if (AIController)
+	{
+		AIController->MoveToActor(Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0)));
+	} else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("COULD NOT FIND AI CONTROLLER"))
 	}
 
 	GetPlayerDistance();
@@ -145,20 +160,27 @@ void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
 		//ACar* Player = Cast<ACar>(OtherActor);
-		AIController->MoveToActor(OtherActor);
+		//AIController->MoveToActor(OtherActor);
 		//bIsNearPlayer = true;
 		// Needs navmesh to function
 		//UE_LOG(LogTemp, Warning, TEXT("Enemy sensed player"));
 		//GetWorldTimerManager().SetTimer(ShootTimer, this, &AFollowerCharacter::Shoot, 3.f, true, 3.f);
 	}
 
-	// if (OtherActor->IsA(ABullet::StaticClass()))
-	// {
-	//  	Cast<ABullet>(OtherActor)->Destroy(); // Destroy the bullet
-	//  	ImHit(); // -1 health for this
-	// 	UE_LOG(LogTemp, Warning, TEXT("Am hurt"));
-	//
-	// }
+	if (IsValid(OtherActor))
+	{
+		if (OtherActor->IsA(ABullet::StaticClass()))
+		{
+			Cast<ABullet>(OtherActor)->Destroy(); // Destroy the bullet
+			ImHit(); // -1 health for this
+			if (Health <= 0)
+			{
+				Despawn();
+			}
+			UE_LOG(LogTemp, Warning, TEXT("Am hurt"));
+	
+		}
+	}
 }
 
 void AFollowerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

@@ -7,6 +7,7 @@
 #include "Comp3/Non-Players/FollowerCharacter.h"
 #include "Components/BoxComponent.h"
 #include "Components/SphereComponent.h"
+#include "../Vehicle/Car.h"
 #include "Kismet/GamePlayStatics.h"
 
 // Sets default values
@@ -54,7 +55,14 @@ void ASpawner::SpawnActor()
 	UWorld* World = GetWorld();
 	if (World)
 	{
-		World->SpawnActor<AFollowerCharacter>(SpawnAI, GetActorLocation(), GetActorRotation());
+		if (SpawnAI)
+		{
+			World->SpawnActor<AFollowerCharacter>(SpawnAI, GetActorLocation(), GetActorRotation());
+		} else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("COULD NOT ACCESS SpawnAI"))
+		}
+		
 	}
 }
 
@@ -68,7 +76,10 @@ void ASpawner::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Other
 void ASpawner::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
 {
-	GetWorldTimerManager().ClearTimer(SpawnTimer);
-	UE_LOG(LogTemp, Warning, TEXT("We'll get'em next time!"));
+	if (OtherActor->IsA(ACar::StaticClass()))
+	{
+		GetWorldTimerManager().ClearTimer(SpawnTimer);
+		UE_LOG(LogTemp, Warning, TEXT("We'll get'em next time!"));
+	}
 }
 
