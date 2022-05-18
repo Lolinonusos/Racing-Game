@@ -99,6 +99,17 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
+	if (TimerBoostWidgetClass) {
+		TimerBoostWidget = CreateWidget<UTimerBoostWidget>(GetWorld(), TimerBoostWidgetClass);
+		if (TimerBoostWidget) {
+			TimerBoostWidget->AddToViewport();
+			TimerBoostWidget->SetVisibility(ESlateVisibility::Hidden);
+			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+				StartCountdown();
+			}
+		}
+	}
+
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			SetupHUDForShooterMode();
@@ -251,7 +262,7 @@ void AGameHUD::FinishTimeTrialMode() {
 
 void AGameHUD::IncreaseTime(FString Origin) {
 	if (Origin == "Pickups") {
-		TimeTrialHUDWidget->AddTime(3);
+		TimeTrialHUDWidget->AddTime(TimerBoostWidget->TimeIncrease);
 	} else if (Origin == "Checkpoint") {
 		UE_LOG(LogTemp, Warning, TEXT("HELLO WORLD"))
 		TimeTrialHUDWidget->AddTime(10);

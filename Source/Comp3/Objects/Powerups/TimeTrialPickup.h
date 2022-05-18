@@ -24,7 +24,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	
-	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
+	virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, 
 	UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, 
-		const FHitResult &SweepResult);
+		const FHitResult &SweepResult) override;
 };

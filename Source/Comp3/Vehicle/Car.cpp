@@ -467,10 +467,6 @@ void ACar::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActo
 				CurrentWeapon = BufferWeapon;
 			}
 		}
-		
-		Cast<AItemPickups>(OtherActor)->Super::DeleteSelf();
-	} else if (OtherActor->IsA(AFollower::StaticClass())) {
-		CurrentHealth--;
 	}
 }
 
