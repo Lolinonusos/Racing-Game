@@ -128,11 +128,19 @@ void ACar::BeginPlay()
 	}
 
 	// If sentence by Joachim
-	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->bHasSeenControls == false) {
-		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowControlsFromGame();
-		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
-	}
+	// UWorld* CarWorld = GetWorld();
+	// if (CarWorld) {
+	// 	URacingGameInstance* CarInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(CarWorld));
+	// 	if (CarInstancePtr) {
+	// 		if (CarInstancePtr->bHasSeenControls == false) {
+	// 			UGameplayStatics::SetGamePaused(CarWorld, true);
+	// 			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(CarWorld, 0)->GetHUD())->ShowControlsFromGame();
+	// 			UGameplayStatics::GetPlayerController(CarWorld, 0)->bShowMouseCursor = true;
+	// 		}
+	// 	}
+	// }
+	
+	
 }
 
 // Called every frame

@@ -95,9 +95,7 @@ void AGameHUD::BeginPlay() {
 			CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
 			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay"
 				|| UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TimeTrial") {
-				if (HUDInstancePtr->bHasSeenControls) {
 					StartCountdown();
-				}
 			}
 		}
 	}
