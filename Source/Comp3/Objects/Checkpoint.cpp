@@ -44,6 +44,15 @@ void ACheckpoint::BeginPlay()
 void ACheckpoint::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameModePtr->CheckPointsReached == (GameModePtr->TotalCheckPoints - 1) && this->bIsGoal)
+	{
+		//CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		SetActorEnableCollision(true);
+		UE_LOG(LogTemp, Warning, TEXT("Now goal should be active"));
+	}
 }
 
 // Reset collision values
@@ -97,11 +106,7 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->IncreaseTime("Checkpoint");
 		}
 		
-		if (GameModePtr->CheckPointsReached == (GameModePtr->TotalCheckPoints - 1) && bIsGoal)
-		{
-		 	CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			UE_LOG(LogTemp, Warning, TEXT("Now only goal should be active"));
-		}
+	
 		
 		// Re-enables collision when all checkpoints are reached
 		if (GameModePtr->LapCleared())
