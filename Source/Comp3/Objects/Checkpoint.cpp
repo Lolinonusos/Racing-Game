@@ -111,7 +111,11 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 			
 			if (!bCheckpointTimerIsActive) {
 				bCheckpointTimerIsActive = true;
-				GetWorldTimerManager().SetTimer(RegenCheckpoints, this, &ACheckpoint::GoThroughAllCheckpoints, 1.f, false, 3.f);
+				if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Shooter") {
+					GoThroughAllCheckpoints();
+				} else {
+					GetWorldTimerManager().SetTimer(RegenCheckpoints, this, &ACheckpoint::GoThroughAllCheckpoints, 1.f, false, 3.f);
+				}
 			}
 		}
 	}
