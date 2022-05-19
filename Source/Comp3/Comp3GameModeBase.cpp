@@ -2,6 +2,8 @@
 
 
 #include "Comp3GameModeBase.h"
+
+#include "GameFramework/GameSession.h"
 #include "UI/GameHUD.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -42,6 +44,8 @@ bool AComp3GameModeBase::LapCleared()
 		if (LapsCleared >= TotalLaps)
 		{
 			// Win, but only in shooter mode
+			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->FinishedRaceScreenWidget->FinishedRace = true;
+			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen(true);
 		}
 		return true;
 	}
