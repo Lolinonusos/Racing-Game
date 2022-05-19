@@ -127,6 +127,13 @@ void ACar::BeginPlay()
 		SetActorRotation(FRotator(0, 180, 0));
 		bIsInTimeTrialMode = true;
 	}
+
+	// If sentence by Joachim
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->bHasSeenControls == false) {
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowControlsFromGame();
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+	}
 }
 
 // Called every frame

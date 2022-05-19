@@ -18,8 +18,20 @@ bool UControlsScreen::Initialize() {
 
 void UControlsScreen::ClickedControlsReturnBtn() {
 	URacingGameInstance* ControlsInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	UGameplayStatics::PlaySound2D(GetWorld(), ControlsToMenuReturnSound, ControlsInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
-	Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->HideControls();
+	
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->bHasSeenControls == false) {
+		Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->bHasSeenControls = true;
+		UGameplayStatics::PlaySound2D(GetWorld(), ControlsToMenuReturnSound, ControlsInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->HideControlsFromGame();
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = false;
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->StartCountdown();
+		
+	} else {
+		UGameplayStatics::PlaySound2D(GetWorld(), ControlsToMenuReturnSound, ControlsInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->HideControls();
+	}
+	
 }
 
 void UControlsScreen::ChangeButtonText(FString NewText) {

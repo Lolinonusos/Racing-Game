@@ -172,6 +172,12 @@ public:
 	UFUNCTION()
 		void IncreaseWidTimer();
 
+	UFUNCTION()
+		void ShowControlsFromGame();
+
+	UFUNCTION()
+		void HideControlsFromGame();
+
 
 	
 private:

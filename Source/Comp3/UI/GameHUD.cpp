@@ -95,7 +95,9 @@ void AGameHUD::BeginPlay() {
 			CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
 			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay"
 				|| UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TimeTrial") {
-				StartCountdown();
+				if (HUDInstancePtr->bHasSeenControls) {
+					StartCountdown();
+				}
 			}
 		}
 	}
@@ -105,9 +107,9 @@ void AGameHUD::BeginPlay() {
 		if (TimerBoostWidget) {
 			TimerBoostWidget->AddToViewport();
 			TimerBoostWidget->SetVisibility(ESlateVisibility::Hidden);
-			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
-				StartCountdown();
-			}
+			// if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+			// 	StartCountdown();
+			// }
 		}
 	}
 
@@ -333,4 +335,12 @@ void AGameHUD::IncreaseWidTimer() {
 		CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
 		Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0))->bTimerIsFinished = true;
 	}
+}
+
+void AGameHUD::ShowControlsFromGame() {
+	ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+}
+
+void AGameHUD::HideControlsFromGame() { 
+	ControlsScreenWidget->SetVisibility(ESlateVisibility::Hidden);
 }
