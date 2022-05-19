@@ -55,6 +55,18 @@ int UFinishedRaceScreen::CalculateTimeTrialScore() {
 	
 }
 
+int UFinishedRaceScreen::CalculateShooterScore() {
+	return 0;
+}
+
+void UFinishedRaceScreen::ChangeVictoryText(bool Victory) {
+	if (Victory) {
+		VictoryText->SetText(FText::FromString("YOU WIN"));
+	} else {
+		VictoryText->SetText(FText::FromString("YOU LOSE"));
+	}
+}
+
 void UFinishedRaceScreen::OutPutFinalScore()
 {
 	// Back to Joachim

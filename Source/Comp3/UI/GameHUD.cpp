@@ -209,8 +209,9 @@ void AGameHUD::UpdateTimer() {
 	TimeTrialHUDWidget->DecreaseTime();
 }
 
-void AGameHUD::ShowFinishScreen() {
+void AGameHUD::ShowFinishScreen(bool Victory) {
 	FinishedRaceScreenWidget->SetVisibility(ESlateVisibility::Visible);
+	FinishedRaceScreenWidget->ChangeVictoryText(Victory);
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
 }
@@ -257,7 +258,7 @@ void AGameHUD::FinishTimeTrialMode() {
 	GetWorld()->GetTimerManager().ClearTimer((SecondsSurvivedHandle));
 	FinishedRaceScreenWidget->CalculateTimeTrialScore();
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
-	ShowFinishScreen();
+	ShowFinishScreen(true);
 }
 
 void AGameHUD::IncreaseTime(FString Origin) {

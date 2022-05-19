@@ -123,7 +123,7 @@ public:
 		void UpdateTimer();
 
 	UFUNCTION()
-		void ShowFinishScreen();
+		void ShowFinishScreen(bool Victory);
 
 	UFUNCTION()
 		void ShowMainMenu();
@@ -165,6 +165,7 @@ public:
 
 	UFUNCTION()
 		void IncreaseWidTimer();
+
 
 	
 private:

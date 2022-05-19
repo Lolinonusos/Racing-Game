@@ -75,6 +75,11 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		CarPtr->RespawnLocation = GetActorLocation();
 		CarPtr->RespawnRotation = GetActorRotation();
 
+		// If sentence by Joachim
+		if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
+			CarPtr->RespawnRotation.Yaw += 180.f;
+		}
+
 		// If Sentence by Joachim
 		if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
 			Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->IncreaseTime("Checkpoint");

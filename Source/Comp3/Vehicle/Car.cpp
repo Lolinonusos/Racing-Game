@@ -140,7 +140,11 @@ void ACar::BeginPlay()
 void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (GetActorRotation().Pitch < 0.f)
+	{
+		SetActorRotation(FRotator(0.f, GetActorRotation().Yaw, GetActorRotation().Roll));
+	}
+	
 	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
 
 	CurrentPitchRotation = CollisionBox->GetRelativeRotation().Pitch;
@@ -186,11 +190,11 @@ void ACar::Tick(float DeltaTime)
 	// Movement
 	FVector Forward = VehicleMesh->GetForwardVector();
 	Forward.Z = 0;
-	
 	if (bBoosting)
 	{
 		BoostAmount -= 0.01f;
 		CollisionBox->AddForce(Forward * BoostPower * CollisionBox->GetMass());
+		
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BoostParticle, GetTransform(), true);
 		if (BoostAmount < 0.f)
 		{
@@ -247,14 +251,18 @@ void ACar::Tick(float DeltaTime)
 	
 	if (CurrentHealth <= 0)
 	{
+		PawnMovementComponent->StopActiveMovement();
+		PawnMovementComponent->StopMovementImmediately();
+		CollisionBox->SetSimulatePhysics(false);
+
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), VehicleDeath, GetTransform(), true);
 
 		CurrentHealth = MaxHealth;
 		
 		SetActorTickEnabled(false);
 		SetActorHiddenInGame(true);
-		SetActorEnableCollision(false);
-		// Call Respawn() after 2 seconds 
+
+		// Call Respawn() after 2 seconds
 		GetWorldTimerManager().SetTimer(RespawnTimer, this, &ACar::Respawn, 1.f, false, 2.f);
 	}
 }
@@ -483,22 +491,25 @@ void ACar::KillTest()
 
 void ACar::Respawn()
 {
-	CurrentHealth = MaxHealth;
-	//SetActorTransform(RespawnTransform);
-	SetActorLocation(RespawnLocation);
-	SetActorRotation(RespawnRotation);
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay != "Shooter") {
+		CurrentHealth = MaxHealth;
+		//SetActorTransform(RespawnTransform);
+		SetActorLocation(RespawnLocation);
+		SetActorRotation(RespawnRotation);
 	
-	SetActorTickEnabled(true);
-	SetActorHiddenInGame(false);
-	SetActorEnableCollision(true);
+		SetActorTickEnabled(true);
+		SetActorHiddenInGame(false);
+		CollisionBox->SetSimulatePhysics(true);
+	
+		//Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen();
 
-	
-	
-	//Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen();
-
-	GetWorldTimerManager().ClearTimer(RespawnTimer);
-	// SetActorLocation(RespawnPosition);
-	// SetActorRotation(RespawnRotation);
+		GetWorldTimerManager().ClearTimer(RespawnTimer);
+		// SetActorLocation(RespawnPosition);
+		// SetActorRotation(RespawnRotation);
+	} else {
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen(false);
+		GetWorldTimerManager().ClearTimer(RespawnTimer);
+	}
 }
 
 void ACar::GetProjectilePlacement(bool bIsLookingBack) {

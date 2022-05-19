@@ -31,6 +31,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
 		class UTextBlock* TimeTrialText;
 
+	UPROPERTY(BlueprintReadWrite, Category = "UI", meta = (BindWidget))
+	class UTextBlock* VictoryText;
+
 	UFUNCTION()
 		void FinishClickRestartBtn();
 
@@ -44,6 +47,12 @@ public:
 	
 	UFUNCTION()
 		int CalculateTimeTrialScore();
+
+	UFUNCTION()
+		int CalculateShooterScore();
+
+	UFUNCTION()
+		void ChangeVictoryText(bool Victory);
 
 	UFUNCTION()
 		void OutPutFinalScore();
