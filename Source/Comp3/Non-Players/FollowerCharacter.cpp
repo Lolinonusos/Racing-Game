@@ -4,18 +4,16 @@
 #include "FollowerCharacter.h"
 
 #include "AIController.h"
-#include "DrawDebugHelpers.h"
+//#include "DrawDebugHelpers.h"
 #include "Comp3/Comp3GameModeBase.h"
 #include "Comp3/Game-Logic/RacingGameInstance.h"
 #include "Comp3/UI/GameHUD.h"
 #include "Comp3/Vehicle/Bullet.h"
 #include "Comp3/Vehicle/Car.h"
-#include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GamePlayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
-//#include "AIController.h"
 
 // Sets default values
 AFollowerCharacter::AFollowerCharacter()
@@ -125,7 +123,7 @@ float AFollowerCharacter::GetPlayerDistance()
 	
 	if(GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
 	{
-		DrawDebugLine(GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 0.1f, 0, 5.f);
+		//DrawDebugLine(GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 0.1f, 0, 5.f);
 
 		return(HitResult.Location - GetActorLocation()).Size();
 	}

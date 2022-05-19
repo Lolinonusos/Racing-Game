@@ -2,7 +2,7 @@
 
 
 #include "HeightTracer_Component.h"
-#include "DrawDebugHelpers.h"
+//#include "DrawDebugHelpers.h"
 #include "Components/BoxComponent.h"
 #include "Math/UnrealMathUtility.h"
 
@@ -53,13 +53,13 @@ float UHeightTracer_Component::GetDistance()
 	// Hit something
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetComponentLocation(), EndLocation, CollisionObjectQueryParams))
 	{
-		DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
+		//DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
 
 		// Vector between the component and what it hit
 		return (HitResult.Location - GetComponentLocation()).Size();
 		//bInAir = false;
 	}
-	DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+	//DrawDebugLine(GetOwner()->GetWorld(), GetComponentLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
 	
 	return 0.f;
 }
