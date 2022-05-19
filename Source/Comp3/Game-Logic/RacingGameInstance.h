@@ -20,6 +20,8 @@ public:
 	virtual void Shutdown() override;
 	virtual void StartGameInstance() override;
 
+	bool bHasSeenControls = false;
+
 	FString ChosenGameModeToPlay = "";
 	float GameVolume = 1.f;
 
