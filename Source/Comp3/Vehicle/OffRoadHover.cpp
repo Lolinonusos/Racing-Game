@@ -1,34 +1,38 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "HeightTracer_Component.h"
-#include "DrawDebugHelpers.h"
+#include "OffRoadHover.h"
+//#include "DrawDebugHelpers.h"
 #include "Components/BoxComponent.h"
 #include "Math/UnrealMathUtility.h"
 
 // Sets default values for this component's properties
-UHeightTracer_Component::UHeightTracer_Component()
+UOffRoadHover::UOffRoadHover()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	
+
 	// ...
 }
 
+
 // Called when the game starts
-void UHeightTracer_Component::BeginPlay()
+void UOffRoadHover::BeginPlay()
 {
 	Super::BeginPlay();
 
 	RootComponentVariable = Cast<UBoxComponent>(GetOwner()->GetRootComponent());
+
+	
 }
 
+
 // Called every frame
-void UHeightTracer_Component::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UOffRoadHover::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
+
 	// Value between 0 - 1
 	float Alpha = (GetDistance() / MaxDistance);
 	
@@ -43,11 +47,11 @@ void UHeightTracer_Component::TickComponent(float DeltaTime, ELevelTick TickType
 	RootComponentVariable->AddForceAtLocation(Force, Location);
 }
 
-float UHeightTracer_Component::GetDistance()
+float UOffRoadHover::GetDistance()
 {
 	FVector EndLocation = GetComponentLocation() + (GetUpVector() * - MaxDistance);
-
-	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
+	
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_EngineTraceChannel1);
 	
 	// Hit something
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetComponentLocation(), EndLocation, CollisionObjectQueryParams))

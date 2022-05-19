@@ -49,10 +49,14 @@ public:
 	FCollisionObjectQueryParams CollisionObjectQueryParams;
 	float GetPlayerDistance();
 
+	UPROPERTY(EditAnywhere, Category = "VehicleSound")
+	class USoundBase* ShootingSound;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> SpawnBullet;
-
-	FTimerHandle ShootTimer;
+	
+	//FTimerHandle ShootTimer;
+	float ShootTimer = 3.f;
 	
 	void Shoot();
 
@@ -64,10 +68,6 @@ public:
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex,
 		bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex);
 };
 
 

@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "DrawDebugHelpers.h"
 #include "Comp3/Comp3GameModeBase.h"
+#include "Comp3/Game-Logic/RacingGameInstance.h"
 #include "Comp3/Vehicle/Bullet.h"
 #include "Comp3/Vehicle/Car.h"
 #include "Components/CapsuleComponent.h"
@@ -35,6 +36,8 @@ AFollowerCharacter::AFollowerCharacter()
 	PlayerCheck->InitSphereRadius(5000.f);
 	
 	GetCharacterMovement()->MaxAcceleration = 2000.f;
+	GetCharacterMovement()->MaxWalkSpeed = 1200.f;
+
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	
 }
@@ -59,16 +62,9 @@ void AFollowerCharacter::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Entered the player check"))
 		PlayerCheck->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
-		PlayerCheck->OnComponentEndOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlapEnd);
 	}
 
 	// GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AFollowerCharacter::OnOverlap);
-
-	// ACar* Player = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	// if(Player)
-	// {
-	// 	AIController->MoveToActor(Player, -1);
-	// }
 }
 
 // Called every frame
@@ -89,24 +85,35 @@ void AFollowerCharacter::Tick(float DeltaTime)
 		UE_LOG(LogTemp, Warning, TEXT("COULD NOT FIND AI CONTROLLER"))
 	}
 
-	GetPlayerDistance();
-	//UE_LOG(LogTemp, Warning, TEXT("Distance from player %f"), GetPlayerDistance());
-	// if (GetPlayerDistance() >= 10000.f)
-	// {
-	// 	GetCharacterMovement()->MaxFlySpeed = 8000.f;
-	// 	
-	// 	DespawnTimer -= 0.01f;
-	// }
-	// if (GetPlayerDistance() >= 5000.f)
-	// {
-	// 	GetCharacterMovement()->MaxFlySpeed = 5000.f;
-	// }
-	// else
-	// {
-	// 	GetCharacterMovement()->MaxFlySpeed = 2000.f;
-	// 	DespawnTimer = 7.f;
-	// }
-	
+	if (GetPlayerDistance() <=  2000.f)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = 600.f;
+		
+		// Backs away from player
+		FVector GoBackwards = GetActorLocation();
+		GoBackwards += GetActorForwardVector() * -1000.f * DeltaTime;
+		SetActorLocation(GoBackwards);
+		
+		bIsNearPlayer = true;
+	}
+	else if (GetPlayerDistance() >=  2000.f)
+	{
+		GetCharacterMovement()->MaxAcceleration = 2000.f;
+		GetCharacterMovement()->MaxWalkSpeed = 1200.f;
+
+		bIsNearPlayer = true;
+	}
+	else if (GetPlayerDistance() >= 6000.f)
+	{
+		GetCharacterMovement()->MaxAcceleration = 6000.f;
+		GetCharacterMovement()->MaxWalkSpeed = 2000.f;
+
+		
+		ShootTimer = 3.f;
+		bIsNearPlayer = false;
+	}
+
+	Shoot();
 }
 
 float AFollowerCharacter::GetPlayerDistance()
@@ -126,11 +133,24 @@ float AFollowerCharacter::GetPlayerDistance()
 
 void AFollowerCharacter::Shoot()
 {
-	FRotator EnemyRotation = GetActorRotation();
-	UWorld* World = GetWorld();
-	if (World)
+	if (bIsNearPlayer)
 	{
-		//World->SpawnActor<AActor>();
+		ShootTimer -= 0.01;
+		if (ShootTimer <= 0.f)
+		{
+			ShootTimer = 3.f;
+			
+			FRotator EnemyRotation = GetActorRotation();
+			UWorld* World = GetWorld();
+			if (World)
+			{
+				UGameplayStatics::PlaySound2D(GetWorld(), ShootingSound, Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
+				World->SpawnActor<AActor>(SpawnBullet, GetActorLocation(), GetActorRotation());
+				UE_LOG(LogTemp, Warning, TEXT("AI did the shooty"));
+
+			}
+		}
+		
 	}
 }
 
@@ -161,7 +181,6 @@ void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
 		//ACar* Player = Cast<ACar>(OtherActor);
-		//AIController->MoveToActor(OtherActor);
 		//bIsNearPlayer = true;
 		// Needs navmesh to function
 		//UE_LOG(LogTemp, Warning, TEXT("Enemy sensed player"));
@@ -182,12 +201,5 @@ void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	
 		}
 	}
-}
-
-void AFollowerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex)
-{
-	
-	bIsNearPlayer = false;
 }
 
