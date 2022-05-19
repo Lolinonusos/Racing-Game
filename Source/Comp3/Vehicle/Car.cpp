@@ -25,7 +25,7 @@
 #include "../Game-Logic/RacingGameInstance.h"
 
 // Timer
-#include "DrawDebugHelpers.h"
+//#include "DrawDebugHelpers.h"
 #include "TimerManager.h"
 
 // Sets default values
@@ -179,8 +179,8 @@ void ACar::Tick(float DeltaTime)
 	{
 		BoostAmount -= 0.01f;
 		CollisionBox->AddForce(Forward * BoostPower * CollisionBox->GetMass());
-		
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BoostParticle, GetTransform(), true);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BoostParticle, GetActorLocation(), (GetActorForwardVector().Rotation() * - 1), true);
+		//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BoostParticle, GetTransform(), true);
 		if (BoostAmount < 0.f)
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BoostExhausted, GetTransform(), true);
@@ -225,12 +225,12 @@ void ACar::Tick(float DeltaTime)
 	
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
 	{
-		DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
+		//DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Green, false, 1.f, 0, 5.f);
 		CollisionBox->SetLinearDamping(2.f);
 	}
 	else
 	{
-		DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
+		//DrawDebugLine(GetOwner()->GetWorld(), GetActorLocation(), EndLocation, FColor::Red, false, 1.f, 0, 5.f);
 		CollisionBox->SetLinearDamping(0.0001);
 	}
 	
