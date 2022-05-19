@@ -140,10 +140,6 @@ void ACar::BeginPlay()
 void ACar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GetActorRotation().Pitch < 0.f)
-	{
-		SetActorRotation(FRotator(0.f, GetActorRotation().Yaw, GetActorRotation().Roll));
-	}
 	
 	CollisionBox->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
 
@@ -154,7 +150,7 @@ void ACar::Tick(float DeltaTime)
 	CurrentRollRotation = FMath::Clamp(CurrentRollRotation, -30.f, 30.f);
 	
 	CollisionBox->SetRelativeRotation(FRotator(CurrentPitchRotation, CurrentYawRotation, CurrentRollRotation));
-
+	
 
 	// Slow down when driving on offroad
 	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * - 150);
@@ -170,16 +166,6 @@ void ACar::Tick(float DeltaTime)
 		if (bDriving || bBraking)
 		{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), OffRoadParticles, GetTransform(), true);
-
-		// 	FRotator OffRoadShake;
-		//
-		// 	OffRoadShake.Roll = 10.f * (FMath::Sin(DeltaTime));
-		//
-		// 	VehicleMesh->SetRelativeRotation(OffRoadShake);
-		// }
-		// else
-		// {
-		// 	VehicleMesh->SetRelativeRotation(FRotator(GetActorForwardVector().Rotation()));
 		}
 	}
 	else

@@ -57,7 +57,13 @@ void UPauseScreen::ClickRestartBtn() {
 		PauseMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	}
 	UGameplayStatics::PlaySound2D(GetWorld(), ClickingSound, PauseMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
-	UGameplayStatics::OpenLevel(GetWorld(), "TheBigCheesus");
+	if (PauseMenuInstancePtr->ChosenGameModeToPlay == "Shooter") {
+		UGameplayStatics::OpenLevel(GetWorld(), "TheBigCheesus");
+	} else if (PauseMenuInstancePtr->ChosenGameModeToPlay == "Time") {
+		UGameplayStatics::OpenLevel(GetWorld(), "TimeTrial");
+	}
+	
+	
 }
 
 void UPauseScreen::ClickMenuBtn() {
