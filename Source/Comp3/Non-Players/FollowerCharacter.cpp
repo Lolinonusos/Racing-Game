@@ -134,6 +134,7 @@ void AFollowerCharacter::Shoot()
 {
 	if (bIsNearPlayer)
 	{
+		
 		ShootTimer -= 0.01;
 		if (ShootTimer <= 0.f)
 		{

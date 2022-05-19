@@ -22,7 +22,7 @@ void AAmmoRefill::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
-		GetAmmoRegen();
+		Cast<ACar>(OtherActor)->AmmoTotal += GetAmmoRegen();
 		Super::DeleteSelf();
 	}
 }

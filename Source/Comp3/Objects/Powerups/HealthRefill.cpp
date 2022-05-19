@@ -23,7 +23,12 @@ void AHealthRefill::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
-		GetHealthRegen();
+		if (Cast<ACar>(OtherActor)->CurrentHealth + GetHealthRegen() >= Cast<ACar>(OtherActor)->MaxHealth) {
+			Cast<ACar>(OtherActor)->CurrentHealth = Cast<ACar>(OtherActor)->MaxHealth;
+		} else {
+			Cast<ACar>(OtherActor)->CurrentHealth += GetHealthRegen();
+		}
+		
 		Super::DeleteSelf();
 	}
 }
