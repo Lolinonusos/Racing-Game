@@ -216,6 +216,12 @@ void AGameHUD::ShowFinishScreen(bool Victory) {
 	FinishedRaceScreenWidget->ChangeVictoryText(Victory);
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->bShowMouseCursor = true;
+	if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
+		FinishShooterMode();
+	} else {
+		FinishTimeTrialMode();
+	}
+	FinishedRaceScreenWidget->OutPutFinalScore();
 }
 
 void AGameHUD::ShowMainMenu() {
@@ -260,7 +266,12 @@ void AGameHUD::FinishTimeTrialMode() {
 	GetWorld()->GetTimerManager().ClearTimer((SecondsSurvivedHandle));
 	FinishedRaceScreenWidget->CalculateTimeTrialScore();
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
-	ShowFinishScreen(true);
+}
+
+void AGameHUD::FinishShooterMode() {
+	FinishedRaceScreenWidget->CalculateShooterScore();
+	
+	//UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 
 void AGameHUD::IncreaseTime(FString Origin) {
@@ -300,6 +311,10 @@ int AGameHUD::GetScoreTimeTrial()
 }
 
 // End of Linus mode
+
+int AGameHUD::GetShooterModeSCore() {
+	return FinishedRaceScreenWidget->CalculateShooterScore();	
+}
 
 int AGameHUD::GetCheckpointScore() {
 	return TimeTrialHUDWidget->CheckpointsReached; 

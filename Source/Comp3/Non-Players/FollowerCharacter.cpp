@@ -7,6 +7,7 @@
 #include "DrawDebugHelpers.h"
 #include "Comp3/Comp3GameModeBase.h"
 #include "Comp3/Game-Logic/RacingGameInstance.h"
+#include "Comp3/UI/GameHUD.h"
 #include "Comp3/Vehicle/Bullet.h"
 #include "Comp3/Vehicle/Car.h"
 #include "Components/CapsuleComponent.h"
@@ -167,7 +168,7 @@ void AFollowerCharacter::ImHit()
 	if (Health <= 0)
 	{
 		// Increase score
-		
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->FinishedRaceScreenWidget->EnemiesKilled++;
 		Despawn();
 	}
 }

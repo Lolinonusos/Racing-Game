@@ -40,10 +40,14 @@ public:
 	UFUNCTION()
 		void FinishClickMainMenuBtn();
 
+	int EnemiesKilled{0};
+	bool FinishedRace = false;
+
 	// int SecondScore;
 	// int PickupsScore;
 
 	int FinalScore;
+	int EndScore{0};
 	
 	UFUNCTION()
 		int CalculateTimeTrialScore();

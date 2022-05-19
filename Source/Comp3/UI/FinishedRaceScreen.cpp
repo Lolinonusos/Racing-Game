@@ -56,7 +56,13 @@ int UFinishedRaceScreen::CalculateTimeTrialScore() {
 }
 
 int UFinishedRaceScreen::CalculateShooterScore() {
-	return 0;
+	EndScore = EnemiesKilled * 250;
+
+	if (FinishedRace) {
+		EndScore += 10000;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("ENTERED CalculateShooterScore!"))
+	return EndScore;
 }
 
 void UFinishedRaceScreen::ChangeVictoryText(bool Victory) {
@@ -71,6 +77,14 @@ void UFinishedRaceScreen::OutPutFinalScore()
 {
 	// Back to Joachim
 	FString TimeTrialOutput = "Your Score: ";
-	TimeTrialOutput.Append(FString::FromInt(FinalScore));
+	UE_LOG(LogTemp, Warning, TEXT("ENTERED OutPutFinalScore!"))
+
+	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Shooter") {
+		UE_LOG(LogTemp, Warning, TEXT("ENTERED IF!"))
+		TimeTrialOutput.Append(FString::FromInt(EndScore));
+	} else {
+		TimeTrialOutput.Append(FString::FromInt(FinalScore));
+	}
+	
 	TimeTrialText->SetText(FText::FromString(TimeTrialOutput));
 }
