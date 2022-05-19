@@ -73,7 +73,7 @@ void UTimeTrialHUD::DecreaseTime() {
 	}
 	else {
 		Score -= 4;
-		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->FinishTimeTrialMode();
+		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->ShowFinishScreen(true);
 	}
 }
 
@@ -94,7 +94,7 @@ void UTimeTrialHUD::AddTime(int Increase) {
 }
 
 void UTimeTrialHUD::IncreaseTimeScore() {
-	FString SecondsScoreOutput = "Seconds Survived: ";
+	FString SecondsScoreOutput = "Your Score: ";
 	SecondsScoreOutput.Append(FString::FromInt(Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->GetScoreTimeTrial()));
 	SecondsScore->SetText(FText::FromString(SecondsScoreOutput));
 }

@@ -144,6 +144,9 @@ public:
 		void FinishTimeTrialMode();
 
 	UFUNCTION()
+		void FinishShooterMode();
+
+	UFUNCTION()
 		void IncreaseTime(FString Origin);
 
 	UFUNCTION()
@@ -156,6 +159,9 @@ public:
 
 	UFUNCTION()
 		int GetScoreTimeTrial();
+
+	UFUNCTION()
+		int GetShooterModeSCore();
 
 	UFUNCTION()
 		int GetCheckpointScore();
@@ -175,9 +181,11 @@ private:
 	UFocusedLevelSelectHUD* FocusedLevelSelectWidget;
 	UTimeTrialHUD* TimeTrialHUDWidget;
 	UFixedPlayerHUD* FixedPlayerHUDWidget;
-	UFinishedRaceScreen* FinishedRaceScreenWidget;
+
 	UMainMenuScreen* MainMenuWidget;
 	UControlsScreen* ControlsScreenWidget;
 	UCountdownWidget* CountdownWidget;
 	UTimerBoostWidget* TimerBoostWidget;
+public:
+	UFinishedRaceScreen* FinishedRaceScreenWidget;
 };

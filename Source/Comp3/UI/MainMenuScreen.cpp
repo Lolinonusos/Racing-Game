@@ -61,5 +61,6 @@ void UMainMenuScreen::ClickControlsButton() {
 	if (!MainMenuInstancePtr) {
 		MainMenuInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	}
+	MainMenuInstancePtr->bHasSeenControls = true;
 	UGameplayStatics::PlaySound2D(GetWorld(), MainMenuClickSound, MainMenuInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 }
