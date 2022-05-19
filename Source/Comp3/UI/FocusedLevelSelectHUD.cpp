@@ -73,7 +73,14 @@ void UFocusedLevelSelectHUD::ClickBackButton() {
 void UFocusedLevelSelectHUD::ClickPlayButton() {
 	if (bGameModeSelected) {
 		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "The Big Cheesus") {
-			UGameplayStatics::OpenLevel(GetWorld(), "TheBigCheesus");
+			if (!FocusedLevelSelectInstancePtr) {
+				FocusedLevelSelectInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+			}
+			if (FocusedLevelSelectInstancePtr->ChosenGameModeToPlay == "Shooter") {
+				UGameplayStatics::OpenLevel(GetWorld(), "TheBigCheesus");
+			} else if (FocusedLevelSelectInstancePtr->ChosenGameModeToPlay == "Time") {
+				UGameplayStatics::OpenLevel(GetWorld(), "TimeTrial");
+			}
 		}
 		if (FocusedLevelSelectPtr->Levels[FocusedLevelSelectPtr->RotationNumber].PlanetName == "Play Test") {
 			UGameplayStatics::OpenLevel(GetWorld(), "FeatureDisplay");

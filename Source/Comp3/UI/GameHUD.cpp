@@ -93,7 +93,8 @@ void AGameHUD::BeginPlay() {
 		if (CountdownWidget) {
 			CountdownWidget->AddToViewport();
 			CountdownWidget->SetVisibility(ESlateVisibility::Hidden);
-			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+			if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay"
+				|| UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TimeTrial") {
 				StartCountdown();
 			}
 		}
@@ -110,7 +111,8 @@ void AGameHUD::BeginPlay() {
 		}
 	}
 
-	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay") {
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TheBigCheesus" || UGameplayStatics::GetCurrentLevelName(GetWorld()) == "FeatureDisplay"
+		|| UGameplayStatics::GetCurrentLevelName(GetWorld()) == "TimeTrial") {
 		if (HUDInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			SetupHUDForShooterMode();
 		}
