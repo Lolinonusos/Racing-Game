@@ -83,20 +83,13 @@ ACar::ACar()
 
 	TracerPointOne = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentOne"));
 	TracerPointOne->SetupAttachment(GetRootComponent());
-	//TracerPointOne->SetRelativeLocation(FVector(60.f, 30.f, 0.f));
-
 	TracerPointTwo = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentTwo"));
 	TracerPointTwo->SetupAttachment(GetRootComponent());
-	//TracerPointTwo->SetRelativeLocation(FVector(60.f, -30.f, 0.f));
-
 	TracerPointThree = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentThree"));
 	TracerPointThree->SetupAttachment(GetRootComponent());
-	//TracerPointThree->SetRelativeLocation(FVector(-60.f, 30.f, 0.f));
-
 	TracerPointFour = CreateDefaultSubobject<UHeightTracer_Component>(TEXT("TracerComponentFour"));
 	TracerPointFour->SetupAttachment(GetRootComponent());
-	//TracerPointFour->SetRelativeLocation(FVector(-60.f, -30.f, 0.f));
-
+	
 	PawnMovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
 
 
@@ -153,7 +146,7 @@ void ACar::Tick(float DeltaTime)
 	
 
 	// Slow down when driving on offroad
-	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * - 150);
+	FVector EndLocation = GetActorLocation() + (GetActorUpVector() * - 120);
 	FCollisionObjectQueryParams CollisionObjectQueryParamsOffroad;
 	// Uses offroad collision channel
 	CollisionObjectQueryParamsOffroad.AddObjectTypesToQuery(ECollisionChannel::ECC_GameTraceChannel1);
@@ -222,7 +215,7 @@ void ACar::Tick(float DeltaTime)
 	FCollisionObjectQueryParams CollisionObjectQueryParams;
 
 	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_WorldStatic);
-	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_EngineTraceChannel1);
+	CollisionObjectQueryParams.AddObjectTypesToQuery(ECollisionChannel::ECC_GameTraceChannel1);
 	
 	if (GetOwner()->GetWorld()->LineTraceSingleByObjectType(HitResult, GetActorLocation(), EndLocation, CollisionObjectQueryParams))
 	{
