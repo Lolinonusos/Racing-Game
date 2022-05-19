@@ -10,7 +10,7 @@ void AComp3GameModeBase::BeginPlay() {
 
 	URacingGameInstance* GMBInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	if (GMBInstancePtr) {
-		if (GMBInstancePtr->ChosenGameModeToPlay == "Racing") {
+		if (GMBInstancePtr->ChosenGameModeToPlay == "Shooter") {
 			TotalLaps = 3;
 			UE_LOG(LogTemp, Warning, TEXT("ENTERED RACNIG MODE"))
 		}
