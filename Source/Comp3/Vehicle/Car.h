@@ -109,6 +109,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void PauseGame();
 
+	void ImHit();
 	FTimerHandle RespawnTimer;
 private:
 	UPROPERTY(EditAnywhere, Category = "VehicleCamera")
@@ -183,6 +184,7 @@ private:
 	bool bBoosting = false;
 	bool bBackCamera = false;
 
+	
 	bool bIsInTimeTrialMode = false;
 	
 	float RefillTimer;

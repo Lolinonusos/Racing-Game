@@ -140,7 +140,14 @@ void AFollowerCharacter::Shoot()
 		{
 			ShootTimer = 3.f;
 			
-			FRotator EnemyRotation = GetActorRotation();
+			ACar* PlayerPtr = Cast<ACar>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+			FVector PlayerLocation = PlayerPtr->GetActorLocation();
+
+			FVector AimAtPlayer = PlayerLocation - GetActorLocation();
+			
+			FRotator EnemyRotation = AimAtPlayer.Rotation();
+			SetActorRotation(EnemyRotation);
+
 			UWorld* World = GetWorld();
 			if (World)
 			{

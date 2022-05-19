@@ -377,6 +377,13 @@ void ACar::StopBoosting()
 	RefillTimer = 0.f;
 	bBoosting = false;
 }
+
+void ACar::ImHit()
+{
+	CurrentHealth -= 1;
+	UE_LOG(LogTemp, Warning, TEXT("Current Health: %f"), CurrentHealth)
+}
+
 // Function written by Joachim
 void ACar::Shooting()
 {
