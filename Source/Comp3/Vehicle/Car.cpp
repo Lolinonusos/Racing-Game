@@ -434,12 +434,14 @@ void ACar::SpecialShooting()
 					for (int i = 0; i < 5; i++) {
 						tempWorld->SpawnActor<AActor>(ActorToSpawn, BulletSpawnLocation, (ShotgunRotation - 2 * x) + x * i);
 					}
-
+					UGameplayStatics::PlaySound2D(GetWorld(), ShootingSound, Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 					CurrentWeapon.WeaponUses--;
 					if (CurrentWeapon.WeaponUses == 0) {
 						CurrentWeapon.WeaponName = "";
 					}
 				}
+			} else if (CurrentWeapon.WeaponName == "") {
+				UGameplayStatics::PlaySound2D(GetWorld(), ShootWithNoAmmo, Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 			}
 		}
 	}	
