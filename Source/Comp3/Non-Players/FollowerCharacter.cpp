@@ -32,7 +32,7 @@ AFollowerCharacter::AFollowerCharacter()
 	
 	PlayerCheck = CreateDefaultSubobject<USphereComponent>(TEXT("PlayerCheck"));
 	PlayerCheck->SetupAttachment(GetRootComponent());
-	PlayerCheck->InitSphereRadius(5000.f);
+	PlayerCheck->InitSphereRadius(200.f);
 	
 	GetCharacterMovement()->MaxAcceleration = 2000.f;
 	GetCharacterMovement()->MaxWalkSpeed = 1200.f;
@@ -184,15 +184,6 @@ void AFollowerCharacter::Despawn()
 void AFollowerCharacter::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor->IsA(ACar::StaticClass()))
-	{
-		//ACar* Player = Cast<ACar>(OtherActor);
-		//bIsNearPlayer = true;
-		// Needs navmesh to function
-		//UE_LOG(LogTemp, Warning, TEXT("Enemy sensed player"));
-		//GetWorldTimerManager().SetTimer(ShootTimer, this, &AFollowerCharacter::Shoot, 3.f, true, 3.f);
-	}
-
 	if (IsValid(OtherActor))
 	{
 		if (OtherActor->IsA(ABullet::StaticClass()))
