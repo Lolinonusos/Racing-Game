@@ -124,7 +124,6 @@ void ACar::BeginPlay()
 
 	
 	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
-		SetActorRotation(FRotator(0, 180, 0));
 		bIsInTimeTrialMode = true;
 	}
 

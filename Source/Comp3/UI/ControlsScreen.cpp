@@ -20,6 +20,7 @@ void UControlsScreen::ClickedControlsReturnBtn() {
 	URacingGameInstance* ControlsInstancePtr = Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	
 	if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->bHasSeenControls == false) {
+
 		Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->bHasSeenControls = true;
 		UGameplayStatics::PlaySound2D(GetWorld(), ControlsToMenuReturnSound, ControlsInstancePtr->GetGameAudio(), 1.f, 0.f, nullptr, nullptr, true);
 		Cast<AGameHUD>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetHUD())->HideControlsFromGame();

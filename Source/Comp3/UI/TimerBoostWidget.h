@@ -16,7 +16,7 @@ class COMP3_API UTimerBoostWidget : public UUserWidget
 
 public:
 	UPROPERTY()
-	 int TimeIncrease = 5;
+	 int TimeIncrease = 3;
 	
 	 virtual bool Initialize();
 	

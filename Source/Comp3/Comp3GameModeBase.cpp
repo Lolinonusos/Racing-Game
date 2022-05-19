@@ -47,3 +47,4 @@ bool AComp3GameModeBase::LapCleared()
 	}
 	return false;
 }
+

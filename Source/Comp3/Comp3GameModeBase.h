@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 UCLASS()
 class COMP3_API AComp3GameModeBase : public AGameModeBase
 {
@@ -32,4 +33,5 @@ public:
 	void SetTotalCheckPoints(int Increase);
 
 	bool LapCleared();
+
 };

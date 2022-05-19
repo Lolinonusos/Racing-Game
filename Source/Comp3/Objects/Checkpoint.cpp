@@ -2,6 +2,9 @@
 
 
 #include "Checkpoint.h"
+
+#include "GameFramework/Actor.h"
+
 #include "Comp3/Comp3GameModeBase.h"
 #include "Comp3/Game-Logic/RacingGameInstance.h"
 #include "Comp3/UI/GameHUD.h"
@@ -41,8 +44,6 @@ void ACheckpoint::BeginPlay()
 void ACheckpoint::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	
 }
 
 // Reset collision values
@@ -58,11 +59,27 @@ void ACheckpoint::TurnOnCollision()
 	}
 }
 
+void ACheckpoint::GoThroughAllCheckpoints() {
+	GetWorldTimerManager().ClearTimer(RegenCheckpoints);
+	bCheckpointTimerIsActive = false;
+	
+	TArray<AActor*> Checkpoints;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACheckpoint::StaticClass(), Checkpoints);
+	
+	for (int i = 0; i < Checkpoints.Num(); i++) {
+		if (Checkpoints[i])
+		{
+			Cast<ACheckpoint>(Checkpoints[i])->TurnOnCollision();
+		}
+	}
+}
+
 void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                            UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor->IsA(ACar::StaticClass()))
 	{
+		UE_LOG(LogTemp, Warning, TEXT("HIT CHECKPOINT"))
 		AComp3GameModeBase* GameModePtr = Cast<AComp3GameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 		GameModePtr->CheckPointsReached += 1;
 		SetActorEnableCollision(false);
@@ -74,11 +91,6 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		// Respawn coordinates
 		CarPtr->RespawnLocation = GetActorLocation();
 		CarPtr->RespawnRotation = GetActorRotation();
-
-		// If sentence by Joachim
-		if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
-			CarPtr->RespawnRotation.Yaw += 180.f;
-		}
 
 		// If Sentence by Joachim
 		if (Cast<URacingGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()))->ChosenGameModeToPlay == "Time") {
@@ -94,8 +106,13 @@ void ACheckpoint::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 		// Re-enables collision when all checkpoints are reached
 		if (GameModePtr->LapCleared())
 		{
+			UE_LOG(LogTemp, Warning, TEXT("HAS GONE THROUGH ALL CHECKPOINTS"))
 			CheckpointBox->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			TurnOnCollision();
+			
+			if (!bCheckpointTimerIsActive) {
+				bCheckpointTimerIsActive = true;
+				GetWorldTimerManager().SetTimer(RegenCheckpoints, this, &ACheckpoint::GoThroughAllCheckpoints, 1.f, false, 3.f);
+			}
 		}
 	}
 }

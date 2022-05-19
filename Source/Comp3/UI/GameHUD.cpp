@@ -339,6 +339,7 @@ void AGameHUD::IncreaseWidTimer() {
 
 void AGameHUD::ShowControlsFromGame() {
 	ControlsScreenWidget->SetVisibility(ESlateVisibility::Visible);
+	ControlsScreenWidget->ChangeButtonText("Start Race");
 }
 
 void AGameHUD::HideControlsFromGame() { 

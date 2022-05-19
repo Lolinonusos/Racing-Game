@@ -35,7 +35,16 @@ public:
 	UFUNCTION()
 	void TurnOnCollision();
 
+	UFUNCTION()
+	void GoThroughAllCheckpoints();
+
 	FVector CurrentCheckpointPosition;
+
+	UPROPERTY()
+	bool bCheckpointTimerIsActive = false;
+
+	FTimerHandle RegenCheckpoints;
+	
 	
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
